@@ -1,0 +1,67 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "br.com.developen.pdv"
+        minSdkVersion 22
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+
+    //Android
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
+    implementation 'com.google.android.material:material:1.1.0-alpha02'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha01'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    //Room Database
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.1.0-alpha01'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.1.0-alpha01'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'
+    implementation 'androidx.room:room-runtime:2.1.0-alpha04'
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.1.0-alpha01"
+    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha04"
+
+    //Jersey --- NUNCA ATUALIZAR AS VERSOES DAS BIBLIOTECAS ABAIXO
+    implementation 'org.glassfish.jersey.core:jersey-client:2.17'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.0'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.9.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.0'
+    implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.9.0'
+    implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.9.0'
+    implementation 'com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.9.0'
+
+    //ExpandableLayout
+    implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+
+    //FloatingActionMenu
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
+
+    //Picker
+    implementation 'com.code-troopers.betterpickers:library:3.1.0'
+
+    //Bibliotecas
+    implementation files('libs/printer7003.jar')
+
+}
+
+configurations {
+    compile.exclude group: 'javax.inject', module: 'javax.inject'
+}
