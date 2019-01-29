@@ -42,7 +42,7 @@
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme.Dark"/>
-        <activity android:name=".activity.SaleActivity">
+        <activity android:name=".activity.CatalogActivity">
             <meta-data
                 android:label="@string/sale"
                 android:name="android.support.PARENT_ACTIVITY"

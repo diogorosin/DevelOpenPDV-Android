@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/activity_catalog_cart_item_row_title"
+        android:textColor="@color/colorWhite"
+        android:gravity="center_vertical|start"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.40"/>
+
+    <TextView
+        android:id="@+id/activity_catalog_cart_item_row_quantity"
+        android:textColor="@color/colorWhite"
+        android:gravity="center_vertical|end"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.15"/>
+
+    <TextView
+        android:id="@+id/activity_catalog_cart_item_row_measureunit"
+        android:textColor="@color/colorWhite"
+        android:gravity="center_vertical|end"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.15"/>
+
+    <TextView
+        android:id="@+id/activity_catalog_cart_item_row_price"
+        android:textColor="@color/colorWhite"
+        android:gravity="center_vertical|end"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.15"/>
+
+    <TextView
+        android:id="@+id/activity_catalog_cart_item_row_total"
+        android:textColor="@color/colorWhite"
+        android:gravity="center_vertical|end"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.15"/>
+
+</LinearLayout>

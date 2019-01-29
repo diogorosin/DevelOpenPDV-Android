@@ -18,9 +18,9 @@ public class CatalogPagerAdapter extends FragmentPagerAdapter {
 
     }
 
-    public SaleItemFragment getItem(int catalogPosition) {
+    public CatalogItemFragment getItem(int catalogPosition) {
 
-        return SaleItemFragment.newInstance(catalogPosition);
+        return CatalogItemFragment.newInstance(catalogPosition);
 
     }
 

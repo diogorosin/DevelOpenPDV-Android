@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activity.SaleActivity">
+    tools:context=".activity.CatalogActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -16,13 +16,13 @@
         android:paddingTop="8dp">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/activity_sale_toolbar"
+            android:id="@+id/activity_catalog_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"/>
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/activity_sale_tab"
+            android:id="@+id/activity_catalog_tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabIndicatorColor="@color/colorGreyDark"
@@ -31,14 +31,14 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/activity_sale_viewpager"
+        android:id="@+id/activity_catalog_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBlackDark"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/activity_sale_fab"
+        android:id="@+id/activity_catalog_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"

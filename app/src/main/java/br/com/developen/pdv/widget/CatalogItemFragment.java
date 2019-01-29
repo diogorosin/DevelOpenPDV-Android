@@ -16,10 +16,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import br.com.developen.pdv.R;
-import br.com.developen.pdv.repository.SaleItemRepository;
-import br.com.developen.pdv.room.SaleItemModel;
+import br.com.developen.pdv.repository.CatalogItemRepository;
+import br.com.developen.pdv.room.CatalogItemModel;
 
-public class SaleItemFragment extends Fragment implements Observer {
+public class CatalogItemFragment extends Fragment implements Observer {
 
 
     private static final String ARG_COLUMNS = "COLUMNS";
@@ -27,11 +27,11 @@ public class SaleItemFragment extends Fragment implements Observer {
     private static final String ARG_CATALOG_POSITION = "CATALOG_POSITION";
 
 
-    private SaleItemRecyclerViewAdapter recyclerViewAdapter;
+    private CatalogItemRecyclerViewAdapter recyclerViewAdapter;
 
-    private SaleItemFragmentListener fragmentListener;
+    private CatalogItemFragmentListener fragmentListener;
 
-    private SaleItemRepository saleItemRepository;
+    private CatalogItemRepository catalogItemRepository;
 
 
     private int columns = 0;
@@ -39,12 +39,12 @@ public class SaleItemFragment extends Fragment implements Observer {
     private int catalogPosition = 0;
 
 
-    public SaleItemFragment() {}
+    public CatalogItemFragment() {}
 
 
-    public static SaleItemFragment newInstance(int catalogPosition) {
+    public static CatalogItemFragment newInstance(int catalogPosition) {
 
-        SaleItemFragment fragment = new SaleItemFragment();
+        CatalogItemFragment fragment = new CatalogItemFragment();
 
         Bundle args = new Bundle();
 
@@ -78,7 +78,7 @@ public class SaleItemFragment extends Fragment implements Observer {
 
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.activity_sale_item, container, false);
+        View view = inflater.inflate(R.layout.activity_catalog_item, container, false);
 
         if (view instanceof RecyclerView) {
 
@@ -96,15 +96,15 @@ public class SaleItemFragment extends Fragment implements Observer {
 
             }
 
-            saleItemRepository = SaleItemRepository.getInstance();
+            catalogItemRepository = CatalogItemRepository.getInstance();
 
-            saleItemRepository.addObserver(this);
+            catalogItemRepository.addObserver(this);
 
-            recyclerViewAdapter = new SaleItemRecyclerViewAdapter(new ArrayList<SaleItemModel>(), fragmentListener);
+            recyclerViewAdapter = new CatalogItemRecyclerViewAdapter(new ArrayList<CatalogItemModel>(), fragmentListener);
 
             recyclerView.setAdapter(recyclerViewAdapter);
 
-            setSaleItems(saleItemRepository.getSaleItems());
+            setCatalogItems(catalogItemRepository.getCatalogItems());
 
         }
 
@@ -117,14 +117,14 @@ public class SaleItemFragment extends Fragment implements Observer {
 
         super.onAttach(context);
 
-        if (context instanceof SaleItemFragmentListener)
+        if (context instanceof CatalogItemFragmentListener)
 
-            fragmentListener = (SaleItemFragmentListener) context;
+            fragmentListener = (CatalogItemFragmentListener) context;
 
         else
 
             throw new RuntimeException(context.toString()
-                    + " must implement SaleItemFragmentListener");
+                    + " must implement CatalogItemFragmentListener");
 
     }
 
@@ -142,44 +142,44 @@ public class SaleItemFragment extends Fragment implements Observer {
 
         super.onDestroy();
 
-        saleItemRepository.deleteObserver(this);
+        catalogItemRepository.deleteObserver(this);
 
     }
 
 
     public void update(Observable o, Object arg) {
 
-        if (o instanceof SaleItemRepository) {
+        if (o instanceof CatalogItemRepository) {
 
-            SaleItemRepository saleItemRepository = (SaleItemRepository) o;
+            CatalogItemRepository catalogItemRepository = (CatalogItemRepository) o;
 
-            setSaleItems(saleItemRepository.getSaleItems());
+            setCatalogItems(catalogItemRepository.getCatalogItems());
 
         }
 
     }
 
 
-    public interface SaleItemFragmentListener {
+    public interface CatalogItemFragmentListener {
 
-        void onIncrementSaleItemQuantity(SaleItemModel saleItemModel);
+        void onCatalogItemClick(CatalogItemModel catalogItem);
 
-        void onEditSaleItem(SaleItemModel saleItemModel);
+        void onCatalogItemLongClick(CatalogItemModel catalogItem);
 
     }
 
 
-    private void setSaleItems(List<SaleItemModel> saleItems){
+    private void setCatalogItems(List<CatalogItemModel> catalogItems){
 
-        List<SaleItemModel> newSaleItems = new ArrayList<>();
+        List<CatalogItemModel> newCatalogItems = new ArrayList<>();
 
-        for (SaleItemModel saleItem: saleItems)
+        for (CatalogItemModel catalogItem: catalogItems)
 
-            if (saleItem.getSaleable().getCatalog().getPosition().equals(catalogPosition))
+            if (catalogItem.getSaleable().getCatalog().getPosition().equals(catalogPosition))
 
-                newSaleItems.add(saleItem);
+                newCatalogItems.add(catalogItem);
 
-        recyclerViewAdapter.setSaleItems(newSaleItems);
+        recyclerViewAdapter.setCatalogItems(newCatalogItems);
 
     }
 

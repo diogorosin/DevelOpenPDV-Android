@@ -13,14 +13,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import java.util.Date;
-
 import br.com.developen.pdv.R;
-import br.com.developen.pdv.repository.SaleItemRepository;
-import br.com.developen.pdv.room.SaleModel;
-import br.com.developen.pdv.task.NewSaleAsyncTask;
 import br.com.developen.pdv.utils.Constants;
-import br.com.developen.pdv.utils.Messaging;
 
 public class MainActivity
         extends AppCompatActivity
@@ -90,11 +84,11 @@ public class MainActivity
 
                 break;
 
-            case R.id.activity_main_menu_sale:
+            case R.id.activity_main_menu_catalog:
 
                 drawer.closeDrawers();
 
-                Intent saleIntent = new Intent(MainActivity.this, SaleActivity.class);
+                Intent saleIntent = new Intent(MainActivity.this, CatalogActivity.class);
 
                 startActivity(saleIntent);
 
