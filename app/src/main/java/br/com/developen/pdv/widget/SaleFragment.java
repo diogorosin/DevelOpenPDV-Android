@@ -22,10 +22,12 @@ import androidx.viewpager.widget.ViewPager;
 import br.com.developen.pdv.R;
 
 
-public class CatalogCartFragment
+public class SaleFragment
         extends BottomSheetDialogFragment
         implements ViewPager.OnPageChangeListener, View.OnClickListener {
 
+
+    private static final String ARG_SALE = "ARG_SALE";
 
     private static final int STEPS_COUNT = 2;
 
@@ -40,14 +42,16 @@ public class CatalogCartFragment
 
     private Button previewButton, nextButton;
 
-    private CatalogCartFragmentListener fragmentListener;
+    private SaleFragmentListener fragmentListener;
 
 
-    public static CatalogCartFragment newInstance() {
+    public static SaleFragment newInstance(Integer sale) {
 
-        CatalogCartFragment fragment = new CatalogCartFragment();
+        SaleFragment fragment = new SaleFragment();
 
         Bundle args = new Bundle();
+
+        args.putInt(ARG_SALE, sale);
 
         fragment.setArguments(args);
 
@@ -78,25 +82,28 @@ public class CatalogCartFragment
 
     }
 
+
     public void onResume() {
 
         super.onResume();
 
-        CatalogCartPagerAdapter catalogPagerAdapter = new CatalogCartPagerAdapter(getChildFragmentManager());
+        SalePagerAdapter catalogPagerAdapter = new SalePagerAdapter(
+                getChildFragmentManager(),
+                getArguments().getInt(ARG_SALE,0));
 
-        viewPager = getView().findViewById(R.id.activity_catalog_cart_viewpager);
+        viewPager = getView().findViewById(R.id.fragment_sale_viewpager);
 
         viewPager.setAdapter(catalogPagerAdapter);
 
         viewPager.addOnPageChangeListener(this);
 
-        dotsLayout = getView().findViewById(R.id.activity_catalog_cart_layout_dots);
+        dotsLayout = getView().findViewById(R.id.fragment_sale_layout_dots);
 
-        previewButton = getView().findViewById(R.id.activity_catalog_cart_prev_button);
+        previewButton = getView().findViewById(R.id.fragment_sale_prev_button);
 
         previewButton.setOnClickListener(this);
 
-        nextButton = getView().findViewById(R.id.activity_catalog_cart_next_button);
+        nextButton = getView().findViewById(R.id.fragment_sale_next_button);
 
         nextButton.setOnClickListener(this);
 
@@ -104,9 +111,10 @@ public class CatalogCartFragment
 
     }
 
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_catalog_cart_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_sale_view, container, false);
 
         return view;
 
@@ -120,7 +128,7 @@ public class CatalogCartFragment
 
         addBottomDots(position);
 
-        TextView title = getView().findViewById(R.id.activity_catalog_cart_title);
+        TextView title = getView().findViewById(R.id.fragment_sale_title);
 
         switch (position) {
 
@@ -144,7 +152,9 @@ public class CatalogCartFragment
 
     }
 
+
     public void onPageScrollStateChanged(int state) {}
+
 
     private void addBottomDots(int currentPage) {
 
@@ -193,11 +203,12 @@ public class CatalogCartFragment
 
     }
 
+
     public void onClick(View v) {
 
         switch (v.getId()){
 
-            case R.id.activity_catalog_cart_next_button:
+            case R.id.fragment_sale_next_button:
 
                 if (viewPager.getCurrentItem() == (viewPager.getChildCount()-1)) {
 
@@ -213,7 +224,7 @@ public class CatalogCartFragment
 
                 break;
 
-            case R.id.activity_catalog_cart_prev_button:
+            case R.id.fragment_sale_prev_button:
 
                 viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
 
@@ -223,20 +234,22 @@ public class CatalogCartFragment
 
     }
 
+
     public void onAttach(Context context) {
 
         super.onAttach(context);
 
-        if (context instanceof CatalogCartFragmentListener)
+        if (context instanceof SaleFragmentListener)
 
-            fragmentListener = (CatalogCartFragmentListener) context;
+            fragmentListener = (SaleFragmentListener) context;
 
         else
 
             throw new RuntimeException(context.toString()
-                    + " must implement CatalogCartFragmentListener");
+                    + " must implement SaleFragmentListener");
 
     }
+
 
     public void onDetach() {
 
@@ -246,10 +259,12 @@ public class CatalogCartFragment
 
     }
 
-    public interface CatalogCartFragmentListener {
+
+    public interface SaleFragmentListener {
 
         void onFinalizeSale();
 
     }
+
 
 }

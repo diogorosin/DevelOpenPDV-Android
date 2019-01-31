@@ -1,6 +1,5 @@
 package br.com.developen.pdv.activity;
 
-import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -30,14 +29,18 @@ import br.com.developen.pdv.repository.CatalogRepository;
 import br.com.developen.pdv.room.CatalogItemModel;
 import br.com.developen.pdv.room.CatalogModel;
 import br.com.developen.pdv.room.MeasureUnitGroup;
+import br.com.developen.pdv.room.SaleModel;
+import br.com.developen.pdv.task.NewSaleFromCatalogAsyncTask;
 import br.com.developen.pdv.utils.Constants;
-import br.com.developen.pdv.widget.CatalogCartFragment;
+import br.com.developen.pdv.utils.Messaging;
+import br.com.developen.pdv.widget.SaleFragment;
 import br.com.developen.pdv.widget.CatalogItemFragment;
 import br.com.developen.pdv.widget.CatalogPagerAdapter;
 
 public class CatalogActivity extends AppCompatActivity
         implements CatalogItemFragment.CatalogItemFragmentListener,
-        CatalogCartFragment.CatalogCartFragmentListener,
+        SaleFragment.SaleFragmentListener,
+        NewSaleFromCatalogAsyncTask.Listener,
         java.util.Observer {
 
 
@@ -51,31 +54,20 @@ public class CatalogActivity extends AppCompatActivity
 
     private FloatingActionButton floatingActionButton;
 
-    private SharedPreferences preferences;
-
-    private ProgressDialog progressDialog;
+    private SharedPreferences sharedPreferences;
 
 
     protected void onCreate(Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_catalog);
-
-
-        preferences = getSharedPreferences(
-                Constants.SHARED_PREFERENCES_NAME, 0);
-
-        progressDialog = new ProgressDialog(this);
-
 
         Window window = getWindow();
 
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
         window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
-
 
         Toolbar toolbar = findViewById(R.id.activity_catalog_toolbar);
 
@@ -87,7 +79,6 @@ public class CatalogActivity extends AppCompatActivity
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
         catalogPagerAdapter = new CatalogPagerAdapter(getSupportFragmentManager());
 
         viewPager = findViewById(R.id.activity_catalog_viewpager);
@@ -98,24 +89,18 @@ public class CatalogActivity extends AppCompatActivity
 
         tabLayout.setupWithViewPager(viewPager);
 
-
         floatingActionButton = findViewById(R.id.activity_catalog_fab);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
 
-                BottomSheetDialogFragment bottomSheetDialogFragment = CatalogCartFragment.
-                        newInstance();
-
-                bottomSheetDialogFragment.show(
-                        getSupportFragmentManager(),
-                        bottomSheetDialogFragment.getTag());
+                new NewSaleFromCatalogAsyncTask<>(CatalogActivity.this).
+                        execute();
 
             }
 
         });
-
 
         catalogRepository = ViewModelProviders.of(this).get(CatalogRepository.class);
 
@@ -129,11 +114,12 @@ public class CatalogActivity extends AppCompatActivity
 
         });
 
-
         catalogItemRepository = CatalogItemRepository.getInstance();
 
         catalogItemRepository.addObserver(this);
 
+        sharedPreferences = getSharedPreferences(
+                Constants.SHARED_PREFERENCES_NAME, 0);
 
     }
 
@@ -228,12 +214,23 @@ public class CatalogActivity extends AppCompatActivity
 
     }
 
-    public void onFinalizeSale() {
+
+    public void onFinalizeSale() {}
 
 
+    public void onNewSaleCreateSuccess(SaleModel saleModel) {
 
+        BottomSheetDialogFragment bottomSheetDialogFragment = SaleFragment.
+                newInstance(saleModel.getIdentifier());
 
+        bottomSheetDialogFragment.show(
+                getSupportFragmentManager(),
+                bottomSheetDialogFragment.getTag());
 
     }
+
+
+    public void onNewSaleCreateFailure(Messaging messaging) {}
+
 
 }

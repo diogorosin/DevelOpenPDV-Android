@@ -9,7 +9,7 @@
     android:paddingTop="16dp">
 
     <TextView
-        android:id="@+id/activity_catalog_cart_title"
+        android:id="@+id/fragment_sale_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -20,36 +20,36 @@
         android:textSize="22sp"/>
 
     <br.com.developen.pdv.widget.HeightWrappingViewPager
-        android:id="@+id/activity_catalog_cart_viewpager"
-        android:layout_below="@id/activity_catalog_cart_title"
+        android:id="@+id/fragment_sale_viewpager"
+        android:layout_below="@id/fragment_sale_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <View
-        android:id="@+id/activity_catalog_cart_divider"
+        android:id="@+id/fragment_sale_divider"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
-        android:layout_below="@id/activity_catalog_cart_viewpager"
+        android:layout_below="@id/fragment_sale_viewpager"
         android:background="@color/colorBlackMedium"/>
 
     <RelativeLayout
-        android:id="@+id/activity_catalog_cart_layout"
+        android:id="@+id/fragment_sale_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@id/activity_catalog_cart_divider"
+        android:layout_below="@id/fragment_sale_divider"
         android:orientation="horizontal"
         android:gravity="bottom">
 
         <LinearLayout
-            android:id="@+id/activity_catalog_cart_layout_dots"
+            android:id="@+id/fragment_sale_layout_dots"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center"
             android:orientation="horizontal" />
 
         <Button
-            android:id="@+id/activity_catalog_cart_next_button"
+            android:id="@+id/fragment_sale_next_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -61,7 +61,7 @@
             android:text="@string/next"/>
 
         <Button
-            android:id="@+id/activity_catalog_cart_prev_button"
+            android:id="@+id/fragment_sale_prev_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"

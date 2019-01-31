@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import br.com.developen.pdv.R;
 import br.com.developen.pdv.room.ReceiptMethodModel;
 
-public class CatalogCartReceiptMethodRecyclerViewAdapter
-        extends RecyclerView.Adapter<CatalogCartReceiptMethodRecyclerViewAdapter.CatalogCartReceiptMethodViewHolder>{
+public class SaleReceiptMethodRecyclerViewAdapter
+        extends RecyclerView.Adapter<SaleReceiptMethodRecyclerViewAdapter.CatalogCartReceiptMethodViewHolder>{
 
 
     public static final int MONEY_RECEIPT = 1;
@@ -37,7 +37,7 @@ public class CatalogCartReceiptMethodRecyclerViewAdapter
     private List<ReceiptMethodModel> receiptMethods;
 
 
-    public CatalogCartReceiptMethodRecyclerViewAdapter(
+    public SaleReceiptMethodRecyclerViewAdapter(
             List<ReceiptMethodModel> receiptMethods,
             View.OnClickListener moneyOnClickListener,
             View.OnClickListener creditCardOnClickListener,
@@ -63,16 +63,16 @@ public class CatalogCartReceiptMethodRecyclerViewAdapter
 
         switch (viewType){
 
-            case MONEY_RECEIPT: layout = R.layout.activity_catalog_cart_receipt_method_money;
+            case MONEY_RECEIPT: layout = R.layout.fragment_sale_receipt_method_money;
                 break;
 
-            case CREDIT_CARD_RECEIPT: layout = R.layout.activity_catalog_cart_receipt_method_credit_card;
+            case CREDIT_CARD_RECEIPT: layout = R.layout.fragment_sale_receipt_method_credit_card;
                 break;
 
-            case DEBIT_CARD_RECEIPT: layout = R.layout.activity_catalog_cart_receipt_method_debit_card;
+            case DEBIT_CARD_RECEIPT: layout = R.layout.fragment_sale_receipt_method_debit_card;
                 break;
 
-            case CHECK_RECEIPT: layout = R.layout.activity_catalog_cart_receipt_method_check;
+            case CHECK_RECEIPT: layout = R.layout.fragment_sale_receipt_method_check;
                 break;
 
         }
@@ -163,10 +163,11 @@ public class CatalogCartReceiptMethodRecyclerViewAdapter
 
             super(view);
 
-            button = view.findViewById(R.id.activity_catalog_cart_receipt_method_button);
+            button = view.findViewById(R.id.fragment_sale_receipt_method_button);
 
         }
 
     }
+
 
 }

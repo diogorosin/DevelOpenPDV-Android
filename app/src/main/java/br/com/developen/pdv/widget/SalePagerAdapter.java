@@ -4,13 +4,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-public class CatalogCartPagerAdapter extends FragmentPagerAdapter {
+public class SalePagerAdapter extends FragmentPagerAdapter {
 
-    public CatalogCartPagerAdapter(FragmentManager fm) {
+
+    private Integer sale;
+
+
+    public SalePagerAdapter(FragmentManager fm, Integer sale) {
 
         super(fm);
 
+        this.sale = sale;
+
     }
+
 
     public Fragment getItem(int position) {
 
@@ -18,11 +25,11 @@ public class CatalogCartPagerAdapter extends FragmentPagerAdapter {
 
             case 0:
 
-                return CatalogCartItemFragment.newInstance();
+                return SaleItemFragment.newInstance(sale);
 
             case 1:
 
-                return CatalogCartReceiptFragment.newInstance();
+                return SaleReceiptFragment.newInstance(sale);
 
             default:
 
@@ -32,11 +39,13 @@ public class CatalogCartPagerAdapter extends FragmentPagerAdapter {
 
     }
 
+
     public int getCount() {
 
         return 2;
 
     }
+
 
     public CharSequence getPageTitle(int position) {
 
@@ -57,5 +66,6 @@ public class CatalogCartPagerAdapter extends FragmentPagerAdapter {
         }
 
     }
+
 
 }

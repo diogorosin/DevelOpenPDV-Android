@@ -47,11 +47,8 @@ public class CatalogItemModel {
     public boolean equals(Object o) {
 
         if (this == o) return true;
-
         if (o == null || getClass() != o.getClass()) return false;
-
         CatalogItemModel that = (CatalogItemModel) o;
-
         return saleable.equals(that.saleable);
 
     }

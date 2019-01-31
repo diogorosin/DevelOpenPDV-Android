@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/activity_catalog_cart_receipt_panel"
+        android:id="@+id/fragment_sale_receipt_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -33,11 +33,9 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/activity_catalog_cart_receipt_method_recyclerview"
+                android:id="@+id/fragment_sale_receipt_method_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-                <!--android:clipChildren="false"
-                android:clipToPadding="false"-->
 
         </LinearLayout>
 
@@ -79,7 +77,7 @@
                 android:background="@color/colorBlackMedium"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/activity_catalog_cart_receipt_recyclerview"
+                android:id="@+id/fragment_sale_receipt_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
@@ -110,7 +108,7 @@
                 android:textColor="@color/colorWhite" />
 
             <TextView
-                android:id="@+id/activity_catalog_cart_receipt_total"
+                android:id="@+id/fragment_sale_receipt_total"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="25dp"
@@ -139,7 +137,7 @@
                 android:textColor="@color/colorWhite" />
 
             <TextView
-                android:id="@+id/activity_catalog_cart_receipt_received"
+                android:id="@+id/fragment_sale_receipt_received"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="25dp"
@@ -150,6 +148,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/fragment_sale_receipt_toreceive_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="1dp"
@@ -160,7 +159,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/activity_catalog_cart_receipt_toreceive_title"
+                android:id="@+id/fragment_sale_receipt_toreceive_title"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_margin="5dp"
@@ -169,7 +168,7 @@
                 android:textColor="@color/colorWhite" />
 
             <TextView
-                android:id="@+id/activity_catalog_cart_receipt_toreceive"
+                android:id="@+id/fragment_sale_receipt_toreceive"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="25dp"
