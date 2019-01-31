@@ -12,8 +12,6 @@ import br.com.developen.pdv.utils.DB;
 
 public class SaleRepository extends AndroidViewModel {
 
-    private LiveData<List<SaleItemModel>> items;
-
     private LiveData<Double> subtotal;
 
     private LiveData<Double> total;
@@ -21,22 +19,6 @@ public class SaleRepository extends AndroidViewModel {
     public SaleRepository(Application application) {
 
         super(application);
-
-    }
-
-    public LiveData<List<SaleItemModel>> getItems(Integer sale) {
-
-        if (items ==null){
-
-            SaleDAO saleDAO = DB.getInstance(
-                    getApplication()).
-                    saleDAO();
-
-            items = saleDAO.getItems(sale);
-
-        }
-
-        return items;
 
     }
 

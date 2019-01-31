@@ -32,6 +32,8 @@ import br.com.developen.pdv.room.ReceiptMethodVO;
 import br.com.developen.pdv.room.SaleDAO;
 import br.com.developen.pdv.room.SaleItemDAO;
 import br.com.developen.pdv.room.SaleItemVO;
+import br.com.developen.pdv.room.SaleReceiptDAO;
+import br.com.developen.pdv.room.SaleReceiptVO;
 import br.com.developen.pdv.room.SaleVO;
 import br.com.developen.pdv.room.SaleableDAO;
 import br.com.developen.pdv.room.SaleableModel;
@@ -58,6 +60,7 @@ import br.com.developen.pdv.room.UserVO;
         MerchandiseVO.class,
         PaymentMethodVO.class,
         ReceiptMethodVO.class,
+        SaleReceiptVO.class,
         CashVO.class,
         SaleVO.class,
         SaleItemVO.class}, views = {SaleableModel.class}, version = 001, exportSchema = false)
@@ -112,6 +115,8 @@ public abstract class DB extends RoomDatabase {
     public abstract SaleDAO saleDAO();
 
     public abstract SaleItemDAO saleItemDAO();
+
+    public abstract SaleReceiptDAO saleReceiptDAO();
 
     public abstract SaleableDAO saleableDAO();
 

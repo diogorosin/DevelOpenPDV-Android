@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import br.com.developen.pdv.R;
+import br.com.developen.pdv.repository.SaleItemRepository;
 import br.com.developen.pdv.repository.SaleRepository;
 import br.com.developen.pdv.room.SaleItemModel;
 import br.com.developen.pdv.utils.StringUtils;
@@ -30,6 +31,8 @@ public class SaleItemFragment extends Fragment {
     private SaleItemRecyclerViewAdapter recyclerViewAdapter;
 
     private SaleRepository saleRepository;
+
+    private SaleItemRepository saleItemRepository;
 
 
     private TextView subtotalTextView;
@@ -72,17 +75,6 @@ public class SaleItemFragment extends Fragment {
 
         saleRepository = ViewModelProviders.of(this).get(SaleRepository.class);
 
-        saleRepository.getItems(getArguments().getInt(ARG_SALE)).
-                observe(SaleItemFragment.this, new Observer<List<SaleItemModel>>() {
-
-            public void onChanged(@Nullable List<SaleItemModel> saleItems) {
-
-                recyclerViewAdapter.setSaleItems(saleItems);
-
-            }
-
-        });
-
         saleRepository.getSubtotal(getArguments().getInt(ARG_SALE)).
                 observe(SaleItemFragment.this, new Observer<Double>() {
 
@@ -100,6 +92,19 @@ public class SaleItemFragment extends Fragment {
                     public void onChanged(@Nullable Double total) {
 
                         payTextView.setText(StringUtils.formatCurrencyWithSymbol(total));
+
+                    }
+
+                });
+
+        saleItemRepository = ViewModelProviders.of(this).get(SaleItemRepository.class);
+
+        saleItemRepository.getItems(getArguments().getInt(ARG_SALE)).
+                observe(SaleItemFragment.this, new Observer<List<SaleItemModel>>() {
+
+                    public void onChanged(@Nullable List<SaleItemModel> saleItems) {
+
+                        recyclerViewAdapter.setSaleItems(saleItems);
 
                     }
 

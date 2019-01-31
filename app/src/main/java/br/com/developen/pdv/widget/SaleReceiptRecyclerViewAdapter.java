@@ -10,75 +10,75 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import br.com.developen.pdv.R;
-import br.com.developen.pdv.room.CatalogReceiptModel;
+import br.com.developen.pdv.room.SaleReceiptModel;
 import br.com.developen.pdv.utils.StringUtils;
 
 public class SaleReceiptRecyclerViewAdapter
-        extends RecyclerView.Adapter<SaleReceiptRecyclerViewAdapter.CatalogCartReceiptViewHolder>{
+        extends RecyclerView.Adapter<SaleReceiptRecyclerViewAdapter.SaleReceiptViewHolder>{
 
 
-    private List<CatalogReceiptModel> catalogReceipts;
+    private List<SaleReceiptModel> saleReceipts;
 
 
-    public SaleReceiptRecyclerViewAdapter(List<CatalogReceiptModel> catalogReceipts) {
+    public SaleReceiptRecyclerViewAdapter(List<SaleReceiptModel> saleReceipts) {
 
-        this.catalogReceipts = catalogReceipts;
+        this.saleReceipts = saleReceipts;
 
     }
 
 
-    public CatalogCartReceiptViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SaleReceiptViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_sale_receipt_row, parent, false);
 
-        return new CatalogCartReceiptViewHolder(view);
+        return new SaleReceiptViewHolder(view);
 
     }
 
 
-    public void onBindViewHolder(@NonNull CatalogCartReceiptViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SaleReceiptViewHolder holder, int position) {
 
-        holder.catalogReceipt = catalogReceipts.get(position);
+        holder.saleReceipt = saleReceipts.get(position);
 
-        holder.method.setText(catalogReceipts.get(position).getMethod().getDenomination());
+        holder.method.setText(saleReceipts.get(position).getReceiptMethod().getDenomination());
 
-        holder.value.setText(StringUtils.formatCurrency(catalogReceipts.get(position).getValue()));
+        holder.value.setText(StringUtils.formatCurrency(saleReceipts.get(position).getValue()));
 
     }
 
 
     public int getItemCount() {
 
-        return catalogReceipts.size();
+        return saleReceipts.size();
 
     }
 
 
     public long getItemId(int position){
 
-        return catalogReceipts.get(position).getIdentifier();
+        return saleReceipts.get(position).getReceipt();
 
     }
 
 
-    public void setCatalogReceipts(List<CatalogReceiptModel> catalogReceipts){
+    public void setSaleReceipts(List<SaleReceiptModel> saleReceipts){
 
-        this.catalogReceipts = catalogReceipts;
+        this.saleReceipts = saleReceipts;
 
         notifyDataSetChanged();
 
     }
 
 
-    public class CatalogCartReceiptViewHolder extends RecyclerView.ViewHolder {
+    public class SaleReceiptViewHolder extends RecyclerView.ViewHolder {
 
-        public CatalogReceiptModel catalogReceipt;
+        public SaleReceiptModel saleReceipt;
 
         public TextView method;
 
         public TextView value;
 
-        public CatalogCartReceiptViewHolder(View view) {
+        public SaleReceiptViewHolder(View view) {
 
             super(view);
 
