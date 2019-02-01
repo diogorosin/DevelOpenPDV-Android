@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activity.CashActivity">
+    tools:listener=".activity.CashActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/activity_cash_register_bar_layout"

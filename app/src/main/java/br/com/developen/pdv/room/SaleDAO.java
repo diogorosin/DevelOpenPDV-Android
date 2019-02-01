@@ -1,7 +1,5 @@
 package br.com.developen.pdv.room;
 
-import java.util.List;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -13,17 +11,37 @@ import androidx.room.Update;
 public interface SaleDAO {
 
     String GET_SALE_BY_IDENTIFIER =
-            "SELECT Sle.identifier AS 'identifier', " +
-                   "Sle.dateTime AS 'dateTime', " +
-                   "Sbj.identifier AS 'user_identifier', " +
-                   "Sbj.active AS 'user_active', " +
-                   "Sbj.level AS 'user_level', " +
-                   "Ind.name AS 'user_name' " +
-                   "FROM Sale Sle " +
-                   "INNER JOIN User Usr ON Usr.individual = Sle.user " +
-                   "INNER JOIN Individual Ind ON Ind.subject = Usr.individual " +
-                   "INNER JOIN Subject Sbj ON Sbj.identifier = Ind.subject " +
-                   "WHERE Sle.identifier = :identifier";
+                    "SELECT " +
+                    "Sle.identifier AS 'identifier', " +
+                    "Sle.dateTime AS 'dateTime', " +
+                    "Sbj.identifier AS 'user_identifier', " +
+                    "Sbj.active AS 'user_active', " +
+                    "Sbj.level AS 'user_level', " +
+                    "Ind.name AS 'user_name' " +
+                    "FROM " +
+                    "Sale Sle " +
+                    "INNER JOIN " +
+                    "User Usr ON Usr.individual = Sle.user " +
+                    "INNER JOIN " +
+                    "Individual Ind ON Ind.subject = Usr.individual " +
+                    "INNER JOIN " +
+                    "Subject Sbj ON Sbj.identifier = Ind.subject " +
+                    "WHERE " +
+                    "Sle.identifier = :identifier";
+
+    String GET_RECEIVED =
+                    "SELECT " +
+                    "IFNULL(SUM(SleRpt.value), 0) " +
+                    "FROM " +
+                    "SaleReceipt SleRpt " +
+                    "WHERE " +
+                    "SleRpt.sale = :sale";
+
+    String GET_TO_RECEIVE =
+                    "SELECT " +
+                    "(SELECT IFNULL(SUM(SleItm.total), 0) FROM SaleItem SleItm WHERE SleItm.sale = :sale)" +
+                    " - " +
+                    "(SELECT IFNULL(SUM(SleRpt.value), 0) FROM SaleReceipt SleRpt WHERE SleRpt.sale = :sale)";
 
     @Insert
     Long create(SaleVO saleVO);
@@ -58,5 +76,11 @@ public interface SaleDAO {
             "INNER JOIN Sale Sle ON Sle.identifier = SleItm.sale " +
             "WHERE Sle.identifier = :sale")
     LiveData<Double> getTotal(Integer sale);
+
+    @Query(GET_RECEIVED)
+    LiveData<Double> getReceived(Integer sale);
+
+    @Query(GET_TO_RECEIVE)
+    LiveData<Double> getToReceive(Integer sale);
 
 }

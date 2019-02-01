@@ -9,7 +9,7 @@ public class SaleReceiptModel {
 
     private Integer receipt;
 
-    @Embedded(prefix = "receiptModel")
+    @Embedded(prefix = "receiptMethod_")
     private ReceiptMethodModel receiptMethod;
 
     private Double value;

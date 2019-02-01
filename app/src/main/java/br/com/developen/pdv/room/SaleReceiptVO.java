@@ -30,7 +30,7 @@ public class SaleReceiptVO {
 
     @NonNull
     @ColumnInfo(name = "receiptMethod")
-    private Integer receiptMethod;
+    private String receiptMethod;
 
     @NonNull
     @ColumnInfo(name="value")
@@ -60,13 +60,13 @@ public class SaleReceiptVO {
 
     }
 
-    public Integer getReceiptMethod() {
+    public String getReceiptMethod() {
 
         return receiptMethod;
 
     }
 
-    public void setReceiptMethod(Integer receiptMethod) {
+    public void setReceiptMethod(String receiptMethod) {
 
         this.receiptMethod = receiptMethod;
 

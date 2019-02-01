@@ -28,13 +28,22 @@ import br.com.developen.pdv.repository.SaleReceiptRepository;
 import br.com.developen.pdv.repository.SaleRepository;
 import br.com.developen.pdv.room.ReceiptMethodModel;
 import br.com.developen.pdv.room.SaleReceiptModel;
+import br.com.developen.pdv.task.UpdateMoneyReceiptAsyncTask;
+import br.com.developen.pdv.utils.Messaging;
 import br.com.developen.pdv.utils.StringUtils;
 
 
-public class SaleReceiptFragment extends Fragment {
+public class SaleReceiptFragment extends Fragment implements UpdateMoneyReceiptAsyncTask.Listener{
 
 
     private static final String ARG_SALE = "ARG_SALE";
+
+
+    private Double toReceive = 0.0;
+
+    private Double received = 0.0;
+
+    private Double total = 0.0;
 
 
     private TextView totalTextView;
@@ -53,7 +62,6 @@ public class SaleReceiptFragment extends Fragment {
     private SaleReceiptMethodRecyclerViewAdapter saleReceiptMethodRecyclerViewAdapter;
 
 
-
     private View.OnClickListener moneyOnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
 
@@ -68,7 +76,9 @@ public class SaleReceiptFragment extends Fragment {
 
                         public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
 
-                            //catalogReceiptRepository.updateMoneyReceiptValue(fullNumber.doubleValue());
+                            new UpdateMoneyReceiptAsyncTask<>(SaleReceiptFragment.this).execute(
+                                    getArguments().getInt(ARG_SALE),
+                                    fullNumber.doubleValue());
 
                         }
 
@@ -182,14 +192,39 @@ public class SaleReceiptFragment extends Fragment {
 
         });
 
-
         SaleRepository saleRepository = ViewModelProviders.of(this).get(SaleRepository.class);
 
         saleRepository.getTotal(getArguments().getInt(ARG_SALE)).observe(SaleReceiptFragment.this, new Observer<Double>() {
 
             public void onChanged(@Nullable Double total) {
 
-                totalTextView.setText(StringUtils.formatCurrencyWithSymbol(total));
+                SaleReceiptFragment.this.total = total;
+
+                updateView();
+
+            }
+
+        });
+
+        saleRepository.getReceived(getArguments().getInt(ARG_SALE)).observe(SaleReceiptFragment.this, new Observer<Double>() {
+
+            public void onChanged(@Nullable Double received) {
+
+                SaleReceiptFragment.this.received = received;
+
+                updateView();
+
+            }
+
+        });
+
+        saleRepository.getToReceive(getArguments().getInt(ARG_SALE)).observe(SaleReceiptFragment.this, new Observer<Double>() {
+
+            public void onChanged(@Nullable Double toReceive) {
+
+                SaleReceiptFragment.this.toReceive = toReceive;
+
+                updateView();
 
             }
 
@@ -197,14 +232,18 @@ public class SaleReceiptFragment extends Fragment {
 
         return view;
 
+
     }
 
+    private void updateView(){
 
- /*   private void updateToReceive(){
+        receivedTextView.setText(StringUtils.formatCurrencyWithSymbol(received));
+
+        totalTextView.setText(StringUtils.formatCurrencyWithSymbol(total));
 
         toReceive = total - received;
 
-        if (toReceive >= 0){
+        if (toReceive > 0){
 
             toReceiveTitleTextView.setText(R.string.to_receive);
 
@@ -214,15 +253,28 @@ public class SaleReceiptFragment extends Fragment {
 
         } else {
 
-            toReceiveTitleTextView.setText(R.string.change);
+            if (toReceive == 0.00) {
 
-            toReceiveTextView.setText(StringUtils.formatCurrencyWithSymbol(toReceive*-1));
+                toReceiveTitleTextView.setText(R.string.to_receive);
 
-            toReceiveLayout.setBackgroundResource(R.color.colorBlueDark);
+                toReceiveTextView.setText(StringUtils.formatCurrencyWithSymbol(0.00));
+
+                toReceiveLayout.setBackgroundResource(R.color.colorBlackMedium);
+
+            } else {
+
+                toReceiveTitleTextView.setText(R.string.change);
+
+                toReceiveTextView.setText(StringUtils.formatCurrencyWithSymbol(toReceive * -1));
+
+                toReceiveLayout.setBackgroundResource(R.color.colorBlueDark);
+
+            }
 
         }
 
-    } */
+    }
 
+    public void onUpdateMoneyReceiptItemFailure(Messaging messaging) {}
 
 }
