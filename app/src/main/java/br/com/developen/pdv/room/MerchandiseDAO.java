@@ -23,11 +23,6 @@ public interface MerchandiseDAO {
     MerchandiseVO retrieve(int identifier);
 
     @Query("SELECT COUNT(*) > 0 " +
-            "FROM ProductProduct PdtPdt " +
-            "WHERE PdtPdt.parent = :identifier AND PdtPdt.active = 1")
-    Boolean isComposed(int identifier);
-
-    @Query("SELECT COUNT(*) > 0 " +
             "FROM Merchandise Mer " +
             "INNER JOIN Product Pdt ON Pdt.progeny = Mer.product " +
             "INNER JOIN Progeny Pgn ON Pgn.identifier = Pdt.progeny " +
@@ -44,6 +39,10 @@ public interface MerchandiseDAO {
             "Pgn.identifier AS 'identifier', " +
             "Pgn.denomination AS 'denomination', " +
             "Pgn.active AS 'active', " +
+            "StockUnit.identifier AS 'stockUnit_identifier', " +
+            "StockUnit.denomination AS 'stockUnit_denomination', " +
+            "StockUnit.acronym AS 'stockUnit_acronym', " +
+            "StockUnit.'group' AS 'stockUnit_group', " +
             "WidthUnit.identifier AS 'widthUnit_identifier', " +
             "WidthUnit.denomination AS 'widthUnit_denomination', " +
             "WidthUnit.acronym AS 'widthUnit_acronym', " +
@@ -80,22 +79,18 @@ public interface MerchandiseDAO {
             "Mer.position AS 'position', " +
             "Mer.reference AS 'reference', " +
             "Mer.label AS 'label', " +
-            "MeasureUnit.identifier AS 'measureUnit_identifier', " +
-            "MeasureUnit.denomination AS 'measureUnit_denomination', " +
-            "MeasureUnit.acronym AS 'measureUnit_acronym', " +
-            "MeasureUnit.'group' AS 'measureUnit_group', " +
             "Mer.price AS 'price' " +
             "FROM Merchandise Mer " +
             "INNER JOIN Product Pdt ON Pdt.progeny = Mer.product " +
             "INNER JOIN Progeny Pgn ON Pgn.identifier = Pdt.progeny " +
+            "INNER JOIN MeasureUnit StockUnit ON StockUnit.identifier = Pdt.stockUnit " +
             "LEFT OUTER JOIN MeasureUnit WidthUnit ON WidthUnit.identifier = Pdt.widthUnit " +
             "LEFT OUTER JOIN MeasureUnit HeightUnit ON HeightUnit.identifier = Pdt.heightUnit " +
             "LEFT OUTER JOIN MeasureUnit LengthUnit ON LengthUnit.identifier = Pdt.lengthUnit " +
             "LEFT OUTER JOIN MeasureUnit ContentUnit ON ContentUnit.identifier = Pdt.contentUnit " +
             "LEFT OUTER JOIN MeasureUnit GrossWeightUnit ON GrossWeightUnit.identifier = Pdt.grossWeightUnit " +
             "LEFT OUTER JOIN MeasureUnit NetWeightUnit ON NetWeightUnit.identifier = Pdt.netWeightUnit " +
-            "LEFT OUTER JOIN Catalog Catalog ON Catalog.identifier = Mer.catalog " +
-            "LEFT OUTER JOIN MeasureUnit MeasureUnit ON MeasureUnit.identifier = Mer.measureUnit")
+            "LEFT OUTER JOIN Catalog Catalog ON Catalog.identifier = Mer.catalog")
     LiveData<List<MerchandiseModel>> getMerchandises();
 
 }

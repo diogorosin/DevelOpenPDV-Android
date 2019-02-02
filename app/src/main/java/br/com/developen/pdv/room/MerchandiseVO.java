@@ -18,16 +18,10 @@ import androidx.annotation.NonNull;
                         parentColumns = "identifier",
                         childColumns = "catalog",
                         onDelete = ForeignKey.RESTRICT,
-                        onUpdate = ForeignKey.CASCADE),
-                @ForeignKey(entity = MeasureUnitVO.class,
-                        parentColumns = "identifier",
-                        childColumns = "measureUnit",
-                        onDelete = ForeignKey.RESTRICT,
                         onUpdate = ForeignKey.CASCADE)
         }, indices = {
         @Index(value={"product"}),
-        @Index(value={"catalog"}),
-        @Index(value={"measureUnit"})})
+        @Index(value={"catalog"})})
 public class MerchandiseVO {
 
     @ColumnInfo(name = "product")
@@ -48,10 +42,6 @@ public class MerchandiseVO {
     @NonNull
     @ColumnInfo(name = "label")
     private String label;
-
-    @NonNull
-    @ColumnInfo(name = "measureUnit")
-    private Integer measureUnit;
 
     @NonNull
     @ColumnInfo(name = "price")
@@ -114,18 +104,6 @@ public class MerchandiseVO {
     public void setLabel(String label) {
 
         this.label = label;
-
-    }
-
-    public Integer getMeasureUnit() {
-
-        return measureUnit;
-
-    }
-
-    public void setMeasureUnit(Integer measureUnit) {
-
-        this.measureUnit = measureUnit;
 
     }
 

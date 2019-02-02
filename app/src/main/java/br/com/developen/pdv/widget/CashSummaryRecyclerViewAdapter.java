@@ -56,7 +56,10 @@ public class CashSummaryRecyclerViewAdapter extends RecyclerView.Adapter<CashSum
             case "COM": operation = R.string.supplies;
                 break;
 
-            case "VEN": operation = R.string.sales;
+            case "REC": operation = R.string.receipts;
+                break;
+
+            case "TRC": operation = R.string.changes;
                 break;
 
             default: operation = R.string.undefined;

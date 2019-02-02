@@ -117,5 +117,7 @@
     <string name="credit_card">Cartão de Crédito</string>
     <string name="debit_card">Cartão de Débito</string>
     <string name="forgotPassword">Esqueceu sua senha?</string>
+    <string name="receipts">Recebimento(s)</string>
+    <string name="changes">Troco(s)</string>
 
 </resources>

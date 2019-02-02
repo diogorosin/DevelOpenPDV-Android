@@ -43,6 +43,14 @@ public interface SaleDAO {
                     " - " +
                     "(SELECT IFNULL(SUM(SleRpt.value), 0) FROM SaleReceipt SleRpt WHERE SleRpt.sale = :sale)";
 
+    String GET_TOTAL =
+                    "SELECT " +
+                    "IFNULL(SUM(SleItm.total), 0) " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "WHERE Sle.identifier = :sale";
+
     @Insert
     Long create(SaleVO saleVO);
 
@@ -62,25 +70,26 @@ public interface SaleDAO {
     SaleModel getSaleByIdentifier(Integer identifier);
 
     @Query("SELECT " +
-            "SUM(SleItm.total) " +
+            "IFNULL(SUM(SleItm.total), 0) " +
             "FROM " +
             "SaleItem SleItm " +
             "INNER JOIN Sale Sle ON Sle.identifier = SleItm.sale " +
             "WHERE Sle.identifier = :sale")
     LiveData<Double> getSubtotal(Integer sale);
 
-    @Query("SELECT " +
-            "SUM(SleItm.total) " +
-            "FROM " +
-            "SaleItem SleItm " +
-            "INNER JOIN Sale Sle ON Sle.identifier = SleItm.sale " +
-            "WHERE Sle.identifier = :sale")
+    @Query(GET_TOTAL)
     LiveData<Double> getTotal(Integer sale);
+
+    @Query(GET_TOTAL)
+    Double getTotalAsDouble(Integer sale);
 
     @Query(GET_RECEIVED)
     LiveData<Double> getReceived(Integer sale);
 
     @Query(GET_TO_RECEIVE)
     LiveData<Double> getToReceive(Integer sale);
+
+    @Query(GET_TO_RECEIVE)
+    Double getToReceiveAsDouble(Integer sale);
 
 }

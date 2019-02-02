@@ -215,7 +215,7 @@ public class CatalogActivity extends AppCompatActivity
     }
 
 
-    public void onFinalizeSale() {}
+    public void onSaleFinalized(Integer sale) {}
 
 
     public void onNewSaleCreateSuccess(SaleModel saleModel) {

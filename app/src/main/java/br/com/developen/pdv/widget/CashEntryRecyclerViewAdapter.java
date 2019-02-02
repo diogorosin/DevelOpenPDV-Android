@@ -68,7 +68,10 @@ public class CashEntryRecyclerViewAdapter extends RecyclerView.Adapter<CashEntry
             case "COM": operation = R.string.supply;
                 break;
 
-            case "VEN": operation = R.string.sale;
+            case "REC": operation = R.string.receipt;
+                break;
+
+            case "TRC": operation = R.string.change;
                 break;
 
             default: operation = R.string.undefined;

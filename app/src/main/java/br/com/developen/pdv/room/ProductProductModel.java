@@ -4,37 +4,37 @@ import androidx.room.Embedded;
 
 public class ProductProductModel {
 
-    @Embedded(prefix = "product_")
-    private ProductModel product;
+    @Embedded(prefix = "parent_")
+    private ProductModel parent;
 
-    @Embedded(prefix = "part_")
-    private ProductModel part;
+    @Embedded(prefix = "child_")
+    private ProductModel child;
 
     private Boolean active;
 
     private Double quantity;
 
-    public ProductModel getProduct() {
+    public ProductModel getParent() {
 
-        return product;
-
-    }
-
-    public void setProduct(ProductModel product) {
-
-        this.product = product;
+        return parent;
 
     }
 
-    public ProductModel getPart() {
+    public void setParent(ProductModel parent) {
 
-        return part;
+        this.parent = parent;
 
     }
 
-    public void setPart(ProductModel part) {
+    public ProductModel getChild() {
 
-        this.part = part;
+        return child;
+
+    }
+
+    public void setChild(ProductModel child) {
+
+        this.child = child;
 
     }
 
@@ -59,6 +59,24 @@ public class ProductProductModel {
     public void setQuantity(Double quantity) {
 
         this.quantity = quantity;
+
+    }
+
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductProductModel that = (ProductProductModel) o;
+        if (!parent.equals(that.parent)) return false;
+        return child.equals(that.child);
+
+    }
+
+    public int hashCode() {
+
+        int result = parent.hashCode();
+        result = 31 * result + child.hashCode();
+        return result;
 
     }
 

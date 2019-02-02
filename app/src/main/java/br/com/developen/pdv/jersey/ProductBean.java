@@ -2,6 +2,9 @@ package br.com.developen.pdv.jersey;
 
 public class ProductBean extends ProgenyBean{
 
+    //ESTOQUE
+    private Integer stockUnit;
+
     //DIMENSOES
     private Integer widthUnit;
 
@@ -28,6 +31,18 @@ public class ProductBean extends ProgenyBean{
     private Integer netWeightUnit;
 
     private Double netWeightValue;
+
+    public Integer getStockUnit() {
+
+        return stockUnit;
+
+    }
+
+    public void setStockUnit(Integer stockUnit) {
+
+        this.stockUnit = stockUnit;
+
+    }
 
     public Integer getWidthUnit() {
 

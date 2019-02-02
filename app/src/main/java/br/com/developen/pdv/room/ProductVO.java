@@ -1,5 +1,6 @@
 package br.com.developen.pdv.room;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -11,6 +12,11 @@ import androidx.room.Index;
                 @ForeignKey(entity = ProgenyVO.class,
                         parentColumns = "identifier",
                         childColumns = "progeny",
+                        onDelete = ForeignKey.RESTRICT,
+                        onUpdate = ForeignKey.CASCADE),
+                @ForeignKey(entity = MeasureUnitVO.class,
+                        parentColumns = "identifier",
+                        childColumns = "stockUnit",
                         onDelete = ForeignKey.RESTRICT,
                         onUpdate = ForeignKey.CASCADE),
                 @ForeignKey(entity = MeasureUnitVO.class,
@@ -45,6 +51,7 @@ import androidx.room.Index;
                         onUpdate = ForeignKey.CASCADE)
         }, indices = {
         @Index(value={"progeny"}),
+        @Index(value={"stockUnit"}),
         @Index(value={"widthUnit"}),
         @Index(value={"heightUnit"}),
         @Index(value={"lengthUnit"}),
@@ -55,6 +62,11 @@ public class ProductVO {
 
     @ColumnInfo(name = "progeny")
     private Integer progeny;
+
+    //ESTOQUE
+    @NonNull
+    @ColumnInfo(name = "stockUnit")
+    private Integer stockUnit;
 
     //DIMENSOES
     @ColumnInfo(name="widthUnit")
@@ -104,6 +116,18 @@ public class ProductVO {
     public void setProgeny(Integer progeny) {
 
         this.progeny = progeny;
+
+    }
+
+    public Integer getStockUnit() {
+
+        return stockUnit;
+
+    }
+
+    public void setStockUnit(Integer stockUnit) {
+
+        this.stockUnit = stockUnit;
 
     }
 

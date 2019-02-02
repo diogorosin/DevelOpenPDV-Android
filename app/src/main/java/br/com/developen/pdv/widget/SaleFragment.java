@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +21,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import br.com.developen.pdv.R;
+import br.com.developen.pdv.task.FinalizeSaleAsyncTask;
+import br.com.developen.pdv.utils.Messaging;
 
 
 public class SaleFragment
         extends BottomSheetDialogFragment
-        implements ViewPager.OnPageChangeListener, View.OnClickListener {
+        implements ViewPager.OnPageChangeListener,
+        View.OnClickListener, FinalizeSaleAsyncTask.Listener {
 
 
     private static final String ARG_SALE = "ARG_SALE";
@@ -212,9 +216,9 @@ public class SaleFragment
 
                 if (viewPager.getCurrentItem() == (viewPager.getChildCount()-1)) {
 
-                    dismiss();
-
-                    fragmentListener.onFinalizeSale();
+                    new FinalizeSaleAsyncTask<>(SaleFragment.this).
+                            execute(getArguments().
+                                    getInt(ARG_SALE));
 
                 } else {
 
@@ -260,9 +264,21 @@ public class SaleFragment
     }
 
 
+    public void onFinalizeSaleSuccess(Integer sale) {
+
+        dismiss();
+
+        fragmentListener.onSaleFinalized(sale);
+
+    }
+
+
+    public void onFinalizeSaleFailure(Messaging messaging) {}
+
+
     public interface SaleFragmentListener {
 
-        void onFinalizeSale();
+        void onSaleFinalized(Integer sale);
 
     }
 

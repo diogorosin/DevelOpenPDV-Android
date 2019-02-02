@@ -5,7 +5,6 @@ import androidx.room.Embedded;
 
 @DatabaseView(viewName = "Saleable", value = "SELECT " +
         "Mer.product AS 'identifier', " +
-        "Pgn.active AS 'active', " +
         "Cat.identifier AS 'catalog_identifier', " +
         "Cat.active AS 'catalog_active', " +
         "Cat.position AS 'catalog_position', " +
@@ -18,17 +17,16 @@ import androidx.room.Embedded;
         "MU.acronym AS 'measureUnit_acronym', " +
         "MU.'group' AS 'measureUnit_group', " +
         "Mer.price, " +
-        "'M' AS 'type' " +
+        "0 AS 'type' " +
         "FROM Merchandise Mer " +
         "INNER JOIN Product Pdt ON Pdt.progeny = Mer.product " +
         "INNER JOIN Progeny Pgn ON Pgn.identifier = Pdt.progeny " +
         "INNER JOIN Catalog Cat ON Cat.identifier = Mer.catalog " +
-        "INNER JOIN MeasureUnit MU ON MU.identifier = Mer.measureUnit " +
+        "INNER JOIN MeasureUnit MU ON MU.identifier = Pdt.stockUnit " +
         "WHERE Cat.active = 1 AND Pgn.active = 1 " +
         "UNION ALL " +
         "SELECT " +
         "Ser.progeny AS 'identifier', " +
-        "Pgn.active AS 'active', " +
         "Cat.identifier AS 'catalog_identifier', " +
         "Cat.active AS 'catalog_active', " +
         "Cat.position AS 'catalog_position', " +
@@ -41,7 +39,7 @@ import androidx.room.Embedded;
         "MU.acronym AS 'measureUnit_acronym', " +
         "MU.'group' AS 'measureUnit_group', " +
         "Ser.price, " +
-        "'S' AS 'type' " +
+        "1 AS 'type' " +
         "FROM Service Ser " +
         "INNER JOIN Progeny Pgn ON Pgn.identifier = Ser.progeny " +
         "INNER JOIN Catalog Cat ON Cat.identifier = Ser.catalog " +
@@ -66,7 +64,7 @@ public class SaleableModel {
 
     private Double price;
 
-    private String type;
+    private Integer type;
 
     public Integer getIdentifier() {
 
@@ -152,13 +150,13 @@ public class SaleableModel {
 
     }
 
-    public String getType() {
+    public Integer getType() {
 
         return type;
 
     }
 
-    public void setType(String type) {
+    public void setType(Integer type) {
 
         this.type = type;
 

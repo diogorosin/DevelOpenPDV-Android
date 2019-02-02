@@ -200,6 +200,8 @@ public class DBSync {
 
                     productVO.setProgeny(progenyVO.getIdentifier());
 
+                    productVO.setStockUnit(productBean.getStockUnit());
+
                     productVO.setWidthValue(productBean.getWidthValue());
 
                     productVO.setWidthUnit(productBean.getWidthUnit());
@@ -310,6 +312,8 @@ public class DBSync {
 
                     productVO.setProgeny(progenyVO.getIdentifier());
 
+                    productVO.setStockUnit(merchandiseBean.getStockUnit());
+
                     productVO.setWidthValue(merchandiseBean.getWidthValue());
 
                     productVO.setWidthUnit(merchandiseBean.getWidthUnit());
@@ -353,8 +357,6 @@ public class DBSync {
                     merchandiseVO.setReference(merchandiseBean.getReference());
 
                     merchandiseVO.setLabel(merchandiseBean.getLabel());
-
-                    merchandiseVO.setMeasureUnit(merchandiseBean.getMeasureUnit());
 
                     merchandiseVO.setPrice(merchandiseBean.getPrice());
 

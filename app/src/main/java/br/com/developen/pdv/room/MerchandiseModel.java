@@ -14,9 +14,6 @@ public class MerchandiseModel extends ProductModel {
 
     private String label;
 
-    @Embedded(prefix = "measureUnit_")
-    private MeasureUnitModel measureUnit;
-
     private Double price;
 
     public CatalogModel getCatalog() {
@@ -64,18 +61,6 @@ public class MerchandiseModel extends ProductModel {
     public void setLabel(String label) {
 
         this.label = label;
-
-    }
-
-    public MeasureUnitModel getMeasureUnit() {
-
-        return measureUnit;
-
-    }
-
-    public void setMeasureUnit(MeasureUnitModel measureUnit) {
-
-        this.measureUnit = measureUnit;
 
     }
 

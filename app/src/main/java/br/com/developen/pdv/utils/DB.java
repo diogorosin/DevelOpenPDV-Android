@@ -31,7 +31,11 @@ import br.com.developen.pdv.room.ReceiptMethodDAO;
 import br.com.developen.pdv.room.ReceiptMethodVO;
 import br.com.developen.pdv.room.SaleDAO;
 import br.com.developen.pdv.room.SaleItemDAO;
+import br.com.developen.pdv.room.SaleItemTicketDAO;
+import br.com.developen.pdv.room.SaleItemTicketVO;
 import br.com.developen.pdv.room.SaleItemVO;
+import br.com.developen.pdv.room.SaleReceiptCashDAO;
+import br.com.developen.pdv.room.SaleReceiptCashVO;
 import br.com.developen.pdv.room.SaleReceiptDAO;
 import br.com.developen.pdv.room.SaleReceiptVO;
 import br.com.developen.pdv.room.SaleVO;
@@ -61,9 +65,11 @@ import br.com.developen.pdv.room.UserVO;
         PaymentMethodVO.class,
         ReceiptMethodVO.class,
         SaleReceiptVO.class,
+        SaleReceiptCashVO.class,
         CashVO.class,
         SaleVO.class,
-        SaleItemVO.class}, views = {SaleableModel.class}, version = 001, exportSchema = false)
+        SaleItemVO.class,
+        SaleItemTicketVO.class}, views = {SaleableModel.class}, version = 001, exportSchema = false)
 public abstract class DB extends RoomDatabase {
 
     private static DB INSTANCE;
@@ -116,7 +122,11 @@ public abstract class DB extends RoomDatabase {
 
     public abstract SaleItemDAO saleItemDAO();
 
+    public abstract SaleItemTicketDAO saleItemTicketDAO();
+
     public abstract SaleReceiptDAO saleReceiptDAO();
+
+    public abstract SaleReceiptCashDAO saleReceiptCashDAO();
 
     public abstract SaleableDAO saleableDAO();
 

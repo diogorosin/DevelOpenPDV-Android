@@ -4,6 +4,10 @@ import androidx.room.Embedded;
 
 public class ProductModel extends ProgenyModel {
 
+    //ESTOQUE
+    @Embedded(prefix = "stockUnit_")
+    private MeasureUnitModel stockUnit;
+
     //DIMENSOES
     @Embedded(prefix = "widthUnit_")
     private MeasureUnitModel widthUnit;
@@ -36,6 +40,18 @@ public class ProductModel extends ProgenyModel {
     private MeasureUnitModel netWeightUnit;
 
     private Double netWeightValue;
+
+    public MeasureUnitModel getStockUnit() {
+
+        return stockUnit;
+
+    }
+
+    public void setStockUnit(MeasureUnitModel stockUnit) {
+
+        this.stockUnit = stockUnit;
+
+    }
 
     public MeasureUnitModel getWidthUnit() {
 

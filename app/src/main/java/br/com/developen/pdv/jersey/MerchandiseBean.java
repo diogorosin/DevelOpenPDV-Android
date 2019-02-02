@@ -10,8 +10,6 @@ public class MerchandiseBean extends ProductBean {
 
 	private String label;
 
-	private Integer measureUnit;
-
 	private Double price;
 
 	public Integer getCatalog() {
@@ -59,18 +57,6 @@ public class MerchandiseBean extends ProductBean {
 	public void setLabel(String label) {
 
 		this.label = label;
-
-	}
-
-	public Integer getMeasureUnit() {
-
-		return measureUnit;
-
-	}
-
-	public void setMeasureUnit(Integer measureUnit) {
-
-		this.measureUnit = measureUnit;
 
 	}
 

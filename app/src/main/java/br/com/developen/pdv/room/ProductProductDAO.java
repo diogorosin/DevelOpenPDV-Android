@@ -1,5 +1,7 @@
 package br.com.developen.pdv.room;
 
+import java.util.List;
+
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -23,5 +25,19 @@ public interface ProductProductDAO {
 
     @Delete
     void delete(ProductProductVO productProductVO);
+
+    @Query("SELECT " +
+            "PgnPar.identifier AS 'parent_identifier'," +
+            "PgnPar.denomination AS 'parent_denomination'," +
+            "PgnChi.identifier AS 'part_identifier'," +
+            "PgnChi.denomination AS 'part_identifier'," +
+            "PdtPdt.quantity " +
+            "FROM ProductProduct PdtPdt " +
+            "INNER JOIN Product PdtPar ON PdtPar.progeny = PdtPdt.parent " +
+            "INNER JOIN Progeny PgnPar ON PgnPar.identifier = PdtPar.progeny " +
+            "INNER JOIN Product PdtChi ON PdtChi.progeny = PdtPdt.child " +
+            "INNER JOIN Progeny PgnChi ON PgnChi.identifier = PdtChi.progeny " +
+            "WHERE PdtPar.progeny = :product AND PdtPdt.active = 1")
+    List<ProductProductModel> getCompositionOfProduct(int product);
 
 }
