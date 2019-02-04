@@ -12,6 +12,14 @@ import java.util.List;
 @Dao
 public interface CatalogDAO {
 
+    String GET_CATALOGS =
+            "SELECT " +
+            "Cat.* " +
+            "FROM " +
+            "Catalog Cat " +
+            "WHERE Cat.active = 1 " +
+            "ORDER BY Cat.position";
+
     @Insert
     void create(CatalogVO catalogVO);
 
@@ -30,7 +38,10 @@ public interface CatalogDAO {
     @Delete
     void delete(CatalogVO catalogVO);
 
-    @Query("SELECT Cat.* FROM Catalog Cat")
+    @Query(GET_CATALOGS)
     LiveData<List<CatalogModel>> getCatalogs();
+
+    @Query(GET_CATALOGS)
+    List<CatalogModel> getCatalogsAsList();
 
 }

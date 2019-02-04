@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import br.com.developen.pdv.R;
-import br.com.developen.pdv.repository.CatalogItemRepository;
+import br.com.developen.pdv.repository.CatalogRepository;
 import br.com.developen.pdv.room.CatalogItemModel;
 
 public class CatalogItemFragment extends Fragment implements Observer {
@@ -31,7 +31,7 @@ public class CatalogItemFragment extends Fragment implements Observer {
 
     private CatalogItemFragmentListener fragmentListener;
 
-    private CatalogItemRepository catalogItemRepository;
+    private CatalogRepository catalogRepository;
 
 
     private int columns = 0;
@@ -96,15 +96,15 @@ public class CatalogItemFragment extends Fragment implements Observer {
 
             }
 
-            catalogItemRepository = CatalogItemRepository.getInstance();
+            catalogRepository = CatalogRepository.getInstance();
 
-            catalogItemRepository.addObserver(this);
+            catalogRepository.addObserver(this);
 
             recyclerViewAdapter = new CatalogItemRecyclerViewAdapter(new ArrayList<CatalogItemModel>(), fragmentListener);
 
             recyclerView.setAdapter(recyclerViewAdapter);
 
-            setCatalogItems(catalogItemRepository.getCatalogItems());
+            setCatalogItems(catalogRepository.getCatalogItems());
 
         }
 
@@ -142,18 +142,18 @@ public class CatalogItemFragment extends Fragment implements Observer {
 
         super.onDestroy();
 
-        catalogItemRepository.deleteObserver(this);
+        catalogRepository.deleteObserver(this);
 
     }
 
 
     public void update(Observable o, Object arg) {
 
-        if (o instanceof CatalogItemRepository) {
+        if (o instanceof CatalogRepository) {
 
-            CatalogItemRepository catalogItemRepository = (CatalogItemRepository) o;
+            CatalogRepository catalogRepository = (CatalogRepository) o;
 
-            setCatalogItems(catalogItemRepository.getCatalogItems());
+            setCatalogItems(catalogRepository.getCatalogItems());
 
         }
 

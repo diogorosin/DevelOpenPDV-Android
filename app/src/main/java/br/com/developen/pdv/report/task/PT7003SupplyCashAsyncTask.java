@@ -10,13 +10,13 @@ import java.util.Date;
 import java.util.List;
 
 import br.com.developen.pdv.report.ReportName;
-import br.com.developen.pdv.report.adapter.OnPrintListener;
+import br.com.developen.pdv.report.adapter.PrintListener;
 import br.com.developen.pdv.report.layout.PT7003HeaderLayout;
 import br.com.developen.pdv.report.layout.PT7003SupplyCashLayout;
 import br.com.developen.pdv.room.CashModel;
 
 public class PT7003SupplyCashAsyncTask<
-        A extends OnPrintListener,
+        A extends PrintListener,
         B extends CashModel,
         C extends Integer,
         D extends List> extends AsyncTask<B, C, D> {

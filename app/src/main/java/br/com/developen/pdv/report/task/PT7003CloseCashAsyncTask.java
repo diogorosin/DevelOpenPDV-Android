@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import br.com.developen.pdv.report.ReportName;
-import br.com.developen.pdv.report.adapter.OnPrintListener;
+import br.com.developen.pdv.report.adapter.PrintListener;
 import br.com.developen.pdv.report.layout.CloseCashSummaryLayout;
 import br.com.developen.pdv.report.layout.PT7003CloseCashLayout;
 import br.com.developen.pdv.report.layout.PT7003CloseCashSummaryLayout;
@@ -17,7 +17,7 @@ import br.com.developen.pdv.report.layout.PT7003HeaderLayout;
 import br.com.developen.pdv.room.CashModel;
 
 public class PT7003CloseCashAsyncTask<
-        A extends OnPrintListener,
+        A extends PrintListener,
         B extends CashModel,
         C extends Integer,
         D extends Void> extends AsyncTask<B, C, D> {

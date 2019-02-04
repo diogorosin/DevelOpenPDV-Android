@@ -41,7 +41,7 @@ import java.util.Objects;
 import br.com.developen.pdv.R;
 import br.com.developen.pdv.report.Report;
 import br.com.developen.pdv.report.ReportName;
-import br.com.developen.pdv.report.adapter.OnPrintListener;
+import br.com.developen.pdv.report.adapter.PrintListener;
 import br.com.developen.pdv.repository.CashRepository;
 import br.com.developen.pdv.room.CashModel;
 import br.com.developen.pdv.task.CloseCashAsyncTask;
@@ -62,7 +62,7 @@ public class CashActivity extends AppCompatActivity implements
         CloseCashDialogFragment.Listener,
         SupplyCashAsyncTask.Listener,
         RemovalCashAsyncTask.Listener,
-        OnPrintListener,
+        PrintListener,
         SummaryCashReportAsyncTask.Listener,
         View.OnClickListener {
 

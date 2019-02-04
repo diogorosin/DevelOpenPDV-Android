@@ -14,47 +14,37 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.List;
-import java.util.Observable;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import br.com.developen.pdv.R;
-import br.com.developen.pdv.repository.CatalogItemRepository;
 import br.com.developen.pdv.repository.CatalogRepository;
 import br.com.developen.pdv.room.CatalogItemModel;
-import br.com.developen.pdv.room.CatalogModel;
 import br.com.developen.pdv.room.MeasureUnitGroup;
 import br.com.developen.pdv.room.SaleModel;
-import br.com.developen.pdv.task.NewSaleFromCatalogAsyncTask;
+import br.com.developen.pdv.task.CreateSaleFromCatalogAsyncTask;
+import br.com.developen.pdv.task.UpdateSaleFromCatalogAsyncTask;
 import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.Messaging;
-import br.com.developen.pdv.widget.SaleFragment;
 import br.com.developen.pdv.widget.CatalogItemFragment;
 import br.com.developen.pdv.widget.CatalogPagerAdapter;
+import br.com.developen.pdv.widget.SaleFragment;
 
 public class CatalogActivity extends AppCompatActivity
         implements CatalogItemFragment.CatalogItemFragmentListener,
         SaleFragment.SaleFragmentListener,
-        NewSaleFromCatalogAsyncTask.Listener,
-        java.util.Observer {
+        CreateSaleFromCatalogAsyncTask.Listener,
+        UpdateSaleFromCatalogAsyncTask.Listener{
 
 
     private ViewPager viewPager;
-
-    private CatalogRepository catalogRepository;
-
-    private CatalogItemRepository catalogItemRepository;
 
     private CatalogPagerAdapter catalogPagerAdapter;
 
     private FloatingActionButton floatingActionButton;
 
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences preferences;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,47 +85,27 @@ public class CatalogActivity extends AppCompatActivity
 
             public void onClick(View view) {
 
-                new NewSaleFromCatalogAsyncTask<>(CatalogActivity.this).
-                        execute();
+                if (CatalogRepository.getInstance().getSale() == null)
+
+                    new CreateSaleFromCatalogAsyncTask<>(CatalogActivity.this).
+                            execute();
+
+                else
+
+                    new UpdateSaleFromCatalogAsyncTask<>(CatalogActivity.this).
+                            execute();
 
             }
 
         });
 
-        catalogRepository = ViewModelProviders.of(this).get(CatalogRepository.class);
+        catalogPagerAdapter.setCatalogs(
+                CatalogRepository.
+                        getInstance().
+                        getCatalogs());
 
-        catalogRepository.getCatalogs().observe(CatalogActivity.this, new Observer<List<CatalogModel>>() {
-
-            public void onChanged(@Nullable List<CatalogModel> catalogs) {
-
-                catalogPagerAdapter.setCatalogs(catalogs);
-
-            }
-
-        });
-
-        catalogItemRepository = CatalogItemRepository.getInstance();
-
-        catalogItemRepository.addObserver(this);
-
-        sharedPreferences = getSharedPreferences(
+        preferences = getSharedPreferences(
                 Constants.SHARED_PREFERENCES_NAME, 0);
-
-    }
-
-
-    protected void onDestroy() {
-
-        super.onDestroy();
-
-        catalogItemRepository.deleteObserver(this);
-
-    }
-
-
-    public void update(Observable o, Object arg) {
-
-        if (o instanceof CatalogItemRepository) {}
 
     }
 
@@ -148,7 +118,7 @@ public class CatalogActivity extends AppCompatActivity
 
         catalogItem.setTotal(quantity * catalogItem.getSaleable().getPrice());
 
-        catalogItemRepository.updateCatalogItem(catalogItem);
+        CatalogRepository.getInstance().updateCatalogItem(catalogItem);
 
     }
 
@@ -195,7 +165,7 @@ public class CatalogActivity extends AppCompatActivity
 
                 catalogItem.setTotal(quantity * catalogItem.getSaleable().getPrice());
 
-                catalogItemRepository.updateCatalogItem(catalogItem);
+                CatalogRepository.getInstance().updateCatalogItem(catalogItem);
 
             }
 
@@ -215,13 +185,29 @@ public class CatalogActivity extends AppCompatActivity
     }
 
 
-    public void onSaleFinalized(Integer sale) {}
+    public void onCreateSaleSuccess(SaleModel saleModel) {
+
+        CatalogRepository.getInstance().setSale(saleModel.getIdentifier());
+
+        showSaleFragment();
+
+    }
 
 
-    public void onNewSaleCreateSuccess(SaleModel saleModel) {
+    public void onCreateSaleFailure(Messaging messaging) {}
+
+
+    public void onUpdateSaleSuccess() {
+
+        showSaleFragment();
+
+    }
+
+
+    public void showSaleFragment(){
 
         BottomSheetDialogFragment bottomSheetDialogFragment = SaleFragment.
-                newInstance(saleModel.getIdentifier());
+                newInstance(CatalogRepository.getInstance().getSale());
 
         bottomSheetDialogFragment.show(
                 getSupportFragmentManager(),
@@ -230,7 +216,49 @@ public class CatalogActivity extends AppCompatActivity
     }
 
 
-    public void onNewSaleCreateFailure(Messaging messaging) {}
+    public void onUpdateSaleFailure(Messaging messaging) {}
+
+
+    public void onSaleFinalized(Integer sale) {}
+
+
+    /* public void printTicketsOfSale(Integer sale){
+
+        String title = preferences.getString(Constants.COUPON_TITLE_PROPERTY,"");
+
+        String subtitle = preferences.getString(Constants.COUPON_SUBTITLE_PROPERTY,"");
+
+        String deviceAlias = preferences.getString(Constants.DEVICE_ALIAS_PROPERTY,"");
+
+        String userName = preferences.getString(Constants.USER_NAME_PROPERTY, "");
+
+        String note = "PROIBIDA A VENDA E ENTREGA DE BEBIDAS ALCOOLICAS PARA MENORES DE 18 ANOS.";
+
+        String footer = "WWW.DEVELOPEN.COM.BR";
+
+        try {
+
+            Report report = (Report) Class.
+                    forName("br.com.developen.pdv.report.PT7003Report").
+                    newInstance();
+
+            report.printCouponsOfLastGeneratedSale(
+                    getBaseContext(),
+                    this,
+                    title,
+                    subtitle,
+                    deviceAlias,
+                    userName,
+                    note,
+                    footer);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
+    } */
 
 
 }

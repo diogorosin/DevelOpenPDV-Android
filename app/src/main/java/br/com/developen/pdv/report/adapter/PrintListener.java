@@ -3,7 +3,7 @@ package br.com.developen.pdv.report.adapter;
 import br.com.developen.pdv.report.ReportName;
 import br.com.developen.pdv.utils.Messaging;
 
-public interface OnPrintListener {
+public interface PrintListener {
 
     void onPrintPreExecute(ReportName report);
 

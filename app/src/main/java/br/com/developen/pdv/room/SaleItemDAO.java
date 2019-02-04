@@ -75,6 +75,9 @@ public interface SaleItemDAO {
     @Delete
     void delete(SaleItemVO saleItemVO);
 
+    @Query("DELETE FROM SaleItem WHERE sale = :sale")
+    void delete(Integer sale);
+
     @Query(GET_ITEMS)
     LiveData<List<SaleItemModel>> getItems(Integer sale);
 

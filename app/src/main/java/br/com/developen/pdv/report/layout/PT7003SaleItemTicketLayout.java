@@ -54,7 +54,7 @@ public class PT7003SaleItemTicketLayout extends SaleItemTicketLayout {
 
         printer.setFontHeightZoomIn(2);
 
-        printer.printString(getDenomination());
+        printer.printString(getLabel());
 
 //      printer.printString(StringUtils.formatQuantity(getQuantity()) + getMeasureUnit().toUpperCase());
 

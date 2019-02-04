@@ -8,7 +8,7 @@ import java.util.Date;
 
 import br.com.developen.pdv.exception.CannotInitializeDatabaseException;
 import br.com.developen.pdv.exception.InternalException;
-import br.com.developen.pdv.repository.CatalogItemRepository;
+import br.com.developen.pdv.repository.CatalogRepository;
 import br.com.developen.pdv.room.CatalogItemModel;
 import br.com.developen.pdv.room.SaleItemVO;
 import br.com.developen.pdv.room.SaleModel;
@@ -18,8 +18,8 @@ import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.DB;
 import br.com.developen.pdv.utils.Messaging;
 
-public final class NewSaleFromCatalogAsyncTask<L extends NewSaleFromCatalogAsyncTask.Listener>
-        extends AsyncTask<Object, Void, Object> {
+public final class CreateSaleFromCatalogAsyncTask<L extends CreateSaleFromCatalogAsyncTask.Listener>
+        extends AsyncTask<Void, Void, Object> {
 
 
     private WeakReference<L> listener;
@@ -27,26 +27,19 @@ public final class NewSaleFromCatalogAsyncTask<L extends NewSaleFromCatalogAsync
     private SharedPreferences sharedPreferences;
 
 
-    public NewSaleFromCatalogAsyncTask(L listener) {
-
+    public CreateSaleFromCatalogAsyncTask(L listener) {
 
         this.listener = new WeakReference<>(listener);
 
         this.sharedPreferences = App.getContext().getSharedPreferences(
                 Constants.SHARED_PREFERENCES_NAME, 0);
 
-
     }
 
 
-    protected Object doInBackground(Object... parameters) {
+    protected Object doInBackground(Void... parameters) {
 
-
-        DB database = null;
-
-        if (listener.get() != null)
-
-            database = DB.getInstance(App.getContext());
+        DB database = DB.getInstance(App.getContext());
 
         if (database==null)
 
@@ -66,7 +59,7 @@ public final class NewSaleFromCatalogAsyncTask<L extends NewSaleFromCatalogAsync
 
             int item = 1;
 
-            for (CatalogItemModel catalogItemModel: CatalogItemRepository.
+            for (CatalogItemModel catalogItemModel: CatalogRepository.
                     getInstance().getCatalogItems()) {
 
                 if (catalogItemModel.getQuantity() > 0) {
@@ -132,13 +125,13 @@ public final class NewSaleFromCatalogAsyncTask<L extends NewSaleFromCatalogAsync
 
             if (callResult instanceof SaleModel) {
 
-                listener.onNewSaleCreateSuccess((SaleModel) callResult);
+                listener.onCreateSaleSuccess((SaleModel) callResult);
 
             } else {
 
                 if (callResult instanceof Messaging) {
 
-                    listener.onNewSaleCreateFailure((Messaging) callResult);
+                    listener.onCreateSaleFailure((Messaging) callResult);
 
                 }
 
@@ -151,9 +144,9 @@ public final class NewSaleFromCatalogAsyncTask<L extends NewSaleFromCatalogAsync
 
     public interface Listener {
 
-        void onNewSaleCreateSuccess(SaleModel saleModel);
+        void onCreateSaleSuccess(SaleModel saleModel);
 
-        void onNewSaleCreateFailure(Messaging messaging);
+        void onCreateSaleFailure(Messaging messaging);
 
     }
 

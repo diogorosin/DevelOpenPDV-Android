@@ -1,18 +1,15 @@
 package br.com.developen.pdv.report;
 
-import android.content.Context;
-
 import java.util.Date;
 
-import br.com.developen.pdv.report.adapter.OnPrintListener;
+import br.com.developen.pdv.report.adapter.PrintListener;
 import br.com.developen.pdv.room.CashModel;
 
 public interface Report {
 
 
-    /*void printCouponsOfLastGeneratedSale(
-            Context context,
-            OnPrintListener listener,
+    /*void printTicketsOfSale(
+            PrintListener listener,
             String title,
             String subtitle,
             String deviceAlias,
@@ -21,7 +18,7 @@ public interface Report {
             String footer);*/
 
     void printOpenCashCoupon(
-            OnPrintListener listener,
+            PrintListener listener,
             String title,
             String subtitle,
             Date dateTime,
@@ -29,7 +26,7 @@ public interface Report {
             CashModel... cashModels);
 
     void printSupplyCashCoupon(
-            OnPrintListener listener,
+            PrintListener listener,
             String title,
             String subtitle,
             Date dateTime,
@@ -37,7 +34,7 @@ public interface Report {
             CashModel... cashModels);
 
     void printRemoveCashCoupon(
-            OnPrintListener listener,
+            PrintListener listener,
             String title,
             String subtitle,
             Date dateTime,
@@ -45,7 +42,7 @@ public interface Report {
             CashModel... cashModels);
 
     void printCloseCashCoupon(
-            OnPrintListener listener,
+            PrintListener listener,
             String title,
             String subtitle,
             Date dateTime,

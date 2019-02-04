@@ -18,7 +18,7 @@ public abstract class SaleItemTicketLayout implements Layout {
 
     private Date dateTime;
 
-    private String denomination;
+    private String label;
 
     private Double quantity;
 
@@ -108,15 +108,15 @@ public abstract class SaleItemTicketLayout implements Layout {
 
     }
 
-    public String getDenomination() {
+    public String getLabel() {
 
-        return denomination;
+        return label;
 
     }
 
-    public void setDenomination(String denomination) {
+    public void setLabel(String label) {
 
-        this.denomination = denomination;
+        this.label = label;
 
     }
 

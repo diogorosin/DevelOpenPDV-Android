@@ -29,8 +29,8 @@ public interface ProductProductDAO {
     @Query("SELECT " +
             "PgnPar.identifier AS 'parent_identifier'," +
             "PgnPar.denomination AS 'parent_denomination'," +
-            "PgnChi.identifier AS 'part_identifier'," +
-            "PgnChi.denomination AS 'part_identifier'," +
+            "PgnChi.identifier AS 'child_identifier'," +
+            "PgnChi.denomination AS 'child_identifier'," +
             "PdtPdt.quantity " +
             "FROM ProductProduct PdtPdt " +
             "INNER JOIN Product PdtPar ON PdtPar.progeny = PdtPdt.parent " +

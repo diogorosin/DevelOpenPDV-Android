@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.widget.ProgressBar;
 
 import br.com.developen.pdv.R;
+import br.com.developen.pdv.repository.CatalogRepository;
 import br.com.developen.pdv.utils.Constants;
 
 
@@ -22,10 +23,15 @@ public class SplashActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash);
 
+        //INICIALIZA BARRA DE PROGRESSO
         ProgressBar spinner = findViewById(R.id.activity_splash_progressbar);
 
         spinner.getIndeterminateDrawable().setColorFilter(R.color.colorWhite, PorterDuff.Mode.DST);
 
+        //INICIALIZA REPOSITORIOS
+        CatalogRepository.getInstance();
+
+        //VERIFICA CONFIGURACOES
         Handler handle = new Handler();
 
         handle.postDelayed(new Runnable() {

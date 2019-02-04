@@ -2,7 +2,7 @@ package br.com.developen.pdv.report;
 
 import java.util.Date;
 
-import br.com.developen.pdv.report.adapter.OnPrintListener;
+import br.com.developen.pdv.report.adapter.PrintListener;
 import br.com.developen.pdv.report.task.PT7003CloseCashAsyncTask;
 import br.com.developen.pdv.report.task.PT7003OpenCashAsyncTask;
 import br.com.developen.pdv.report.task.PT7003RemoveCashAsyncTask;
@@ -11,9 +11,10 @@ import br.com.developen.pdv.room.CashModel;
 
 public class PT7003Report implements Report {
 
-    /* CUPOM DO ITEM DA VENDA
-    public void printCouponsOfLastGeneratedSale(Context context,
-                                                OnPrintListener listener,
+    /* CUPOM DO ITEM DA VENDA */
+
+
+    /*public void printCouponsOfLastGeneratedSale(PrintListener listener,
                                                 String title,
                                                 String subtitle,
                                                 String deviceAlias,
@@ -21,8 +22,7 @@ public class PT7003Report implements Report {
                                                 String note,
                                                 String footer) {
 
-        new PT7003PrintTicketsOfLastGeneratedSaleAsyncTask<>(
-                context,
+        new PT7003PrintTicketsOfSaleAsyncTask<>(
                 listener,
                 title,
                 subtitle,
@@ -31,12 +31,11 @@ public class PT7003Report implements Report {
                 note,
                 footer).execute();
 
-    }
-*/
+    } */
 
     /* CUPOM DE ABERTURA DO CAIXA */
     public void printOpenCashCoupon(
-            OnPrintListener listener,
+            PrintListener listener,
             String title,
             String subtitle,
             Date dateTime,
@@ -54,7 +53,7 @@ public class PT7003Report implements Report {
 
     /* CUPOM DE COMPLEMENTO DO CAIXA */
     public void printSupplyCashCoupon(
-            OnPrintListener listener,
+            PrintListener listener,
             String title,
             String subtitle,
             Date dateTime,
@@ -72,7 +71,7 @@ public class PT7003Report implements Report {
 
     /* CUPOM DE SANGRIA DO CAIXA */
     public void printRemoveCashCoupon(
-            OnPrintListener listener,
+            PrintListener listener,
             String title,
             String subtitle,
             Date dateTime,
@@ -90,7 +89,7 @@ public class PT7003Report implements Report {
 
     /* CUPOM DE FECHAMENTO DO CAIXA */
     public void printCloseCashCoupon(
-            OnPrintListener listener,
+            PrintListener listener,
             String title,
             String subtitle,
             Date dateTime,
