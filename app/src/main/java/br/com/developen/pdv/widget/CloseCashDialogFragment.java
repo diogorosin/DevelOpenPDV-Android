@@ -60,7 +60,7 @@ public class CloseCashDialogFragment extends DialogFragment
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
 
         LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
 

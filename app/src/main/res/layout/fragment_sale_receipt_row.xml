@@ -10,7 +10,7 @@
         android:textColor="@color/colorWhite"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.60"/>
+        android:layout_weight="0.50"/>
 
     <TextView
         android:id="@+id/fragment_sale_receipt_row_value"
@@ -18,6 +18,22 @@
         android:textColor="@color/colorWhite"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.40"/>
+        android:layout_weight="0.30"/>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.20">
+
+        <ImageButton
+            android:id="@+id/fragment_sale_receipt_row_delete"
+            android:src="@drawable/trash_24"
+            android:background="@color/colorBlackDark"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
 
 </LinearLayout>

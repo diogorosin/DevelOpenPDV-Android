@@ -152,6 +152,25 @@ public class CatalogRepository extends Observable {
     }
 
 
+    public void reset(){
+
+        this.sale = null;
+
+        for (CatalogItemModel catalogItemModel: getCatalogItems()) {
+
+            catalogItemModel.setTotal(0.0);
+
+            catalogItemModel.setQuantity(0.0);
+
+        }
+
+        setChanged();
+
+        notifyObservers();
+
+    }
+
+
     public Integer getSale() {
 
         return sale;

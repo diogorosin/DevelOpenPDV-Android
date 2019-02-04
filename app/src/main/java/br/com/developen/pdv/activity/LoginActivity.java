@@ -185,7 +185,7 @@ public class LoginActivity extends AppCompatActivity
 
             getProgressDialog().dismiss();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.AppCompatAlertDialogStyle);
 
         builder.setMessage(TextUtils.join("\n", messaging.getMessages()));
 

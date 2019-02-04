@@ -7,15 +7,15 @@ import br.com.developen.pdv.room.CashModel;
 
 public interface Report {
 
-
-    /*void printTicketsOfSale(
+    void printTicketsOfSale(
             PrintListener listener,
+            Integer sale,
             String title,
             String subtitle,
             String deviceAlias,
             String userName,
             String note,
-            String footer);*/
+            String footer);
 
     void printOpenCashCoupon(
             PrintListener listener,

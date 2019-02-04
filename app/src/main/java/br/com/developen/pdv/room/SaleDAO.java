@@ -86,6 +86,9 @@ public interface SaleDAO {
     @Query(GET_RECEIVED)
     LiveData<Double> getReceived(Integer sale);
 
+    @Query(GET_RECEIVED)
+    Double getReceivedAsDouble(Integer sale);
+
     @Query(GET_TO_RECEIVE)
     LiveData<Double> getToReceive(Integer sale);
 

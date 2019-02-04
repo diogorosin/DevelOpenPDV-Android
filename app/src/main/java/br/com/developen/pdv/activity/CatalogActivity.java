@@ -1,10 +1,15 @@
 package br.com.developen.pdv.activity;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
@@ -14,14 +19,20 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 import br.com.developen.pdv.R;
+import br.com.developen.pdv.report.Report;
+import br.com.developen.pdv.report.ReportName;
+import br.com.developen.pdv.report.adapter.PrintListener;
 import br.com.developen.pdv.repository.CatalogRepository;
 import br.com.developen.pdv.room.CatalogItemModel;
 import br.com.developen.pdv.room.MeasureUnitGroup;
+import br.com.developen.pdv.room.SaleItemModel;
 import br.com.developen.pdv.room.SaleModel;
 import br.com.developen.pdv.task.CreateSaleFromCatalogAsyncTask;
 import br.com.developen.pdv.task.UpdateSaleFromCatalogAsyncTask;
@@ -34,6 +45,7 @@ import br.com.developen.pdv.widget.SaleFragment;
 public class CatalogActivity extends AppCompatActivity
         implements CatalogItemFragment.CatalogItemFragmentListener,
         SaleFragment.SaleFragmentListener,
+        PrintListener,
         CreateSaleFromCatalogAsyncTask.Listener,
         UpdateSaleFromCatalogAsyncTask.Listener{
 
@@ -43,6 +55,8 @@ public class CatalogActivity extends AppCompatActivity
     private CatalogPagerAdapter catalogPagerAdapter;
 
     private FloatingActionButton floatingActionButton;
+
+    private ProgressDialog progressDialog;
 
     private SharedPreferences preferences;
 
@@ -103,6 +117,8 @@ public class CatalogActivity extends AppCompatActivity
                 CatalogRepository.
                         getInstance().
                         getCatalogs());
+
+        progressDialog = new ProgressDialog(this, R.style.AppCompatAlertDialogStyle);
 
         preferences = getSharedPreferences(
                 Constants.SHARED_PREFERENCES_NAME, 0);
@@ -204,6 +220,15 @@ public class CatalogActivity extends AppCompatActivity
     }
 
 
+    public void onUpdateSaleFailure(Messaging messaging) {}
+
+
+    public void onSaleFinalized() {
+
+        printTicketsOfSale();
+
+    }
+
     public void showSaleFragment(){
 
         BottomSheetDialogFragment bottomSheetDialogFragment = SaleFragment.
@@ -215,14 +240,11 @@ public class CatalogActivity extends AppCompatActivity
 
     }
 
+    //////////////////////////////////////////////////////////
+    //IMPRESSAO DOS TICKETS///////////////////////////////////
+    //////////////////////////////////////////////////////////
 
-    public void onUpdateSaleFailure(Messaging messaging) {}
-
-
-    public void onSaleFinalized(Integer sale) {}
-
-
-    /* public void printTicketsOfSale(Integer sale){
+    public void printTicketsOfSale(){
 
         String title = preferences.getString(Constants.COUPON_TITLE_PROPERTY,"");
 
@@ -242,9 +264,11 @@ public class CatalogActivity extends AppCompatActivity
                     forName("br.com.developen.pdv.report.PT7003Report").
                     newInstance();
 
-            report.printCouponsOfLastGeneratedSale(
-                    getBaseContext(),
+            report.printTicketsOfSale(
                     this,
+                    CatalogRepository.
+                            getInstance().
+                            getSale(),
                     title,
                     subtitle,
                     deviceAlias,
@@ -258,7 +282,104 @@ public class CatalogActivity extends AppCompatActivity
 
         }
 
-    } */
+    }
+
+
+    public void showPrinterAlertDialog(Messaging messaging, DialogInterface.OnClickListener listener){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+
+        builder.setMessage(Html.fromHtml(TextUtils.join("\n", messaging.getMessages())));
+
+        builder.setCancelable(false);
+
+        builder.setTitle(R.string.dlg_title_print_failure);
+
+        builder.setPositiveButton(R.string.try_again, listener);
+
+        AlertDialog alert = builder.create();
+
+        alert.setCanceledOnTouchOutside(false);
+
+        alert.show();
+
+    }
+
+
+    public void onPrintPreExecute(ReportName report) {
+
+        progressDialog.setCancelable(false);
+
+        progressDialog.setTitle("Aguarde");
+
+        progressDialog.setMessage("Imprimindo cupons...");
+
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+
+        progressDialog.show();
+
+    }
+
+
+    public void onPrintProgressInitialize(ReportName report, int progress, int max) {
+
+        progressDialog.setProgress(progress);
+
+        progressDialog.setMax(max);
+
+    }
+
+
+    public void onPrintProgressUpdate(ReportName report, int status) {
+
+        progressDialog.incrementProgressBy(status);
+
+    }
+
+
+    public void onPrintSuccess(ReportName report) {
+
+        CatalogRepository.
+                getInstance().
+                reset();
+
+        progressDialog.hide();
+
+        switch (report){
+
+            case SALE_ITEM_COUPON:
+
+                Toast.makeText(getBaseContext(), getResources().getString(R.string.success_sale_finished), Toast.LENGTH_SHORT).show();
+
+                break;
+
+        }
+
+    }
+
+
+    public void onPrintFailure(ReportName report, Messaging message) {
+
+        progressDialog.hide();
+
+        showPrinterAlertDialog(message, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+
+                printTicketsOfSale();
+
+            }
+
+        });
+
+    }
+
+
+    public void onPrintCancelled(ReportName report) {
+
+        progressDialog.hide();
+
+    }
 
 
 }

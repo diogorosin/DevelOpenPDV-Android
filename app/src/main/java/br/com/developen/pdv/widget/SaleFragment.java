@@ -1,10 +1,12 @@
 package br.com.developen.pdv.widget;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +20,14 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import br.com.developen.pdv.R;
+import br.com.developen.pdv.activity.LoginActivity;
+import br.com.developen.pdv.repository.SaleRepository;
 import br.com.developen.pdv.task.FinalizeSaleAsyncTask;
 import br.com.developen.pdv.utils.Messaging;
 
@@ -264,21 +271,45 @@ public class SaleFragment
     }
 
 
-    public void onFinalizeSaleSuccess(Integer sale) {
+    public void onFinalizeSaleSuccess() {
 
         dismiss();
 
-        fragmentListener.onSaleFinalized(sale);
+        fragmentListener.onSaleFinalized();
 
     }
 
 
-    public void onFinalizeSaleFailure(Messaging messaging) {}
+    public void onFinalizeSaleFailure(Messaging messaging) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(SaleFragment.this.getActivity(), R.style.AppCompatAlertDialogStyle);
+
+        builder.setMessage(TextUtils.join("\n", messaging.getMessages()));
+
+        builder.setTitle(R.string.dlg_title_sale_finish_failure);
+
+        builder.setPositiveButton(R.string.adjust,
+
+                new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        dialog.cancel();
+
+                    }
+
+                });
+
+        AlertDialog alert = builder.create();
+
+        alert.show();
+
+    }
 
 
     public interface SaleFragmentListener {
 
-        void onSaleFinalized(Integer sale);
+        void onSaleFinalized();
 
     }
 

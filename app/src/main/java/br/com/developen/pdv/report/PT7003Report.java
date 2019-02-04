@@ -5,22 +5,23 @@ import java.util.Date;
 import br.com.developen.pdv.report.adapter.PrintListener;
 import br.com.developen.pdv.report.task.PT7003CloseCashAsyncTask;
 import br.com.developen.pdv.report.task.PT7003OpenCashAsyncTask;
+import br.com.developen.pdv.report.task.PT7003PrintTicketsOfSaleAsyncTask;
 import br.com.developen.pdv.report.task.PT7003RemoveCashAsyncTask;
 import br.com.developen.pdv.report.task.PT7003SupplyCashAsyncTask;
+import br.com.developen.pdv.repository.CatalogRepository;
 import br.com.developen.pdv.room.CashModel;
 
 public class PT7003Report implements Report {
 
     /* CUPOM DO ITEM DA VENDA */
-
-
-    /*public void printCouponsOfLastGeneratedSale(PrintListener listener,
-                                                String title,
-                                                String subtitle,
-                                                String deviceAlias,
-                                                String userName,
-                                                String note,
-                                                String footer) {
+    public void printTicketsOfSale(PrintListener listener,
+                                   Integer sale,
+                                   String title,
+                                   String subtitle,
+                                   String deviceAlias,
+                                   String userName,
+                                   String note,
+                                   String footer) {
 
         new PT7003PrintTicketsOfSaleAsyncTask<>(
                 listener,
@@ -29,9 +30,9 @@ public class PT7003Report implements Report {
                 deviceAlias,
                 userName,
                 note,
-                footer).execute();
+                footer).execute(sale);
 
-    } */
+    }
 
     /* CUPOM DE ABERTURA DO CAIXA */
     public void printOpenCashCoupon(

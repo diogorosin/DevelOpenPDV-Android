@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import br.com.developen.pdv.exception.CannotInitializeDatabaseException;
+import br.com.developen.pdv.exception.InsufficientReceiptException;
 import br.com.developen.pdv.exception.InternalException;
 import br.com.developen.pdv.room.CashVO;
 import br.com.developen.pdv.room.MeasureUnitGroup;
@@ -40,13 +41,9 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
 
     protected Object doInBackground(Object... parameters) {
 
-        Integer saleIdentifier = (Integer) parameters[0];
+        Integer sale = (Integer) parameters[0];
 
-        DB database = null;
-
-        if (listener.get() != null)
-
-            database = DB.getInstance(App.getInstance());
+        DB database = DB.getInstance(App.getInstance());
 
         if (database==null)
 
@@ -56,9 +53,41 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
 
             database.beginTransaction();
 
+            Double total = database.saleDAO().getTotalAsDouble(sale);
+
+            Double received = database.saleDAO().getReceivedAsDouble(sale);
+
+            Double toReceive = database.saleDAO().getToReceiveAsDouble(sale);
+
+            //VERIFICA SE FOI INFORMADO ALGUMA FORMA DE PAGAMENTO
+            if (received > 0){
+
+                //VERIFICA SE O EXISTE VALOR A RECEBER
+                if (toReceive > 0)
+
+                    throw new InsufficientReceiptException();
+
+            } else {
+
+                //CRIAR O RECEBIMENTO EM DINHEIRO CASO O USUARIO
+                //NAO TENHA INFORMADO NENHUMA FORMA DE RECEBIMENTO
+                SaleReceiptVO saleReceiptVO = new SaleReceiptVO();
+
+                saleReceiptVO.setSale(sale);
+
+                saleReceiptVO.setReceipt(1);
+
+                saleReceiptVO.setReceiptMethod("DIN");
+
+                saleReceiptVO.setValue(total);
+
+                database.saleReceiptDAO().create(saleReceiptVO);
+
+            }
+
             SaleModel saleModel = database.
                     saleDAO().
-                    getSaleByIdentifier(saleIdentifier);
+                    getSaleByIdentifier(sale);
 
             List<SaleItemModel> saleItems = database.saleItemDAO().getItemsAsList(saleModel.getIdentifier());
 
@@ -181,28 +210,11 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
 
             }
 
-            //CRIAR O RECEBIMENTO EM DINHEIRO CASO O USUARIO
-            //NAO TENHA INFORMADO NENHUMA FORMA DE RECEBIMENTO
-            if (database.saleReceiptDAO().count(saleModel.getIdentifier()) == 0){
-
-                SaleReceiptVO saleReceiptVO = new SaleReceiptVO();
-
-                saleReceiptVO.setSale(saleModel.getIdentifier());
-
-                saleReceiptVO.setReceipt(1);
-
-                saleReceiptVO.setReceiptMethod("DIN");
-
-                saleReceiptVO.setValue(database.
-                        saleDAO().
-                        getTotalAsDouble(saleModel.getIdentifier()));
-
-                database.saleReceiptDAO().create(saleReceiptVO);
-
-            }
-
             //LANCA OS RECEBIMENTOS DA VENDA
-            for (SaleReceiptModel saleReceiptModel: database.saleReceiptDAO().getReceiptsAsList(saleModel.getIdentifier())) {
+            for (SaleReceiptModel saleReceiptModel:
+                    database.
+                    saleReceiptDAO().
+                    getReceiptsAsList(saleModel.getIdentifier())) {
 
                 switch (saleReceiptModel.getReceiptMethod().getIdentifier()){
 
@@ -241,9 +253,9 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
             }
 
             //LANCA O TROCO DA VENDA, CASO EXISTA
-            Double change = database.saleDAO().getToReceiveAsDouble(saleModel.getIdentifier());
+//            Double change = database.saleDAO().getToReceiveAsDouble(saleModel.getIdentifier());
 
-            if (change < 0) {
+            if (toReceive < 0) {
 
                 CashVO cashVO = new CashVO();
 
@@ -257,7 +269,7 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
 
                 cashVO.setUser(saleModel.getUser().getIdentifier());
 
-                cashVO.setValue(change * -1);
+                cashVO.setValue(toReceive * -1);
 
                 cashVO.setIdentifier(database.cashDAO().create(cashVO).intValue());
 
@@ -275,17 +287,15 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
 
             database.setTransactionSuccessful();
 
-            return saleModel.getIdentifier();
+            return Boolean.TRUE;
 
-        } catch(Exception e) {
+        } catch(Exception exception) {
 
-            e.printStackTrace();
-
-            return new InternalException();
+            return exception;
 
         } finally {
 
-            if (database.inTransaction())
+            if (database.isOpen() && database.inTransaction())
 
                 database.endTransaction();
 
@@ -300,9 +310,9 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
 
         if (listener != null) {
 
-            if (callResult instanceof Integer) {
+            if (callResult instanceof Boolean) {
 
-                listener.onFinalizeSaleSuccess((Integer) callResult);
+                listener.onFinalizeSaleSuccess();
 
             } else {
 
@@ -321,7 +331,7 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
 
     public interface Listener {
 
-        void onFinalizeSaleSuccess(Integer sale);
+        void onFinalizeSaleSuccess();
 
         void onFinalizeSaleFailure(Messaging messaging);
 

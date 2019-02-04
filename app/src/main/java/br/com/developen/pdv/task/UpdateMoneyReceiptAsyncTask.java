@@ -32,11 +32,7 @@ public final class UpdateMoneyReceiptAsyncTask<L extends UpdateMoneyReceiptAsync
 
         Double newValue = (Double) parameters[1];
 
-        DB database = null;
-
-        if (listener.get() != null)
-
-            database = DB.getInstance(App.getInstance());
+        DB database = DB.getInstance(App.getInstance());
 
         if (database==null)
 
@@ -51,41 +47,57 @@ public final class UpdateMoneyReceiptAsyncTask<L extends UpdateMoneyReceiptAsync
 
             if (moneyReceipts != null && !moneyReceipts.isEmpty()){
 
-                SaleReceiptVO moneyReceipt = new SaleReceiptVO();
+                if (newValue > 0) {
 
-                moneyReceipt.setSale(moneyReceipts.get(0).getSale().getIdentifier());
+                    SaleReceiptVO moneyReceipt = new SaleReceiptVO();
 
-                moneyReceipt.setReceipt(moneyReceipts.get(0).getReceipt());
+                    moneyReceipt.setSale(moneyReceipts.get(0).getSale().getIdentifier());
 
-                moneyReceipt.setReceiptMethod(moneyReceipts.get(0).getReceiptMethod().getIdentifier());
+                    moneyReceipt.setReceipt(moneyReceipts.get(0).getReceipt());
 
-                moneyReceipt.setValue(newValue);
+                    moneyReceipt.setReceiptMethod(moneyReceipts.get(0).getReceiptMethod().getIdentifier());
 
-                database.saleReceiptDAO().update(moneyReceipt);
+                    moneyReceipt.setValue(newValue);
+
+                    database.saleReceiptDAO().update(moneyReceipt);
+
+                } else {
+
+                    SaleReceiptVO moneyReceipt = new SaleReceiptVO();
+
+                    moneyReceipt.setSale(moneyReceipts.get(0).getSale().getIdentifier());
+
+                    moneyReceipt.setReceipt(moneyReceipts.get(0).getReceipt());
+
+                    database.saleReceiptDAO().delete(moneyReceipt);
+
+                }
 
             } else {
 
-                SaleReceiptVO moneyReceipt = new SaleReceiptVO();
+                if (newValue > 0) {
 
-                moneyReceipt.setSale(sale);
+                    SaleReceiptVO moneyReceipt = new SaleReceiptVO();
 
-                moneyReceipt.setReceipt(database.saleReceiptDAO().lastGeneradedReceipt(sale) + 1);
+                    moneyReceipt.setSale(sale);
 
-                moneyReceipt.setReceiptMethod("DIN");
+                    moneyReceipt.setReceipt(database.saleReceiptDAO().lastGeneradedReceipt(sale) + 1);
 
-                moneyReceipt.setValue(newValue);
+                    moneyReceipt.setReceiptMethod("DIN");
 
-                database.saleReceiptDAO().create(moneyReceipt);
+                    moneyReceipt.setValue(newValue);
+
+                    database.saleReceiptDAO().create(moneyReceipt);
+
+                }
 
             }
 
             database.setTransactionSuccessful();
 
-            return null;
+            return Boolean.TRUE;
 
         } catch(Exception e) {
-
-            e.printStackTrace();
 
             return new InternalException();
 
