@@ -1,16 +1,17 @@
-// REFERENCIA DE SQL COM DATAS
-// http://androidkt.com/datetime-datatype-sqlite-using-room/
-
 package br.com.developen.pdv.room;
+
+import java.util.Date;
 
 import androidx.room.Embedded;
 import androidx.room.TypeConverters;
 
-import java.util.Date;
-
 public class SaleModel {
 
     private Integer identifier;
+
+    private Integer number;
+
+    private String status;
 
     @TypeConverters({TimestampConverter.class})
     private Date dateTime;
@@ -27,6 +28,30 @@ public class SaleModel {
     public void setIdentifier(Integer identifier) {
 
         this.identifier = identifier;
+
+    }
+
+    public Integer getNumber() {
+
+        return number;
+
+    }
+
+    public void setNumber(Integer number) {
+
+        this.number = number;
+
+    }
+
+    public String getStatus() {
+
+        return status;
+
+    }
+
+    public void setStatus(String status) {
+
+        this.status = status;
 
     }
 

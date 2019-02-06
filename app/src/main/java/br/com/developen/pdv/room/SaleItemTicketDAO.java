@@ -37,6 +37,8 @@ public interface SaleItemTicketDAO {
 
     @Query("SELECT " +
             "Sle.identifier AS 'saleItem_sale_identifier', " +
+            "Sle.number AS 'saleItem_sale_number', " +
+            "Sle.status AS 'saleItem_sale_status', " +
             "SleItm.item AS 'saleItem_item', " +
             "SleItmTkt.ticket AS 'ticket', " +
             "SleItmTkt.'of' AS 'of', " +

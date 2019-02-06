@@ -15,6 +15,8 @@ public interface SaleReceiptDAO {
     String GET_RECEIPTS =
                     "SELECT " +
                     "Sle.identifier AS 'sale_identifier', " +
+                    "Sle.number AS 'sale_number', " +
+                    "Sle.status AS 'sale_status', " +
                     "Sle.dateTime AS 'sale_dateTime', " +
                     "Sbj.identifier AS 'sale_user_identifier', " +
                     "Sbj.active AS 'sale_user_active', " +
@@ -78,6 +80,8 @@ public interface SaleReceiptDAO {
 
     @Query("SELECT " +
             "Sle.identifier AS 'sale_identifier', " +
+            "Sle.number AS 'sale_number', " +
+            "Sle.status AS 'sale_status', " +
             "Sle.dateTime AS 'sale_dateTime', " +
             "Sbj.identifier AS 'sale_user_identifier', " +
             "Sbj.active AS 'sale_user_active', " +

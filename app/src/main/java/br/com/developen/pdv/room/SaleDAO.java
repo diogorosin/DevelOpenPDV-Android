@@ -13,6 +13,8 @@ public interface SaleDAO {
     String GET_SALE_BY_IDENTIFIER =
                     "SELECT " +
                     "Sle.identifier AS 'identifier', " +
+                    "Sle.number AS 'number', " +
+                    "Sle.status AS 'status', " +
                     "Sle.dateTime AS 'dateTime', " +
                     "Sbj.identifier AS 'user_identifier', " +
                     "Sbj.active AS 'user_active', " +

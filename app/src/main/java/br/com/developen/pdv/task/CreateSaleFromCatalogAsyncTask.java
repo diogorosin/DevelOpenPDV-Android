@@ -53,6 +53,8 @@ public final class CreateSaleFromCatalogAsyncTask<L extends CreateSaleFromCatalo
 
             saleVO.setDateTime(new Date());
 
+            saleVO.setStatus("A");
+
             saleVO.setUser(sharedPreferences.getInt(Constants.USER_IDENTIFIER_PROPERTY, 0));
 
             saleVO.setIdentifier(database.saleDAO().create(saleVO).intValue());

@@ -1,6 +1,10 @@
-// REFERENCIA DE SQL COM DATAS
-// http://androidkt.com/datetime-datatype-sqlite-using-room/
-
+/*
+    IDENTIFIER: IDENTIFICADOR DA VENDA
+    NUMBER....: NUMERO DA VENDA
+    STATUS....: STATUS DA VENDA (A=ABERTA, F=FINALIZADA)
+    DATETIME..: DATA/HORA
+    USER......: USUARIO
+*/
 package br.com.developen.pdv.room;
 
 import androidx.room.ColumnInfo;
@@ -28,6 +32,13 @@ public class SaleVO implements Serializable {
     @ColumnInfo(name = "identifier")
     private Integer identifier;
 
+    @ColumnInfo(name="number")
+    private Integer number;
+
+    @NonNull
+    @ColumnInfo(name="status")
+    private String status;
+
     @NonNull
     @ColumnInfo(name="dateTime")
     @TypeConverters({TimestampConverter.class})
@@ -46,6 +57,30 @@ public class SaleVO implements Serializable {
     public void setIdentifier(Integer identifier) {
 
         this.identifier = identifier;
+
+    }
+
+    public Integer getNumber() {
+
+        return number;
+
+    }
+
+    public void setNumber(Integer number) {
+
+        this.number = number;
+
+    }
+
+    public String getStatus() {
+
+        return status;
+
+    }
+
+    public void setStatus(String status) {
+
+        this.status = status;
 
     }
 

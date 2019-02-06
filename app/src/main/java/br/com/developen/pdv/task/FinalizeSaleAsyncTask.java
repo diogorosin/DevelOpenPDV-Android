@@ -1,5 +1,6 @@
 package br.com.developen.pdv.task;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import java.lang.ref.WeakReference;
@@ -20,8 +21,10 @@ import br.com.developen.pdv.room.SaleModel;
 import br.com.developen.pdv.room.SaleReceiptCashVO;
 import br.com.developen.pdv.room.SaleReceiptModel;
 import br.com.developen.pdv.room.SaleReceiptVO;
+import br.com.developen.pdv.room.SaleVO;
 import br.com.developen.pdv.room.SaleableType;
 import br.com.developen.pdv.utils.App;
+import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.DB;
 import br.com.developen.pdv.utils.Messaging;
 
@@ -31,10 +34,15 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
 
     private WeakReference<L> listener;
 
+    private SharedPreferences preferences;
+
 
     public FinalizeSaleAsyncTask(L listener) {
 
         this.listener = new WeakReference<>(listener);
+
+        this.preferences = App.getInstance().
+                getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, 0);
 
     }
 
@@ -42,6 +50,8 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
     protected Object doInBackground(Object... parameters) {
 
         Integer sale = (Integer) parameters[0];
+
+        Integer number = preferences.getInt(Constants.CURRENT_SALE_NUMBER_PROPERTY, 0) + 1;
 
         DB database = DB.getInstance(App.getInstance());
 
@@ -89,6 +99,22 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
                     saleDAO().
                     getSaleByIdentifier(sale);
 
+            //ATUALIZA O NUMERO E O STATUS DA VENDA
+            SaleVO saleVO = new SaleVO();
+
+            saleVO.setIdentifier(saleModel.getIdentifier());
+
+            saleVO.setNumber(number);
+
+            saleVO.setStatus("F");
+
+            saleVO.setDateTime(saleModel.getDateTime());
+
+            saleVO.setUser(saleModel.getUser().getIdentifier());
+
+            database.saleDAO().update(saleVO);
+
+            //GERA OS CUPONS DA VENDA
             List<SaleItemModel> saleItems = database.saleItemDAO().getItemsAsList(saleModel.getIdentifier());
 
             if (saleItems!=null && !saleItems.isEmpty()){
@@ -253,8 +279,6 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
             }
 
             //LANCA O TROCO DA VENDA, CASO EXISTA
-//            Double change = database.saleDAO().getToReceiveAsDouble(saleModel.getIdentifier());
-
             if (toReceive < 0) {
 
                 CashVO cashVO = new CashVO();
@@ -287,9 +311,11 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
 
             database.setTransactionSuccessful();
 
-            return Boolean.TRUE;
+            return number;
 
         } catch(Exception exception) {
+
+            exception.printStackTrace();
 
             return exception;
 
@@ -310,7 +336,13 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
 
         if (listener != null) {
 
-            if (callResult instanceof Boolean) {
+            if (callResult instanceof Integer) {
+
+                SharedPreferences.Editor editor = preferences.edit();
+
+                editor.putInt(Constants.CURRENT_SALE_NUMBER_PROPERTY, (Integer) callResult);
+
+                editor.apply();
 
                 listener.onFinalizeSaleSuccess();
 

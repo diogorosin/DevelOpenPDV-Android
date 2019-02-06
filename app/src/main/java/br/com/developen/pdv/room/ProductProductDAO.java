@@ -27,10 +27,10 @@ public interface ProductProductDAO {
     void delete(ProductProductVO productProductVO);
 
     @Query("SELECT " +
-            "PgnPar.identifier AS 'parent_identifier'," +
-            "PgnPar.denomination AS 'parent_denomination'," +
-            "PgnChi.identifier AS 'child_identifier'," +
-            "PgnChi.denomination AS 'child_identifier'," +
+            "PgnPar.identifier AS 'parent_identifier', " +
+            "PgnPar.denomination AS 'parent_denomination', " +
+            "PgnChi.identifier AS 'child_identifier', " +
+            "PgnChi.denomination AS 'child_denomination', " +
             "PdtPdt.quantity " +
             "FROM ProductProduct PdtPdt " +
             "INNER JOIN Product PdtPar ON PdtPar.progeny = PdtPdt.parent " +

@@ -26,6 +26,8 @@ public class Constants {
 
     public static final String USER_LOGIN_PROPERTY = "USER_LOGIN_PROPERTY";
 
+    public static final String CURRENT_SALE_NUMBER_PROPERTY = "CURRENT_SALE_NUMBER_PROPERTY";
+
     public static final String COUPON_TITLE_PROPERTY = "COUPON_TITLE_PROPERTY";
 
     public static final String COUPON_SUBTITLE_PROPERTY = "COUPON_SUBTITLE_PROPERTY";

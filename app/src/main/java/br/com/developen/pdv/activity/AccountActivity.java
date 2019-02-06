@@ -1288,6 +1288,8 @@ public class AccountActivity extends AppCompatActivity implements
 
         SharedPreferences.Editor editor = preferences.edit();
 
+        editor.putInt(Constants.CURRENT_SALE_NUMBER_PROPERTY, 0);
+
         editor.putInt(Constants.COMPANY_IDENTIFIER_PROPERTY, companyBean.getIdentifier());
 
         editor.putBoolean(Constants.COMPANY_ACTIVE_PROPERTY, companyBean.getActive());
