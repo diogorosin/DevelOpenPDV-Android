@@ -19,10 +19,10 @@ public class CatalogItemRecyclerViewAdapter extends RecyclerView.Adapter<Catalog
 
     private List<CatalogItemModel> catalogItems;
 
-    private CatalogItemFragment.CatalogItemFragmentListener fragmentListener;
+    private CatalogItemFragment.Listener fragmentListener;
 
 
-    public CatalogItemRecyclerViewAdapter(List<CatalogItemModel> catalogItems, CatalogItemFragment.CatalogItemFragmentListener listener) {
+    public CatalogItemRecyclerViewAdapter(List<CatalogItemModel> catalogItems, CatalogItemFragment.Listener listener) {
 
         this.catalogItems = catalogItems;
 

@@ -20,6 +20,8 @@ public class CatalogRepository extends Observable {
 
     private Integer sale;
 
+    private Boolean hasItemSelected;
+
     private List<CatalogModel> catalogs;
 
     private List<CatalogItemModel> catalogItems;
@@ -80,6 +82,8 @@ public class CatalogRepository extends Observable {
 
                     CatalogRepository.this.catalogItems = catalogItems;
 
+                    CatalogRepository.this.hasItemSelected = false;
+
                     setChanged();
 
                     notifyObservers();
@@ -126,6 +130,20 @@ public class CatalogRepository extends Observable {
 
         this.catalogItems = catalogItems;
 
+        this.hasItemSelected = false;
+
+        for (CatalogItemModel catalogItem: catalogItems) {
+
+            if (catalogItem.getQuantity()>0){
+
+                this.hasItemSelected = true;
+
+                break;
+
+            }
+
+        }
+
         setChanged();
 
         notifyObservers();
@@ -139,9 +157,23 @@ public class CatalogRepository extends Observable {
 
             int index = catalogItems.indexOf(catalogItem);
 
-            catalogItems.remove(index);
+            this.catalogItems.remove(index);
 
-            catalogItems.add(index, catalogItem);
+            this.catalogItems.add(index, catalogItem);
+
+            this.hasItemSelected = false;
+
+            for (CatalogItemModel catalogItemModel: this.catalogItems) {
+
+                if (catalogItemModel.getQuantity() > 0){
+
+                    this.hasItemSelected = true;
+
+                    break;
+
+                }
+
+            }
 
             setChanged();
 
@@ -164,6 +196,8 @@ public class CatalogRepository extends Observable {
 
         }
 
+        this.hasItemSelected = false;
+
         setChanged();
 
         notifyObservers();
@@ -185,6 +219,13 @@ public class CatalogRepository extends Observable {
         setChanged();
 
         notifyObservers();
+
+    }
+
+
+    public Boolean hasItemSelected() {
+
+        return this.hasItemSelected;
 
     }
 

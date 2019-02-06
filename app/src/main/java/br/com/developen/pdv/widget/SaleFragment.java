@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +19,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import br.com.developen.pdv.R;
-import br.com.developen.pdv.activity.LoginActivity;
-import br.com.developen.pdv.repository.SaleRepository;
 import br.com.developen.pdv.task.FinalizeSaleAsyncTask;
 import br.com.developen.pdv.utils.Messaging;
 
@@ -53,7 +47,7 @@ public class SaleFragment
 
     private Button previewButton, nextButton;
 
-    private SaleFragmentListener fragmentListener;
+    private Listener fragmentListener;
 
 
     public static SaleFragment newInstance(Integer sale) {
@@ -250,14 +244,14 @@ public class SaleFragment
 
         super.onAttach(context);
 
-        if (context instanceof SaleFragmentListener)
+        if (context instanceof Listener)
 
-            fragmentListener = (SaleFragmentListener) context;
+            fragmentListener = (Listener) context;
 
         else
 
             throw new RuntimeException(context.toString()
-                    + " must implement SaleFragmentListener");
+                    + " must implement Listener");
 
     }
 
@@ -307,7 +301,7 @@ public class SaleFragment
     }
 
 
-    public interface SaleFragmentListener {
+    public interface Listener {
 
         void onSaleFinalized();
 

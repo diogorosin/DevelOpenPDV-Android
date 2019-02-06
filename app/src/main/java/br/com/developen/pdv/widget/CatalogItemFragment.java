@@ -29,7 +29,7 @@ public class CatalogItemFragment extends Fragment implements Observer {
 
     private CatalogItemRecyclerViewAdapter recyclerViewAdapter;
 
-    private CatalogItemFragmentListener fragmentListener;
+    private Listener fragmentListener;
 
     private CatalogRepository catalogRepository;
 
@@ -117,14 +117,14 @@ public class CatalogItemFragment extends Fragment implements Observer {
 
         super.onAttach(context);
 
-        if (context instanceof CatalogItemFragmentListener)
+        if (context instanceof Listener)
 
-            fragmentListener = (CatalogItemFragmentListener) context;
+            fragmentListener = (Listener) context;
 
         else
 
             throw new RuntimeException(context.toString()
-                    + " must implement CatalogItemFragmentListener");
+                    + " must implement Listener");
 
     }
 
@@ -160,7 +160,7 @@ public class CatalogItemFragment extends Fragment implements Observer {
     }
 
 
-    public interface CatalogItemFragmentListener {
+    public interface Listener {
 
         void onCatalogItemClick(CatalogItemModel catalogItem);
 

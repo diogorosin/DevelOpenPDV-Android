@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,7 +21,8 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +35,6 @@ import br.com.developen.pdv.report.adapter.PrintListener;
 import br.com.developen.pdv.repository.CatalogRepository;
 import br.com.developen.pdv.room.CatalogItemModel;
 import br.com.developen.pdv.room.MeasureUnitGroup;
-import br.com.developen.pdv.room.SaleItemModel;
 import br.com.developen.pdv.room.SaleModel;
 import br.com.developen.pdv.task.CreateSaleFromCatalogAsyncTask;
 import br.com.developen.pdv.task.UpdateSaleFromCatalogAsyncTask;
@@ -43,14 +45,16 @@ import br.com.developen.pdv.widget.CatalogPagerAdapter;
 import br.com.developen.pdv.widget.SaleFragment;
 
 public class CatalogActivity extends AppCompatActivity
-        implements CatalogItemFragment.CatalogItemFragmentListener,
-        SaleFragment.SaleFragmentListener,
-        PrintListener,
+        implements PrintListener, Observer,
+        CatalogItemFragment.Listener,
+        SaleFragment.Listener,
         CreateSaleFromCatalogAsyncTask.Listener,
         UpdateSaleFromCatalogAsyncTask.Listener{
 
 
     private ViewPager viewPager;
+
+    private CatalogRepository catalogRepository;
 
     private CatalogPagerAdapter catalogPagerAdapter;
 
@@ -93,6 +97,10 @@ public class CatalogActivity extends AppCompatActivity
 
         tabLayout.setupWithViewPager(viewPager);
 
+        catalogRepository = CatalogRepository.getInstance();
+
+        catalogRepository.addObserver(this);
+
         floatingActionButton = findViewById(R.id.activity_catalog_fab);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +121,9 @@ public class CatalogActivity extends AppCompatActivity
 
         });
 
+        floatingActionButton.setVisibility(
+                catalogRepository.hasItemSelected() ? View.VISIBLE : View.GONE);
+
         catalogPagerAdapter.setCatalogs(
                 CatalogRepository.
                         getInstance().
@@ -122,6 +133,34 @@ public class CatalogActivity extends AppCompatActivity
 
         preferences = getSharedPreferences(
                 Constants.SHARED_PREFERENCES_NAME, 0);
+
+    }
+
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.activity_catalog_menu, menu);
+
+        return true;
+
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.activity_catalog_menu_reset:
+
+                CatalogRepository.getInstance().reset();
+
+                return true;
+
+            default:
+
+                return super.onOptionsItemSelected(item);
+
+        }
 
     }
 
@@ -378,6 +417,16 @@ public class CatalogActivity extends AppCompatActivity
     public void onPrintCancelled(ReportName report) {
 
         progressDialog.hide();
+
+    }
+
+
+    public void update(Observable o, Object arg) {
+
+        if (o instanceof CatalogRepository)
+
+            floatingActionButton.setVisibility(
+                    catalogRepository.hasItemSelected() ? View.VISIBLE : View.GONE);
 
     }
 
