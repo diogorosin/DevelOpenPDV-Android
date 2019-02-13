@@ -11,6 +11,7 @@
     <color name="colorBlackLight">#8c8c8c</color>
     <color name="colorBlackMedium">#5c5c5c</color>
     <color name="colorBlackDark">#454545</color>
+    <color name="colorBlackHiDark">#424242</color>
 
     <color name="colorGreenLight">#b4e080</color>
     <color name="colorGreenMedium">#74ac31</color>

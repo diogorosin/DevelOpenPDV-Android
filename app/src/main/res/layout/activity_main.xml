@@ -9,11 +9,6 @@
     android:id="@+id/activity_main_drawer"
     tools:openDrawer="start">
 
-    <include
-        layout="@layout/activity_main_form"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/activity_main_navigator"
         android:layout_width="wrap_content"
@@ -22,7 +17,63 @@
         android:fitsSystemWindows="true"
         app:theme="@style/MainActivityNavigationDrawer"
         app:itemBackground="@drawable/activity_main_menu_item_color"
-        app:headerLayout="@layout/activity_main_navigator_header"
+        app:headerLayout="@layout/activity_main_navigation_header"
         app:menu="@menu/activity_main_menu"/>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listener=".listener.MainActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/activity_main_toolbar"
+                android:background="?attr/colorPrimaryDark"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/activity_main_tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabIndicatorColor="@color/colorGreyDark"
+                app:tabIndicatorHeight="5dp">
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/activity_main_tab_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/today"/>
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/activity_main_tab_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/week"/>
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/activity_main_tab_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/month"/>
+
+            </com.google.android.material.tabs.TabLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <br.com.developen.pdv.widget.NonSwipeableViewPager
+            android:id="@+id/activity_main_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorBlackDark"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

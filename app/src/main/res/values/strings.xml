@@ -66,6 +66,10 @@
     <string name="adjust">Ajustar</string>
     <string name="received">Recebido</string>
     <string name="change">Troco</string>
+    <string name="today">Hoje</string>
+    <string name="week">Semana</string>
+    <string name="month">Mês</string>
+    <string name="salesByPeriod">Vendas por Período</string>
 
     <!-- Messages        -->
     <string name="error_invalid_email">O login informado é inválido.</string>

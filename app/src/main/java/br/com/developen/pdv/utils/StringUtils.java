@@ -92,6 +92,12 @@ public class StringUtils {
 
     }
 
+    public static String formatShortTime(Date dateTime){
+
+        return dateFormat.format("HH'h'mm'min'", dateTime).toString();
+
+    }
+
     public static String leftPad(String string, Integer size, Character character){
 
         String result = string;

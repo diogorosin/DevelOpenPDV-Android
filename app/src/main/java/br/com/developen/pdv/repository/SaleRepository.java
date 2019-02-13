@@ -2,6 +2,8 @@ package br.com.developen.pdv.repository;
 
 import android.app.Application;
 
+import java.util.List;
+
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import br.com.developen.pdv.room.SaleDAO;
@@ -16,6 +18,8 @@ public class SaleRepository extends AndroidViewModel {
     private LiveData<Double> received;
 
     private LiveData<Double> toReceive;
+
+    private LiveData<List<SaleDAO.TodaySalesBean>> todaySales;
 
     public SaleRepository(Application application) {
 
@@ -84,6 +88,22 @@ public class SaleRepository extends AndroidViewModel {
         }
 
         return toReceive;
+
+    }
+
+    public LiveData<List<SaleDAO.TodaySalesBean>> getTodaySales() {
+
+        if (todaySales ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            todaySales = saleDAO.getTodaySales();
+
+        }
+
+        return todaySales;
 
     }
 

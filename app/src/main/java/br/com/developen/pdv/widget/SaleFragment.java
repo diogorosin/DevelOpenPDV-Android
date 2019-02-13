@@ -119,7 +119,7 @@ public class SaleFragment
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_sale_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_sale, container, false);
 
         return view;
 

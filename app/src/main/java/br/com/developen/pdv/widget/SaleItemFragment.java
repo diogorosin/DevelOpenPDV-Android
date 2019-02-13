@@ -57,7 +57,7 @@ public class SaleItemFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_sale_item_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_sale_item, container, false);
 
         subtotalTextView = view.findViewById(R.id.fragment_sale_subtotal);
 

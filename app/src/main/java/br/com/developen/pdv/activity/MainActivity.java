@@ -3,24 +3,30 @@ package br.com.developen.pdv.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
 import br.com.developen.pdv.R;
 import br.com.developen.pdv.utils.Constants;
+import br.com.developen.pdv.widget.MainPagerAdapter;
 
 public class MainActivity
         extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
+
     private SharedPreferences preferences;
+
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -43,12 +49,22 @@ public class MainActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        preferences = getSharedPreferences(
-                Constants.SHARED_PREFERENCES_NAME, 0);
-
         TextView userNameTextView = navigationView.getHeaderView(0).findViewById(R.id.activity_main_navigator_header_name);
 
         TextView userLoginTextView = navigationView.getHeaderView(0).findViewById(R.id.activity_main_navigator_header_login);
+
+        MainPagerAdapter mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
+
+        ViewPager viewPager = findViewById(R.id.activity_main_viewpager);
+
+        viewPager.setAdapter(mainPagerAdapter);
+
+        TabLayout tabLayout = findViewById(R.id.activity_main_tab);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+
+        preferences = getSharedPreferences(
+                Constants.SHARED_PREFERENCES_NAME, 0);
 
         userNameTextView.setText(preferences.getString(Constants.USER_NAME_PROPERTY,"Anônimo"));
 

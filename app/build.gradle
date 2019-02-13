@@ -60,6 +60,9 @@ dependencies {
     //Bibliotecas
     implementation files('libs/printer7003.jar')
 
+    //Graficos
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
+
 }
 
 configurations {

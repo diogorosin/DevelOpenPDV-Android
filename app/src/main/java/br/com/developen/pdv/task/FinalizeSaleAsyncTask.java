@@ -4,9 +4,12 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import java.lang.ref.WeakReference;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import br.com.developen.pdv.exception.CannotInitializeDatabaseException;
 import br.com.developen.pdv.exception.InsufficientReceiptException;
@@ -109,6 +112,17 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
             saleVO.setStatus("F");
 
             saleVO.setDateTime(saleModel.getDateTime());
+
+
+/*
+            String target = "12 Feb 2019 06:00:00";
+            DateFormat df = new SimpleDateFormat("dd MMM yyyy kk:mm:ss", Locale.ENGLISH);
+            Date result =  df.parse(target);
+
+            saleVO.setDateTime(result);
+
+*/
+
 
             saleVO.setUser(saleModel.getUser().getIdentifier());
 

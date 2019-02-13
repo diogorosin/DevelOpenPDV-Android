@@ -128,7 +128,7 @@ public class SaleReceiptFragment extends Fragment implements UpdateMoneyReceiptA
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_sale_receipt_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_sale_receipt, container, false);
 
         totalTextView = view.findViewById(R.id.fragment_sale_receipt_total);
 
