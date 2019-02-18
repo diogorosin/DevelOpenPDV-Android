@@ -9,17 +9,6 @@
     android:id="@+id/activity_main_drawer"
     tools:openDrawer="start">
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/activity_main_navigator"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:theme="@style/MainActivityNavigationDrawer"
-        app:itemBackground="@drawable/activity_main_menu_item_color"
-        app:headerLayout="@layout/activity_main_navigation_header"
-        app:menu="@menu/activity_main_menu"/>
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -71,9 +60,19 @@
             android:id="@+id/activity_main_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorBlackDark"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/activity_main_navigator"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:theme="@style/MainActivityNavigationDrawer"
+        app:itemBackground="@drawable/activity_main_menu_item_color"
+        app:headerLayout="@layout/activity_main_navigation_header"
+        app:menu="@menu/activity_main_menu"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

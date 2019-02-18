@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">DevelOpenPDV</string>
 
-
     <!-- Words           -->
+    <string name="home">Início</string>
     <string name="start">Iniciar</string>
     <string name="preview">Voltar</string>
     <string name="next">Avançar</string>
@@ -69,7 +69,9 @@
     <string name="today">Hoje</string>
     <string name="week">Semana</string>
     <string name="month">Mês</string>
-    <string name="salesByPeriod">Vendas por Período</string>
+    <string name="salesByPeriod">Período</string>
+    <string name="salesByProgeny">Produto/Serviço</string>
+    <string name="salesByUser">Usuário</string>
 
     <!-- Messages        -->
     <string name="error_invalid_email">O login informado é inválido.</string>

@@ -132,7 +132,7 @@ public class PT7003PrintTicketsOfSaleAsyncTask<
 
                     body.setDeviceAlias(deviceAlias);
 
-                    body.setSale(saleItemTicketModel.getSaleItem().getSale().getIdentifier());
+                    body.setSale(saleItemTicketModel.getSaleItem().getSale().getNumber());
 
                     body.setItem(saleItemTicketModel.getSaleItem().getItem());
 

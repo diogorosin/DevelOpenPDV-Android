@@ -19,7 +19,9 @@ public class SaleRepository extends AndroidViewModel {
 
     private LiveData<Double> toReceive;
 
-    private LiveData<List<SaleDAO.TodaySalesBean>> todaySales;
+    private LiveData<List<SaleDAO.SalesByPeriodBean>> salesByPeriodOfToday;
+
+    private LiveData<List<SaleDAO.SalesByProgenyBean>> salesByProgenyOfToday;
 
     public SaleRepository(Application application) {
 
@@ -91,19 +93,35 @@ public class SaleRepository extends AndroidViewModel {
 
     }
 
-    public LiveData<List<SaleDAO.TodaySalesBean>> getTodaySales() {
+    public LiveData<List<SaleDAO.SalesByPeriodBean>> getSalesByPeriodOfToday() {
 
-        if (todaySales ==null){
+        if (salesByPeriodOfToday ==null){
 
             SaleDAO saleDAO = DB.getInstance(
                     getApplication()).
                     saleDAO();
 
-            todaySales = saleDAO.getTodaySales();
+            salesByPeriodOfToday = saleDAO.getSalesByPeriodOfToday();
 
         }
 
-        return todaySales;
+        return salesByPeriodOfToday;
+
+    }
+
+    public LiveData<List<SaleDAO.SalesByProgenyBean>> getSalesByProgenyOfToday() {
+
+        if (salesByProgenyOfToday ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            salesByProgenyOfToday = saleDAO.getSalesByProgenyOfToday();
+
+        }
+
+        return salesByProgenyOfToday;
 
     }
 

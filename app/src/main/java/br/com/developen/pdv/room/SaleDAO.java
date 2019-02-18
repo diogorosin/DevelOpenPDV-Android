@@ -12,9 +12,9 @@ import androidx.room.Update;
 @Dao
 public interface SaleDAO {
 
-    String GET_TODAY_SALES =
+    String GET_SALES_BY_PERIOD_OF_TODAY =
                     "SELECT " +
-                    "STRFTIME('%H', Sle.dateTime) AS 'hour', " +
+                    "STRFTIME('%H', Sle.dateTime) AS 'period', " +
                     "SUM(SleItm.total) AS 'total' " +
                     "FROM " +
                     "SaleItem SleItm " +
@@ -24,6 +24,23 @@ public interface SaleDAO {
                     "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE('now') " +
                     "GROUP BY " +
                     "1";
+
+    String GET_SALES_BY_PROGENY_OF_TODAY =
+            "SELECT " +
+                    "Slb.label AS 'progeny', " +
+                    "SUM(SleItm.total) AS 'total' " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "INNER JOIN " +
+                    "Saleable Slb ON Slb.identifier = SleItm.progeny " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE('now') " +
+                    "GROUP BY " +
+                    "1 " +
+                    "ORDER BY " +
+                    "2 DESC";
 
     String GET_SALE_BY_IDENTIFIER =
                     "SELECT " +
@@ -112,21 +129,31 @@ public interface SaleDAO {
     @Query(GET_TO_RECEIVE)
     Double getToReceiveAsDouble(Integer sale);
 
-    @Query(GET_TODAY_SALES)
-    LiveData<List<TodaySalesBean>> getTodaySales();
+    @Query(GET_SALES_BY_PERIOD_OF_TODAY)
+    LiveData<List<SalesByPeriodBean>> getSalesByPeriodOfToday();
 
-    class TodaySalesBean{
+    @Query(GET_SALES_BY_PROGENY_OF_TODAY)
+    LiveData<List<SalesByProgenyBean>> getSalesByProgenyOfToday();
 
-        private String hour;
+
+
+
+
+
+
+
+    class SalesByPeriodBean {
+
+        private String period;
 
         private Double total;
 
-        public String getHour() {
-            return hour;
+        public String getPeriod() {
+            return period;
         }
 
-        public void setHour(String hour) {
-            this.hour = hour;
+        public void setPeriod(String period) {
+            this.period = period;
         }
 
         public Double getTotal() {
@@ -137,11 +164,28 @@ public interface SaleDAO {
             this.total = total;
         }
 
-        public String toString() {
-            return "TodaySalesBean{" +
-                    "hour=" + hour +
-                    ", total=" + total +
-                    '}';
+    }
+
+    class SalesByProgenyBean {
+
+        private String progeny;
+
+        private Double total;
+
+        public String getProgeny() {
+            return progeny;
+        }
+
+        public void setProgeny(String progeny) {
+            this.progeny = progeny;
+        }
+
+        public Double getTotal() {
+            return total;
+        }
+
+        public void setTotal(Double total) {
+            this.total = total;
         }
 
     }

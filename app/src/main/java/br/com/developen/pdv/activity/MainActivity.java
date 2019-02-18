@@ -36,12 +36,14 @@ public class MainActivity
 
         Toolbar toolbar = findViewById(R.id.activity_main_toolbar);
 
+        toolbar.setTitle(R.string.home);
+
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.activity_main_drawer);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.app_name, R.string.app_name);
+                this, drawer, toolbar, R.string.home, R.string.home);
 
         toggle.syncState();
 

@@ -81,7 +81,7 @@ public class CatalogActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle(R.string.catalog);
+        getSupportActionBar().setTitle(R.string.sale);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
