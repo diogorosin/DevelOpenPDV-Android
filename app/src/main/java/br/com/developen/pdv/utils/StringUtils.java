@@ -70,6 +70,16 @@ public class StringUtils {
 
     }
 
+    public static String formatPercentage(Double currency){
+
+        decimalFormatOfQuantity.setMinimumFractionDigits(0);
+
+        decimalFormatOfQuantity.setMaximumFractionDigits(2);
+
+        return decimalFormatOfQuantity.format(currency);
+
+    }
+
     public static String formatQuantityWithMinimumFractionDigit(Double currency){
 
         decimalFormatOfQuantity.setMinimumFractionDigits(3);

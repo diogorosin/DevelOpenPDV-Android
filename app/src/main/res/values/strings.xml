@@ -65,13 +65,14 @@
     <string name="receipts">Recebimentos</string>
     <string name="adjust">Ajustar</string>
     <string name="received">Recebido</string>
+    <string name="tickets">Cupons</string>
     <string name="change">Troco</string>
     <string name="today">Hoje</string>
     <string name="week">Semana</string>
     <string name="month">Mês</string>
-    <string name="salesByPeriod">Período</string>
-    <string name="salesByProgeny">Produto/Serviço</string>
-    <string name="salesByUser">Usuário</string>
+    <string name="salesByPeriod">Vendas por Período</string>
+    <string name="salesByProgeny">Vendas por Produto/Serviço</string>
+    <string name="salesByUser">Vendas por Usuário</string>
 
     <!-- Messages        -->
     <string name="error_invalid_email">O login informado é inválido.</string>
@@ -126,6 +127,7 @@
     <string name="credit_card">Cartão de Crédito</string>
     <string name="debit_card">Cartão de Débito</string>
     <string name="forgotPassword">Esqueceu sua senha?</string>
+    <string name="revenues">Faturamento</string>
 
 
 </resources>

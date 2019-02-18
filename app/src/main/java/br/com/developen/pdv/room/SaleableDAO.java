@@ -8,7 +8,10 @@ import androidx.room.Query;
 @Dao
 public interface SaleableDAO {
 
-    @Query("SELECT * FROM Saleable")
+    @Query("SELECT Slb.* FROM Saleable Slb")
     List<SaleableModel> getSaleables();
+
+    @Query("SELECT Slb.* FROM Saleable Slb WHERE Slb.identifier = :identifier")
+    SaleableModel getSaleable(Integer identifier);
 
 }

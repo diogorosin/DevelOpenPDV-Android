@@ -9,28 +9,35 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import br.com.developen.pdv.R;
+import br.com.developen.pdv.room.SaleableModel;
+import br.com.developen.pdv.utils.App;
+import br.com.developen.pdv.utils.DB;
 
 public class SalesByProgenyMarkerView extends MarkerView {
 
     private TextView tvContent;
 
+    private MPPointF mOffset;
+
     public SalesByProgenyMarkerView(Context context, int layoutResource) {
 
         super(context, layoutResource);
 
-        tvContent = findViewById(R.id.tv_content);
+        tvContent = findViewById(R.id.fragment_main_markerview_textview);
 
     }
 
     public void refreshContent(Entry e, Highlight highlight) {
 
-        tvContent.setText(e.getData().toString());
+        SaleableModel saleableModel = DB.getInstance(App.getInstance()).
+                saleableDAO().
+                getSaleable((Integer) e.getData());
+
+        tvContent.setText(saleableModel.getLabel());
 
         super.refreshContent(e, highlight);
 
     }
-
-    private MPPointF mOffset;
 
     public MPPointF getOffset() {
 
@@ -42,6 +49,5 @@ public class SalesByProgenyMarkerView extends MarkerView {
 
         return mOffset;
     }
-
 
 }

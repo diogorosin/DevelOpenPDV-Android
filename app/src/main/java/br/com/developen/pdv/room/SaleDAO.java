@@ -12,6 +12,36 @@ import androidx.room.Update;
 @Dao
 public interface SaleDAO {
 
+    String GET_SALE_COUNT_OF_TODAY =
+                    "SELECT " +
+                    "COUNT(*) " +
+                    "FROM " +
+                    "Sale Sle " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE('now')";
+
+    String GET_SALE_BILLING_OF_TODAY =
+                    "SELECT " +
+                    "IFNULL(SUM(SleItm.total), 0) " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE('now')";
+
+    String GET_TICKET_COUNT_OF_TODAY =
+                    "SELECT " +
+                    "COUNT(*) " +
+                    "FROM " +
+                    "SaleItemTicket SleItmTkt " +
+                    "INNER JOIN " +
+                    "SaleItem SleItm ON SleItm.sale = SleItmTkt.sale AND SleItm.item = SleItmTkt.item " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE('now') AND SleItmTkt.printed = 1";
+
     String GET_SALES_BY_PERIOD_OF_TODAY =
                     "SELECT " +
                     "STRFTIME('%H', Sle.dateTime) AS 'period', " +
@@ -26,8 +56,8 @@ public interface SaleDAO {
                     "1";
 
     String GET_SALES_BY_PROGENY_OF_TODAY =
-            "SELECT " +
-                    "Slb.label AS 'progeny', " +
+                    "SELECT " +
+                    "Slb.identifier AS 'progeny', " +
                     "SUM(SleItm.total) AS 'total' " +
                     "FROM " +
                     "SaleItem SleItm " +
@@ -35,6 +65,23 @@ public interface SaleDAO {
                     "Sale Sle ON Sle.identifier = SleItm.sale " +
                     "INNER JOIN " +
                     "Saleable Slb ON Slb.identifier = SleItm.progeny " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE('now') " +
+                    "GROUP BY " +
+                    "1 " +
+                    "ORDER BY " +
+                    "2 DESC";
+
+    String GET_SALES_BY_USER_OF_TODAY =
+                    "SELECT " +
+                    "Usr.individual AS 'user', " +
+                    "SUM(SleItm.total) AS 'total' " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "INNER JOIN " +
+                    "User Usr ON Usr.individual = Sle.user " +
                     "WHERE " +
                     "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE('now') " +
                     "GROUP BY " +
@@ -135,11 +182,17 @@ public interface SaleDAO {
     @Query(GET_SALES_BY_PROGENY_OF_TODAY)
     LiveData<List<SalesByProgenyBean>> getSalesByProgenyOfToday();
 
+    @Query(GET_SALES_BY_USER_OF_TODAY)
+    LiveData<List<SalesByUserBean>> getSalesByUserOfToday();
 
+    @Query(GET_SALE_BILLING_OF_TODAY)
+    LiveData<Double> getSaleBillingOfToday();
 
+    @Query(GET_SALE_COUNT_OF_TODAY)
+    LiveData<Integer> getSaleCountOfToday();
 
-
-
+    @Query(GET_TICKET_COUNT_OF_TODAY)
+    LiveData<Integer> getTicketCountOfToday();
 
 
     class SalesByPeriodBean {
@@ -168,16 +221,40 @@ public interface SaleDAO {
 
     class SalesByProgenyBean {
 
-        private String progeny;
+        private Integer progeny;
 
         private Double total;
 
-        public String getProgeny() {
+        public Integer getProgeny() {
             return progeny;
         }
 
-        public void setProgeny(String progeny) {
+        public void setProgeny(Integer progeny) {
             this.progeny = progeny;
+        }
+
+        public Double getTotal() {
+            return total;
+        }
+
+        public void setTotal(Double total) {
+            this.total = total;
+        }
+
+    }
+
+    class SalesByUserBean {
+
+        private Integer user;
+
+        private Double total;
+
+        public Integer getUser() {
+            return user;
+        }
+
+        public void setUser(Integer user) {
+            this.user = user;
         }
 
         public Double getTotal() {

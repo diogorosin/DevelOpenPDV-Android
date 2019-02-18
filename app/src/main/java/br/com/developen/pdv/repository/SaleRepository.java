@@ -19,9 +19,17 @@ public class SaleRepository extends AndroidViewModel {
 
     private LiveData<Double> toReceive;
 
+    private LiveData<Integer> saleCountOfToday;
+
+    private LiveData<Double> saleBillingOfToday;
+
+    private LiveData<Integer> ticketCountOfToday;
+
     private LiveData<List<SaleDAO.SalesByPeriodBean>> salesByPeriodOfToday;
 
     private LiveData<List<SaleDAO.SalesByProgenyBean>> salesByProgenyOfToday;
+
+    private LiveData<List<SaleDAO.SalesByUserBean>> salesByUserOfToday;
 
     public SaleRepository(Application application) {
 
@@ -93,6 +101,55 @@ public class SaleRepository extends AndroidViewModel {
 
     }
 
+
+    public LiveData<Double> getSaleBillingOfToday() {
+
+        if (saleBillingOfToday ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            saleBillingOfToday = saleDAO.getSaleBillingOfToday();
+
+        }
+
+        return saleBillingOfToday;
+
+    }
+
+    public LiveData<Integer> getSaleCountOfToday() {
+
+        if (saleCountOfToday ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            saleCountOfToday = saleDAO.getSaleCountOfToday();
+
+        }
+
+        return saleCountOfToday;
+
+    }
+
+    public LiveData<Integer> getTicketCountOfToday() {
+
+        if (ticketCountOfToday ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            ticketCountOfToday = saleDAO.getTicketCountOfToday();
+
+        }
+
+        return ticketCountOfToday;
+
+    }
+
     public LiveData<List<SaleDAO.SalesByPeriodBean>> getSalesByPeriodOfToday() {
 
         if (salesByPeriodOfToday ==null){
@@ -122,6 +179,22 @@ public class SaleRepository extends AndroidViewModel {
         }
 
         return salesByProgenyOfToday;
+
+    }
+
+    public LiveData<List<SaleDAO.SalesByUserBean>> getSalesByUserOfToday() {
+
+        if (salesByUserOfToday ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            salesByUserOfToday = saleDAO.getSalesByUserOfToday();
+
+        }
+
+        return salesByUserOfToday;
 
     }
 

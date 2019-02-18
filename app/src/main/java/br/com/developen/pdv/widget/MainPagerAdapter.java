@@ -20,19 +20,19 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
             case 0:
 
-                f = MainTodayFragment.newInstance();
+                f = TodayFragment.newInstance();
 
                 break;
 
             case 1:
 
-                f = MainTodayFragment.newInstance();
+                f = TodayFragment.newInstance();
 
                 break;
 
             case 2:
 
-                f = MainTodayFragment.newInstance();
+                f = TodayFragment.newInstance();
 
                 break;
 
