@@ -3,6 +3,7 @@ package br.com.developen.pdv.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,7 +19,6 @@ import br.com.developen.pdv.utils.Constants;
 
 public class SplashActivity extends AppCompatActivity {
 
-    @SuppressLint("ResourceAsColor")
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -26,12 +26,13 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         //AJUSTA O TIMEZONE PARA CALCULOS DE DATA E HORA
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+        TimeZone.setDefault(TimeZone.getTimeZone("America/Sao_Paulo"));
+        //TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 
         //INICIALIZA BARRA DE PROGRESSO
         ProgressBar spinner = findViewById(R.id.activity_splash_progressbar);
 
-        spinner.getIndeterminateDrawable().setColorFilter(R.color.colorWhite, PorterDuff.Mode.DST);
+        spinner.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.DST);
 
         //INICIALIZA REPOSITORIOS
         CatalogRepository.getInstance();

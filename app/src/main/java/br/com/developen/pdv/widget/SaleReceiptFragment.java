@@ -194,7 +194,7 @@ public class SaleReceiptFragment extends Fragment implements UpdateMoneyReceiptA
 
         SaleRepository saleRepository = ViewModelProviders.of(this).get(SaleRepository.class);
 
-        saleRepository.getTotal(getArguments().getInt(ARG_SALE)).observe(SaleReceiptFragment.this, new Observer<Double>() {
+        saleRepository.getTotalOfSale(getArguments().getInt(ARG_SALE)).observe(SaleReceiptFragment.this, new Observer<Double>() {
 
             public void onChanged(@Nullable Double total) {
 
@@ -206,7 +206,7 @@ public class SaleReceiptFragment extends Fragment implements UpdateMoneyReceiptA
 
         });
 
-        saleRepository.getReceived(getArguments().getInt(ARG_SALE)).observe(SaleReceiptFragment.this, new Observer<Double>() {
+        saleRepository.getReceivedOfSale(getArguments().getInt(ARG_SALE)).observe(SaleReceiptFragment.this, new Observer<Double>() {
 
             public void onChanged(@Nullable Double received) {
 
@@ -218,7 +218,7 @@ public class SaleReceiptFragment extends Fragment implements UpdateMoneyReceiptA
 
         });
 
-        saleRepository.getToReceive(getArguments().getInt(ARG_SALE)).observe(SaleReceiptFragment.this, new Observer<Double>() {
+        saleRepository.getToReceiveOfSale(getArguments().getInt(ARG_SALE)).observe(SaleReceiptFragment.this, new Observer<Double>() {
 
             public void onChanged(@Nullable Double toReceive) {
 

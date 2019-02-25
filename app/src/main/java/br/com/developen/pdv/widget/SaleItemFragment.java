@@ -75,7 +75,7 @@ public class SaleItemFragment extends Fragment {
 
         saleRepository = ViewModelProviders.of(this).get(SaleRepository.class);
 
-        saleRepository.getSubtotal(getArguments().getInt(ARG_SALE)).
+        saleRepository.getSubtotalOfSale(getArguments().getInt(ARG_SALE)).
                 observe(SaleItemFragment.this, new Observer<Double>() {
 
                     public void onChanged(@Nullable Double subtotal) {
@@ -86,7 +86,7 @@ public class SaleItemFragment extends Fragment {
 
                 });
 
-        saleRepository.getTotal(getArguments().getInt(ARG_SALE)).
+        saleRepository.getTotalOfSale(getArguments().getInt(ARG_SALE)).
                 observe(SaleItemFragment.this, new Observer<Double>() {
 
                     public void onChanged(@Nullable Double total) {

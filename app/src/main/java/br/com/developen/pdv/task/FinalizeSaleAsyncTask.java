@@ -4,18 +4,13 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import java.lang.ref.WeakReference;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import br.com.developen.pdv.exception.CannotInitializeDatabaseException;
 import br.com.developen.pdv.exception.InsufficientReceiptException;
-import br.com.developen.pdv.exception.InternalException;
 import br.com.developen.pdv.room.CashVO;
-import br.com.developen.pdv.room.IndividualVO;
 import br.com.developen.pdv.room.MeasureUnitGroup;
 import br.com.developen.pdv.room.ProductModel;
 import br.com.developen.pdv.room.ProductProductModel;
@@ -27,8 +22,6 @@ import br.com.developen.pdv.room.SaleReceiptModel;
 import br.com.developen.pdv.room.SaleReceiptVO;
 import br.com.developen.pdv.room.SaleVO;
 import br.com.developen.pdv.room.SaleableType;
-import br.com.developen.pdv.room.SubjectVO;
-import br.com.developen.pdv.room.UserVO;
 import br.com.developen.pdv.utils.App;
 import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.DB;
@@ -69,11 +62,11 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
 
             database.beginTransaction();
 
-            Double total = database.saleDAO().getTotalAsDouble(sale);
+            Double total = database.saleDAO().getTotalOfSaleAsDouble(sale);
 
-            Double received = database.saleDAO().getReceivedAsDouble(sale);
+            Double received = database.saleDAO().getReceivedOfSaleAsDouble(sale);
 
-            Double toReceive = database.saleDAO().getToReceiveAsDouble(sale);
+            Double toReceive = database.saleDAO().getToReceiveOfSaleAsDouble(sale);
 
             //VERIFICA SE FOI INFORMADO ALGUMA FORMA DE PAGAMENTO
             if (received > 0){

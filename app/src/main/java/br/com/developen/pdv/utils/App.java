@@ -3,6 +3,8 @@ package br.com.developen.pdv.utils;
 import android.app.Application;
 import android.content.Context;
 
+import java.util.TimeZone;
+
 public class App extends Application {
 
     private static App instance;

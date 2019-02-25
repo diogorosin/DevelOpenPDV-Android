@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class TimestampConverter {
 
@@ -19,6 +20,10 @@ public class TimestampConverter {
         if (value != null) {
 
             try {
+
+                TimeZone timeZone = TimeZone.getTimeZone("UTC");
+
+                df.setTimeZone(timeZone);
 
                 return df.parse(value);
 
@@ -40,6 +45,10 @@ public class TimestampConverter {
 
     @TypeConverter
     public static String dateToTimestamp(Date value) {
+
+        TimeZone timeZone = TimeZone.getTimeZone("UTC");
+
+        df.setTimeZone(timeZone);
 
         return value == null ? null : df.format(value);
 

@@ -11,13 +11,13 @@ import br.com.developen.pdv.utils.DB;
 
 public class SaleRepository extends AndroidViewModel {
 
-    private LiveData<Double> subtotal;
+    private LiveData<Double> subtotalOfSale;
 
-    private LiveData<Double> total;
+    private LiveData<Double> totalOfSale;
 
-    private LiveData<Double> received;
+    private LiveData<Double> receivedOfSale;
 
-    private LiveData<Double> toReceive;
+    private LiveData<Double> toReceiveOfSale;
 
     private LiveData<Integer> saleCountOfToday;
 
@@ -37,67 +37,67 @@ public class SaleRepository extends AndroidViewModel {
 
     }
 
-    public LiveData<Double> getSubtotal(Integer sale) {
+    public LiveData<Double> getSubtotalOfSale(Integer sale) {
 
-        if (subtotal ==null){
+        if (subtotalOfSale ==null){
 
             SaleDAO saleDAO = DB.getInstance(
                     getApplication()).
                     saleDAO();
 
-            subtotal = saleDAO.getSubtotal(sale);
+            subtotalOfSale = saleDAO.getSubtotalOfSale(sale);
 
         }
 
-        return subtotal;
+        return subtotalOfSale;
 
     }
 
-    public LiveData<Double> getTotal(Integer sale) {
+    public LiveData<Double> getTotalOfSale(Integer sale) {
 
-        if (total ==null){
+        if (totalOfSale ==null){
 
             SaleDAO saleDAO = DB.getInstance(
                     getApplication()).
                     saleDAO();
 
-            total = saleDAO.getTotal(sale);
+            totalOfSale = saleDAO.getTotalOfSale(sale);
 
         }
 
-        return total;
+        return totalOfSale;
 
     }
 
-    public LiveData<Double> getReceived(Integer sale) {
+    public LiveData<Double> getReceivedOfSale(Integer sale) {
 
-        if (received ==null){
+        if (receivedOfSale ==null){
 
             SaleDAO saleDAO = DB.getInstance(
                     getApplication()).
                     saleDAO();
 
-            received = saleDAO.getReceived(sale);
+            receivedOfSale = saleDAO.getReceivedOfSale(sale);
 
         }
 
-        return received;
+        return receivedOfSale;
 
     }
 
-    public LiveData<Double> getToReceive(Integer sale) {
+    public LiveData<Double> getToReceiveOfSale(Integer sale) {
 
-        if (toReceive ==null){
+        if (toReceiveOfSale ==null){
 
             SaleDAO saleDAO = DB.getInstance(
                     getApplication()).
                     saleDAO();
 
-            toReceive = saleDAO.getToReceive(sale);
+            toReceiveOfSale = saleDAO.getToReceiveOfSale(sale);
 
         }
 
-        return toReceive;
+        return toReceiveOfSale;
 
     }
 

@@ -317,185 +317,197 @@ public class TodayFragment extends Fragment {
 
     private void setSalesByPeriodData(List<SaleDAO.SalesByPeriodBean> todaySales) {
 
-        ArrayList<Entry> values = new ArrayList<>();
+        if (todaySales!=null) {
 
-        for (SaleDAO.SalesByPeriodBean salesByPeriodBean : todaySales)
+            ArrayList<Entry> values = new ArrayList<>();
 
-            values.add(new Entry(Integer.valueOf(salesByPeriodBean.getPeriod()), salesByPeriodBean.getTotal().floatValue()));
+            for (SaleDAO.SalesByPeriodBean salesByPeriodBean : todaySales)
 
-        LineDataSet dataset;
+                values.add(new Entry(Integer.valueOf(salesByPeriodBean.getPeriod()), salesByPeriodBean.getTotal().floatValue()));
 
-        dataset = new LineDataSet(values, "Dataset");
+            LineDataSet dataset;
 
-        dataset.setDrawIcons(false);
+            dataset = new LineDataSet(values, "Dataset");
 
-        dataset.setColor(Color.WHITE);
+            dataset.setDrawIcons(false);
 
-        dataset.setCircleColor(Color.WHITE);
+            dataset.setColor(Color.WHITE);
 
-        dataset.setLineWidth(1f);
+            dataset.setCircleColor(Color.WHITE);
 
-        dataset.setCircleRadius(3f);
+            dataset.setLineWidth(1f);
 
-        dataset.setDrawCircleHole(true);
+            dataset.setCircleRadius(3f);
 
-        dataset.setFormLineWidth(1f);
+            dataset.setDrawCircleHole(true);
 
-        dataset.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+            dataset.setFormLineWidth(1f);
 
-        dataset.setFormSize(15.f);
+            dataset.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
 
-        dataset.setValueTextSize(12f);
+            dataset.setFormSize(15.f);
 
-        dataset.setValueTextColor(Color.WHITE);
+            dataset.setValueTextSize(12f);
 
-        dataset.setValueFormatter(new IValueFormatter() {
+            dataset.setValueTextColor(Color.WHITE);
 
-            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            dataset.setValueFormatter(new IValueFormatter() {
 
-                return StringUtils.formatCurrencyWithSymbol((double) value);
+                public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
 
-            }
+                    return StringUtils.formatCurrencyWithSymbol((double) value);
 
-        });
+                }
 
-        dataset.setDrawFilled(true);
+            });
 
-        dataset.setFillFormatter(new IFillFormatter() {
+            dataset.setDrawFilled(true);
 
-            public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
+            dataset.setFillFormatter(new IFillFormatter() {
 
-                return salesByPeriodChart.getAxisLeft().getAxisMinimum();
+                public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
 
-            }
+                    return salesByPeriodChart.getAxisLeft().getAxisMinimum();
 
-        });
+                }
 
-        dataset.setFillColor(Color.WHITE);
+            });
 
-        ArrayList<ILineDataSet> datasetList = new ArrayList<>();
+            dataset.setFillColor(Color.WHITE);
 
-        datasetList.add(dataset);
+            ArrayList<ILineDataSet> datasetList = new ArrayList<>();
 
-        LineData data = new LineData(datasetList);
+            datasetList.add(dataset);
 
-        salesByPeriodChart.setData(data);
+            LineData data = new LineData(datasetList);
+
+            salesByPeriodChart.setData(data);
+
+        }
 
     }
 
 
     private void setSalesByProgenyData(List<SaleDAO.SalesByProgenyBean> salesByProgeny) {
 
-        List<BarEntry> values = new ArrayList<>();
+        if (salesByProgeny!=null) {
 
-        int i = 0;
+            List<BarEntry> values = new ArrayList<>();
 
-        for (SaleDAO.SalesByProgenyBean salesByProgenyBean : salesByProgeny)
+            int i = 0;
 
-            values.add(new BarEntry(i++, salesByProgenyBean.getTotal().floatValue(),
-                    salesByProgenyBean.getProgeny()));
+            for (SaleDAO.SalesByProgenyBean salesByProgenyBean : salesByProgeny)
 
-        BarDataSet dataset;
+                values.add(new BarEntry(i++, salesByProgenyBean.getTotal().floatValue(),
+                        salesByProgenyBean.getProgeny()));
 
-        dataset = new BarDataSet(values, "Dataset");
+            BarDataSet dataset;
 
-        dataset.setDrawIcons(false);
+            dataset = new BarDataSet(values, "Dataset");
 
-        dataset.setColor(Color.WHITE);
+            dataset.setDrawIcons(false);
 
-        dataset.setBarShadowColor(Color.WHITE);
+            dataset.setColor(Color.WHITE);
 
-        dataset.setFormLineWidth(1f);
+            dataset.setBarShadowColor(Color.WHITE);
 
-        dataset.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+            dataset.setFormLineWidth(1f);
 
-        dataset.setFormSize(15.f);
+            dataset.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
 
-        dataset.setValueTextSize(12f);
+            dataset.setFormSize(15.f);
 
-        dataset.setValueTextColor(Color.WHITE);
+            dataset.setValueTextSize(12f);
 
-        dataset.setDrawValues(false);
+            dataset.setValueTextColor(Color.WHITE);
 
-        List<IBarDataSet> datasetList = new ArrayList<>();
+            dataset.setDrawValues(false);
 
-        datasetList.add(dataset);
+            List<IBarDataSet> datasetList = new ArrayList<>();
 
-        BarData data = new BarData(datasetList);
+            datasetList.add(dataset);
 
-        salesByProgenyChart.setData(data);
+            BarData data = new BarData(datasetList);
+
+            salesByProgenyChart.setData(data);
+
+        }
 
     }
 
     private void setSalesByUserData(List<SaleDAO.SalesByUserBean> salesByUser) {
 
-        List<PieEntry> values = new ArrayList<>();
+        if (salesByUser!=null) {
 
-        for (SaleDAO.SalesByUserBean salesByUserBean: salesByUser)
+            List<PieEntry> values = new ArrayList<>();
 
-            values.add(new PieEntry(salesByUserBean.getTotal().floatValue(),
-                    salesByUserBean.getUser()));
+            for (SaleDAO.SalesByUserBean salesByUserBean : salesByUser)
 
-        PieDataSet dataset = new PieDataSet(values, "Dataset");
+                values.add(new PieEntry(salesByUserBean.getTotal().floatValue(),
+                        salesByUserBean.getUser()));
 
-        dataset.setDrawValues(true);
+            PieDataSet dataset = new PieDataSet(values, "Dataset");
 
-        dataset.setDrawIcons(false);
+            dataset.setDrawValues(true);
 
-        dataset.setSliceSpace(1f);
+            dataset.setDrawIcons(false);
 
-        dataset.setIconsOffset(new MPPointF(0, 40));
+            dataset.setSliceSpace(1f);
 
-        dataset.setSelectionShift(5f);
+            dataset.setIconsOffset(new MPPointF(0, 40));
 
-        ArrayList<Integer> colors = new ArrayList<>();
+            dataset.setSelectionShift(5f);
 
-        int range = 128 / salesByUser.size();
+            ArrayList<Integer> colors = new ArrayList<>();
 
-        int red = 254;
+            int range = 128 / (salesByUser.size() + 1);
 
-        int green = 254;
+            int red = 254;
 
-        int blue = 254;
+            int green = 254;
 
-        for (int i = 0; i < salesByUser.size(); i++){
+            int blue = 254;
 
-            colors.add(Color.rgb(red, green, blue));
+            for (int i = 0; i < salesByUser.size(); i++) {
 
-            red = red - range;
+                colors.add(Color.rgb(red, green, blue));
 
-            green = green - range;
+                red = red - range;
 
-            blue = blue - range;
+                green = green - range;
 
-        }
-
-        dataset.setColors(colors);
-
-        PieData data = new PieData(dataset);
-
-        data.setValueFormatter(new IValueFormatter() {
-
-            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-
-                return DB.getInstance(getContext()).
-                        userDAO().
-                        getUserByIdentifier((Integer) entry.
-                                getData()).getName() + " (" + StringUtils.formatPercentage((double) value) + "%)" ;
+                blue = blue - range;
 
             }
 
-        });
+            dataset.setColors(colors);
 
-        data.setValueTextSize(11f);
+            PieData data = new PieData(dataset);
 
-        data.setValueTextColor(Color.BLACK);
+            data.setValueFormatter(new IValueFormatter() {
 
-        salesByUserChart.setData(data);
+                public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
 
-        salesByUserChart.highlightValues(null);
+                    return DB.getInstance(getContext()).
+                            userDAO().
+                            getUserByIdentifier((Integer) entry.
+                                    getData()).getName() + " (" + StringUtils.formatPercentage((double) value) + "%)";
 
-        salesByUserChart.invalidate();
+                }
+
+            });
+
+            data.setValueTextSize(11f);
+
+            data.setValueTextColor(Color.BLACK);
+
+            salesByUserChart.setData(data);
+
+            salesByUserChart.highlightValues(null);
+
+            salesByUserChart.invalidate();
+
+        }
 
     }
 
