@@ -33,6 +33,167 @@ public class Constants {
     public static final String COUPON_SUBTITLE_PROPERTY = "COUPON_SUBTITLE_PROPERTY";
 
     /* SALES *********************************************/
+
+    /* MONTH */
+
+    public static final String GET_TICKET_COUNT_OF_MONTH =
+            "SELECT " +
+                    "COUNT(*) " +
+                    "FROM " +
+                    "SaleItemTicket SleItmTkt " +
+                    "INNER JOIN " +
+                    "SaleItem SleItm ON SleItm.sale = SleItmTkt.sale AND SleItm.item = SleItmTkt.item " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'start of month') AND SleItmTkt.printed = 1";
+
+    public static final String GET_SALE_COUNT_OF_MONTH =
+            "SELECT " +
+                    "COUNT(*) " +
+                    "FROM " +
+                    "Sale Sle " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'start of month')";
+
+    public static  final String GET_SALE_BILLING_OF_MONTH =
+            "SELECT " +
+                    "IFNULL(SUM(SleItm.total), 0) " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'start of month')";
+
+    public static final String GET_SALES_BY_PERIOD_OF_MONTH =
+            "SELECT " +
+                    "STRFTIME('%d', Sle.dateTime) AS 'period', " +
+                    "SUM(SleItm.total) AS 'total' " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'start of month') " +
+                    "GROUP BY " +
+                    "1";
+
+    public static final String GET_SALES_BY_USER_OF_MONTH =
+            "SELECT " +
+                    "Usr.individual AS 'user', " +
+                    "SUM(SleItm.total) AS 'total' " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "INNER JOIN " +
+                    "User Usr ON Usr.individual = Sle.user " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'start of month') " +
+                    "GROUP BY " +
+                    "1 " +
+                    "ORDER BY " +
+                    "2 DESC";
+
+    public static final String GET_SALES_BY_PROGENY_OF_MONTH =
+            "SELECT " +
+                    "Slb.identifier AS 'progeny', " +
+                    "SUM(SleItm.total) AS 'total' " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "INNER JOIN " +
+                    "Saleable Slb ON Slb.identifier = SleItm.progeny " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'start of month') " +
+                    "GROUP BY " +
+                    "1 " +
+                    "ORDER BY " +
+                    "2 DESC";
+
+    /* WEEK */
+
+    public static final String GET_TICKET_COUNT_OF_WEEK =
+            "SELECT " +
+                    "COUNT(*) " +
+                    "FROM " +
+                    "SaleItemTicket SleItmTkt " +
+                    "INNER JOIN " +
+                    "SaleItem SleItm ON SleItm.sale = SleItmTkt.sale AND SleItm.item = SleItmTkt.item " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0', '-7 days') AND SleItmTkt.printed = 1";
+
+    public static final String GET_SALE_COUNT_OF_WEEK =
+            "SELECT " +
+                    "COUNT(*) " +
+                    "FROM " +
+                    "Sale Sle " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0', '-7 days')";
+
+    public static  final String GET_SALE_BILLING_OF_WEEK =
+            "SELECT " +
+                    "IFNULL(SUM(SleItm.total), 0) " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0', '-7 days')";
+
+    public static final String GET_SALES_BY_PERIOD_OF_WEEK =
+            "SELECT " +
+                    "STRFTIME('%w', Sle.dateTime) AS 'period', " +
+                    "SUM(SleItm.total) AS 'total' " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0', '-7 days') " +
+                    "GROUP BY " +
+                    "1";
+
+    public static final String GET_SALES_BY_USER_OF_WEEK =
+            "SELECT " +
+                    "Usr.individual AS 'user', " +
+                    "SUM(SleItm.total) AS 'total' " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "INNER JOIN " +
+                    "User Usr ON Usr.individual = Sle.user " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0', '-7 days') " +
+                    "GROUP BY " +
+                    "1 " +
+                    "ORDER BY " +
+                    "2 DESC";
+
+    public static final String GET_SALES_BY_PROGENY_OF_WEEK =
+            "SELECT " +
+                    "Slb.identifier AS 'progeny', " +
+                    "SUM(SleItm.total) AS 'total' " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "INNER JOIN " +
+                    "Saleable Slb ON Slb.identifier = SleItm.progeny " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0', '-7 days') " +
+                    "GROUP BY " +
+                    "1 " +
+                    "ORDER BY " +
+                    "2 DESC";
+
+    /* TODAY */
+
     public static final String GET_TICKET_COUNT_OF_TODAY =
             "SELECT " +
                     "COUNT(*) " +

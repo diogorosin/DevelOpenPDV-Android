@@ -3,7 +3,6 @@ package br.com.developen.pdv.widget;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +34,7 @@ import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -48,7 +45,7 @@ import br.com.developen.pdv.room.SaleDAO;
 import br.com.developen.pdv.utils.DB;
 import br.com.developen.pdv.utils.StringUtils;
 
-public class TodayFragment extends Fragment{
+public class MonthFragment extends Fragment {
 
 
     private LineChart salesByPeriodChart;
@@ -64,12 +61,12 @@ public class TodayFragment extends Fragment{
     private TextView saleCountTextView;
 
 
-    public TodayFragment() {}
+    public MonthFragment() {}
 
 
-    public static TodayFragment newInstance() {
+    public static MonthFragment newInstance() {
 
-        TodayFragment fragment = new TodayFragment();
+        MonthFragment fragment = new MonthFragment();
 
         Bundle args = new Bundle();
 
@@ -94,61 +91,61 @@ public class TodayFragment extends Fragment{
 
         SaleRepository saleRepository = ViewModelProviders.of(this).get(SaleRepository.class);
 
-        saleRepository.getTicketCountOfToday().observe(TodayFragment.this, new Observer<Integer>() {
+        saleRepository.getTicketCountOfMonth().observe(MonthFragment.this, new Observer<Integer>() {
 
-            public void onChanged(Integer ticketCountOfToday) {
+            public void onChanged(Integer ticketCountOfMonth) {
 
-                ticketCountTextView.setText(ticketCountOfToday.toString());
-
-            }
-
-        });
-
-        saleRepository.getSaleCountOfToday().observe(TodayFragment.this, new Observer<Integer>() {
-
-            public void onChanged(Integer saleCountOfToday) {
-
-                saleCountTextView.setText(saleCountOfToday.toString());
+                ticketCountTextView.setText(ticketCountOfMonth.toString());
 
             }
 
         });
 
-        saleRepository.getSaleBillingOfToday().observe(TodayFragment.this, new Observer<Double>() {
+        saleRepository.getSaleCountOfMonth().observe(MonthFragment.this, new Observer<Integer>() {
 
-            public void onChanged(Double saleBillingOfToday) {
+            public void onChanged(Integer saleCountOfMonth) {
 
-                saleBillingTextView.setText(StringUtils.formatCurrencyWithSymbol(saleBillingOfToday));
-
-            }
-
-        });
-
-        saleRepository.getSalesByPeriodOfToday().observe(TodayFragment.this, new Observer<List<SaleDAO.SalesByPeriodBean>>() {
-
-            public void onChanged(List<SaleDAO.SalesByPeriodBean> salesByPeriodBeans) {
-
-                setSalesByPeriodData(salesByPeriodBeans);
+                saleCountTextView.setText(saleCountOfMonth.toString());
 
             }
 
         });
 
-        saleRepository.getSalesByProgenyOfToday().observe(TodayFragment.this, new Observer<List<SaleDAO.SalesByProgenyBean>>() {
+        saleRepository.getSaleBillingOfMonth().observe(MonthFragment.this, new Observer<Double>() {
 
-            public void onChanged(List<SaleDAO.SalesByProgenyBean> salesByProgenyBeans) {
+            public void onChanged(Double saleBillingOfMonth) {
 
-                setSalesByProgenyData(salesByProgenyBeans);
+                saleBillingTextView.setText(StringUtils.formatCurrencyWithSymbol(saleBillingOfMonth));
 
             }
 
         });
 
-        saleRepository.getSalesByUserOfToday().observe(TodayFragment.this, new Observer<List<SaleDAO.SalesByUserBean>>() {
+        saleRepository.getSalesByPeriodOfMonth().observe(MonthFragment.this, new Observer<List<SaleDAO.SalesByPeriodBean>>() {
 
-            public void onChanged(List<SaleDAO.SalesByUserBean> salesByUserBeans) {
+            public void onChanged(List<SaleDAO.SalesByPeriodBean> salesByPeriodOfMonth) {
 
-                setSalesByUserData(salesByUserBeans);
+                setSalesByPeriodData(salesByPeriodOfMonth);
+
+            }
+
+        });
+
+        saleRepository.getSalesByProgenyOfMonth().observe(MonthFragment.this, new Observer<List<SaleDAO.SalesByProgenyBean>>() {
+
+            public void onChanged(List<SaleDAO.SalesByProgenyBean> salesByProgenyOfMonth) {
+
+                setSalesByProgenyData(salesByProgenyOfMonth);
+
+            }
+
+        });
+
+        saleRepository.getSalesByUserOfMonth().observe(MonthFragment.this, new Observer<List<SaleDAO.SalesByUserBean>>() {
+
+            public void onChanged(List<SaleDAO.SalesByUserBean> salesByUserOfMonth) {
+
+                setSalesByUserData(salesByUserOfMonth);
 
             }
 
@@ -195,9 +192,7 @@ public class TodayFragment extends Fragment{
 
                 public String getFormattedValue(float value, AxisBase axis) {
 
-                    long millis = TimeUnit.HOURS.toMillis((long) value);
-
-                    return StringUtils.formatShortTime(new Date(millis));
+                    return String.valueOf((int) value);
 
                 }
 
@@ -205,7 +200,7 @@ public class TodayFragment extends Fragment{
 
             //xAxis.setAxisMinimum(0);
 
-            //xAxis.setAxisMaximum(24);
+            //xAxis.setAxisMaximum(6);
 
             YAxis yAxis = salesByPeriodChart.getAxisLeft();
 
@@ -316,13 +311,13 @@ public class TodayFragment extends Fragment{
     }
 
 
-    private void setSalesByPeriodData(List<SaleDAO.SalesByPeriodBean> todaySales) {
+    private void setSalesByPeriodData(List<SaleDAO.SalesByPeriodBean> salesByPeriod) {
 
-        if (todaySales!=null && !todaySales.isEmpty()) {
+        if (salesByPeriod!=null && !salesByPeriod.isEmpty()) {
 
             ArrayList<Entry> values = new ArrayList<>();
 
-            for (SaleDAO.SalesByPeriodBean salesByPeriodBean : todaySales)
+            for (SaleDAO.SalesByPeriodBean salesByPeriodBean : salesByPeriod)
 
                 values.add(new Entry(Integer.valueOf(salesByPeriodBean.getPeriod()), salesByPeriodBean.getTotal().floatValue()));
 

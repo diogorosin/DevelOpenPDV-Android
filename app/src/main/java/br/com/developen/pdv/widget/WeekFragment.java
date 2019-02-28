@@ -48,7 +48,7 @@ import br.com.developen.pdv.room.SaleDAO;
 import br.com.developen.pdv.utils.DB;
 import br.com.developen.pdv.utils.StringUtils;
 
-public class TodayFragment extends Fragment{
+public class WeekFragment extends Fragment {
 
 
     private LineChart salesByPeriodChart;
@@ -64,12 +64,12 @@ public class TodayFragment extends Fragment{
     private TextView saleCountTextView;
 
 
-    public TodayFragment() {}
+    public WeekFragment() {}
 
 
-    public static TodayFragment newInstance() {
+    public static WeekFragment newInstance() {
 
-        TodayFragment fragment = new TodayFragment();
+        WeekFragment fragment = new WeekFragment();
 
         Bundle args = new Bundle();
 
@@ -94,61 +94,61 @@ public class TodayFragment extends Fragment{
 
         SaleRepository saleRepository = ViewModelProviders.of(this).get(SaleRepository.class);
 
-        saleRepository.getTicketCountOfToday().observe(TodayFragment.this, new Observer<Integer>() {
+        saleRepository.getTicketCountOfWeek().observe(WeekFragment.this, new Observer<Integer>() {
 
-            public void onChanged(Integer ticketCountOfToday) {
+            public void onChanged(Integer ticketCountOfWeek) {
 
-                ticketCountTextView.setText(ticketCountOfToday.toString());
-
-            }
-
-        });
-
-        saleRepository.getSaleCountOfToday().observe(TodayFragment.this, new Observer<Integer>() {
-
-            public void onChanged(Integer saleCountOfToday) {
-
-                saleCountTextView.setText(saleCountOfToday.toString());
+                ticketCountTextView.setText(ticketCountOfWeek.toString());
 
             }
 
         });
 
-        saleRepository.getSaleBillingOfToday().observe(TodayFragment.this, new Observer<Double>() {
+        saleRepository.getSaleCountOfWeek().observe(WeekFragment.this, new Observer<Integer>() {
 
-            public void onChanged(Double saleBillingOfToday) {
+            public void onChanged(Integer saleCountOfWeek) {
 
-                saleBillingTextView.setText(StringUtils.formatCurrencyWithSymbol(saleBillingOfToday));
-
-            }
-
-        });
-
-        saleRepository.getSalesByPeriodOfToday().observe(TodayFragment.this, new Observer<List<SaleDAO.SalesByPeriodBean>>() {
-
-            public void onChanged(List<SaleDAO.SalesByPeriodBean> salesByPeriodBeans) {
-
-                setSalesByPeriodData(salesByPeriodBeans);
+                saleCountTextView.setText(saleCountOfWeek.toString());
 
             }
 
         });
 
-        saleRepository.getSalesByProgenyOfToday().observe(TodayFragment.this, new Observer<List<SaleDAO.SalesByProgenyBean>>() {
+        saleRepository.getSaleBillingOfWeek().observe(WeekFragment.this, new Observer<Double>() {
 
-            public void onChanged(List<SaleDAO.SalesByProgenyBean> salesByProgenyBeans) {
+            public void onChanged(Double saleBillingOfWeek) {
 
-                setSalesByProgenyData(salesByProgenyBeans);
+                saleBillingTextView.setText(StringUtils.formatCurrencyWithSymbol(saleBillingOfWeek));
 
             }
 
         });
 
-        saleRepository.getSalesByUserOfToday().observe(TodayFragment.this, new Observer<List<SaleDAO.SalesByUserBean>>() {
+        saleRepository.getSalesByPeriodOfWeek().observe(WeekFragment.this, new Observer<List<SaleDAO.SalesByPeriodBean>>() {
 
-            public void onChanged(List<SaleDAO.SalesByUserBean> salesByUserBeans) {
+            public void onChanged(List<SaleDAO.SalesByPeriodBean> salesByPeriodOfWeek) {
 
-                setSalesByUserData(salesByUserBeans);
+                setSalesByPeriodData(salesByPeriodOfWeek);
+
+            }
+
+        });
+
+        saleRepository.getSalesByProgenyOfWeek().observe(WeekFragment.this, new Observer<List<SaleDAO.SalesByProgenyBean>>() {
+
+            public void onChanged(List<SaleDAO.SalesByProgenyBean> salesByProgenyOfWeek) {
+
+                setSalesByProgenyData(salesByProgenyOfWeek);
+
+            }
+
+        });
+
+        saleRepository.getSalesByUserOfWeek().observe(WeekFragment.this, new Observer<List<SaleDAO.SalesByUserBean>>() {
+
+            public void onChanged(List<SaleDAO.SalesByUserBean> salesByUserOfWeek) {
+
+                setSalesByUserData(salesByUserOfWeek);
 
             }
 
@@ -195,17 +195,63 @@ public class TodayFragment extends Fragment{
 
                 public String getFormattedValue(float value, AxisBase axis) {
 
-                    long millis = TimeUnit.HOURS.toMillis((long) value);
+                    String dayOfWeek = "";
 
-                    return StringUtils.formatShortTime(new Date(millis));
+                    switch ((int) value){
+
+                        case 0:
+
+                            dayOfWeek = "Domingo";
+
+                            break;
+
+                        case 1:
+
+                            dayOfWeek = "Segunda-feira";
+
+                            break;
+
+                        case 2:
+
+                            dayOfWeek = "Terça-feira";
+
+                            break;
+
+                        case 3:
+
+                            dayOfWeek = "Quarta-feira";
+
+                            break;
+
+                        case 4:
+
+                            dayOfWeek = "Quinta-feira";
+
+                            break;
+
+                        case 5:
+
+                            dayOfWeek = "Sexta-feira";
+
+                            break;
+
+                        case 6:
+
+                            dayOfWeek = "Sábado";
+
+                            break;
+
+                    }
+
+                    return dayOfWeek;
 
                 }
 
             });
 
-            //xAxis.setAxisMinimum(0);
+            xAxis.setAxisMinimum(0);
 
-            //xAxis.setAxisMaximum(24);
+            xAxis.setAxisMaximum(6);
 
             YAxis yAxis = salesByPeriodChart.getAxisLeft();
 
@@ -316,13 +362,13 @@ public class TodayFragment extends Fragment{
     }
 
 
-    private void setSalesByPeriodData(List<SaleDAO.SalesByPeriodBean> todaySales) {
+    private void setSalesByPeriodData(List<SaleDAO.SalesByPeriodBean> salesByPeriod) {
 
-        if (todaySales!=null && !todaySales.isEmpty()) {
+        if (salesByPeriod!=null && !salesByPeriod.isEmpty()) {
 
             ArrayList<Entry> values = new ArrayList<>();
 
-            for (SaleDAO.SalesByPeriodBean salesByPeriodBean : todaySales)
+            for (SaleDAO.SalesByPeriodBean salesByPeriodBean : salesByPeriod)
 
                 values.add(new Entry(Integer.valueOf(salesByPeriodBean.getPeriod()), salesByPeriodBean.getTotal().floatValue()));
 

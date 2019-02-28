@@ -26,13 +26,13 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
             case 1:
 
-                f = TodayFragment.newInstance();
+                f = WeekFragment.newInstance();
 
                 break;
 
             case 2:
 
-                f = TodayFragment.newInstance();
+                f = MonthFragment.newInstance();
 
                 break;
 

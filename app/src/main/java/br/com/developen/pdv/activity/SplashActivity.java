@@ -1,17 +1,16 @@
 package br.com.developen.pdv.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.appcompat.app.AppCompatActivity;
 import android.widget.ProgressBar;
 
 import java.util.TimeZone;
 
+import androidx.appcompat.app.AppCompatActivity;
 import br.com.developen.pdv.R;
 import br.com.developen.pdv.repository.CatalogRepository;
 import br.com.developen.pdv.utils.Constants;

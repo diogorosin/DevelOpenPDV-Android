@@ -11,6 +11,7 @@ import br.com.developen.pdv.utils.DB;
 
 public class SaleRepository extends AndroidViewModel {
 
+
     private LiveData<Double> subtotalOfSale;
 
     private LiveData<Double> totalOfSale;
@@ -18,6 +19,7 @@ public class SaleRepository extends AndroidViewModel {
     private LiveData<Double> receivedOfSale;
 
     private LiveData<Double> toReceiveOfSale;
+
 
     private LiveData<Integer> saleCountOfToday;
 
@@ -31,11 +33,39 @@ public class SaleRepository extends AndroidViewModel {
 
     private LiveData<List<SaleDAO.SalesByUserBean>> salesByUserOfToday;
 
+
+    private LiveData<Integer> saleCountOfWeek;
+
+    private LiveData<Double> saleBillingOfWeek;
+
+    private LiveData<Integer> ticketCountOfWeek;
+
+    private LiveData<List<SaleDAO.SalesByPeriodBean>> salesByPeriodOfWeek;
+
+    private LiveData<List<SaleDAO.SalesByProgenyBean>> salesByProgenyOfWeek;
+
+    private LiveData<List<SaleDAO.SalesByUserBean>> salesByUserOfWeek;
+
+
+    private LiveData<Integer> saleCountOfMonth;
+
+    private LiveData<Double> saleBillingOfMonth;
+
+    private LiveData<Integer> ticketCountOfMonth;
+
+    private LiveData<List<SaleDAO.SalesByPeriodBean>> salesByPeriodOfMonth;
+
+    private LiveData<List<SaleDAO.SalesByProgenyBean>> salesByProgenyOfMonth;
+
+    private LiveData<List<SaleDAO.SalesByUserBean>> salesByUserOfMonth;
+
+
     public SaleRepository(Application application) {
 
         super(application);
 
     }
+
 
     public LiveData<Double> getSubtotalOfSale(Integer sale) {
 
@@ -53,6 +83,7 @@ public class SaleRepository extends AndroidViewModel {
 
     }
 
+
     public LiveData<Double> getTotalOfSale(Integer sale) {
 
         if (totalOfSale ==null){
@@ -69,6 +100,7 @@ public class SaleRepository extends AndroidViewModel {
 
     }
 
+
     public LiveData<Double> getReceivedOfSale(Integer sale) {
 
         if (receivedOfSale ==null){
@@ -84,6 +116,7 @@ public class SaleRepository extends AndroidViewModel {
         return receivedOfSale;
 
     }
+
 
     public LiveData<Double> getToReceiveOfSale(Integer sale) {
 
@@ -102,6 +135,9 @@ public class SaleRepository extends AndroidViewModel {
     }
 
 
+    /* TODAY */
+
+
     public LiveData<Double> getSaleBillingOfToday() {
 
         if (saleBillingOfToday ==null){
@@ -117,6 +153,7 @@ public class SaleRepository extends AndroidViewModel {
         return saleBillingOfToday;
 
     }
+
 
     public LiveData<Integer> getSaleCountOfToday() {
 
@@ -134,6 +171,7 @@ public class SaleRepository extends AndroidViewModel {
 
     }
 
+
     public LiveData<Integer> getTicketCountOfToday() {
 
         if (ticketCountOfToday ==null){
@@ -149,6 +187,7 @@ public class SaleRepository extends AndroidViewModel {
         return ticketCountOfToday;
 
     }
+
 
     public LiveData<List<SaleDAO.SalesByPeriodBean>> getSalesByPeriodOfToday() {
 
@@ -166,6 +205,7 @@ public class SaleRepository extends AndroidViewModel {
 
     }
 
+
     public LiveData<List<SaleDAO.SalesByProgenyBean>> getSalesByProgenyOfToday() {
 
         if (salesByProgenyOfToday ==null){
@@ -182,6 +222,7 @@ public class SaleRepository extends AndroidViewModel {
 
     }
 
+
     public LiveData<List<SaleDAO.SalesByUserBean>> getSalesByUserOfToday() {
 
         if (salesByUserOfToday ==null){
@@ -197,5 +238,216 @@ public class SaleRepository extends AndroidViewModel {
         return salesByUserOfToday;
 
     }
+
+
+    /* WEEK */
+
+
+    public LiveData<Double> getSaleBillingOfWeek() {
+
+        if (saleBillingOfWeek ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            saleBillingOfWeek = saleDAO.getSaleBillingOfWeek();
+
+        }
+
+        return saleBillingOfWeek;
+
+    }
+
+
+    public LiveData<Integer> getSaleCountOfWeek() {
+
+        if (saleCountOfWeek ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            saleCountOfWeek = saleDAO.getSaleCountOfWeek();
+
+        }
+
+        return saleCountOfWeek;
+
+    }
+
+
+    public LiveData<Integer> getTicketCountOfWeek() {
+
+        if (ticketCountOfWeek ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            ticketCountOfWeek = saleDAO.getTicketCountOfWeek();
+
+        }
+
+        return ticketCountOfWeek;
+
+    }
+
+
+    public LiveData<List<SaleDAO.SalesByPeriodBean>> getSalesByPeriodOfWeek() {
+
+        if (salesByPeriodOfWeek ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            salesByPeriodOfWeek = saleDAO.getSalesByPeriodOfWeek();
+
+        }
+
+        return salesByPeriodOfWeek;
+
+    }
+
+
+    public LiveData<List<SaleDAO.SalesByProgenyBean>> getSalesByProgenyOfWeek() {
+
+        if (salesByProgenyOfWeek ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            salesByProgenyOfWeek = saleDAO.getSalesByProgenyOfWeek();
+
+        }
+
+        return salesByProgenyOfWeek;
+
+    }
+
+
+    public LiveData<List<SaleDAO.SalesByUserBean>> getSalesByUserOfWeek() {
+
+        if (salesByUserOfWeek ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            salesByUserOfWeek = saleDAO.getSalesByUserOfWeek();
+
+        }
+
+        return salesByUserOfWeek;
+
+    }
+
+
+    /* MONTH */
+
+
+    public LiveData<Double> getSaleBillingOfMonth() {
+
+        if (saleBillingOfMonth ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            saleBillingOfMonth = saleDAO.getSaleBillingOfMonth();
+
+        }
+
+        return saleBillingOfMonth;
+
+    }
+
+
+    public LiveData<Integer> getSaleCountOfMonth() {
+
+        if (saleCountOfMonth ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            saleCountOfMonth = saleDAO.getSaleCountOfMonth();
+
+        }
+
+        return saleCountOfMonth;
+
+    }
+
+
+    public LiveData<Integer> getTicketCountOfMonth() {
+
+        if (ticketCountOfMonth ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            ticketCountOfMonth = saleDAO.getTicketCountOfMonth();
+
+        }
+
+        return ticketCountOfMonth;
+
+    }
+
+
+    public LiveData<List<SaleDAO.SalesByPeriodBean>> getSalesByPeriodOfMonth() {
+
+        if (salesByPeriodOfMonth ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            salesByPeriodOfMonth = saleDAO.getSalesByPeriodOfMonth();
+
+        }
+
+        return salesByPeriodOfMonth;
+
+    }
+
+
+    public LiveData<List<SaleDAO.SalesByProgenyBean>> getSalesByProgenyOfMonth() {
+
+        if (salesByProgenyOfMonth ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            salesByProgenyOfMonth = saleDAO.getSalesByProgenyOfMonth();
+
+        }
+
+        return salesByProgenyOfMonth;
+
+    }
+
+
+    public LiveData<List<SaleDAO.SalesByUserBean>> getSalesByUserOfMonth() {
+
+        if (salesByUserOfMonth ==null){
+
+            SaleDAO saleDAO = DB.getInstance(
+                    getApplication()).
+                    saleDAO();
+
+            salesByUserOfMonth = saleDAO.getSalesByUserOfMonth();
+
+        }
+
+        return salesByUserOfMonth;
+
+    }
+
 
 }
