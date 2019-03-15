@@ -90,7 +90,6 @@ public class LoginActivity extends AppCompatActivity
 
     private void validateFieldsAndAttemptLogin() {
 
-
         loginEditText.setError(null);
 
         passwordEditText.setError(null);
@@ -142,7 +141,6 @@ public class LoginActivity extends AppCompatActivity
 
         }
 
-
     }
 
 
@@ -167,6 +165,10 @@ public class LoginActivity extends AppCompatActivity
         editor.putString(Constants.USER_NAME_PROPERTY, userModel.getName());
 
         editor.putString(Constants.USER_LOGIN_PROPERTY, userModel.getLogin());
+
+        editor.putString(Constants.USER_NUMERIC_PASSWORD_PROPERTY, userModel.getNumericPassword());
+
+        editor.putString(Constants.USER_LEVEL_PROPERTY, userModel.getLevel().toString());
 
         editor.apply();
 

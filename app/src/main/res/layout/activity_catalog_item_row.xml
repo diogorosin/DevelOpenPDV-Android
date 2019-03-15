@@ -65,7 +65,7 @@
             android:id="@+id/activity_catalog_item_title_textview"
             android:layout_below="@+id/activity_catalog_item_thumbnail_imageview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/colorBlackMedium"
             android:textAlignment="center"
             android:gravity="start"

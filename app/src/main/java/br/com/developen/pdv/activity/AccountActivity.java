@@ -356,7 +356,6 @@ public class AccountActivity extends AppCompatActivity implements
     // VIEW ////////////////////////////////////////////////////
 
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
 
         int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
@@ -1394,6 +1393,10 @@ public class AccountActivity extends AppCompatActivity implements
         editor.putString(Constants.USER_NAME_PROPERTY, userModel.getName());
 
         editor.putString(Constants.USER_LOGIN_PROPERTY, userModel.getLogin());
+
+        editor.putString(Constants.USER_NUMERIC_PASSWORD_PROPERTY, userModel.getNumericPassword());
+
+        editor.putString(Constants.USER_LEVEL_PROPERTY, userModel.getLevel().toString());
 
         editor.apply();
 

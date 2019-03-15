@@ -29,6 +29,10 @@ public class UserVO {
     @ColumnInfo(name="password")
     private String password;
 
+    @NonNull
+    @ColumnInfo(name="numericPassword")
+    private String numericPassword;
+
     public Integer getIndividual() {
 
         return individual;
@@ -62,6 +66,18 @@ public class UserVO {
     public void setPassword(String password) {
 
         this.password = password;
+
+    }
+
+    public String getNumericPassword() {
+
+        return numericPassword;
+
+    }
+
+    public void setNumericPassword(String numericPassword) {
+
+        this.numericPassword = numericPassword;
 
     }
 

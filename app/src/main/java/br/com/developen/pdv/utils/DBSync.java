@@ -84,6 +84,8 @@ public class DBSync {
 
                     userVO.setPassword(userBean.getPassword());
 
+                    userVO.setNumericPassword(userBean.getNumericPassword());
+
                     if (database.userDAO().exists(userVO.getIndividual()))
 
                         database.userDAO().update(userVO);

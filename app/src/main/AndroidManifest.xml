@@ -42,6 +42,9 @@
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme.Dark"/>
+        <activity
+            android:name=".activity.ConfirmPasswordActivity"
+            android:theme="@style/AppTheme.Dark"/>
         <activity android:name=".activity.CatalogActivity">
             <meta-data
                 android:label="@string/sale"

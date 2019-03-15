@@ -100,6 +100,7 @@
     <string name="dlg_title_cash_close">@string/cash_close</string>
     <string name="dlg_title_cash_supply">@string/cash_supply</string>
     <string name="dlg_title_cash_removal">@string/cash_removal</string>
+    <string name="dlg_title_cash_closed">@string/cash_closed</string>
     <string name="button_sync_and_try_again">Sincronizar e tentar novamente</string>
     <string name="button_change_credentials">Informar novamente login e senha</string>
     <string name="button_ok">Ok</string>
@@ -128,6 +129,8 @@
     <string name="debit_card">Cartão de Débito</string>
     <string name="forgotPassword">Esqueceu sua senha?</string>
     <string name="revenues">Faturamento</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
 
 
 </resources>

@@ -34,7 +34,9 @@ import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -192,15 +194,17 @@ public class MonthFragment extends Fragment {
 
                 public String getFormattedValue(float value, AxisBase axis) {
 
-                    return String.valueOf((int) value);
+                    String month = Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
+
+                    return String.valueOf((int) value) + " " + month.substring(0,1).toUpperCase() + month.substring(1, month.length());
 
                 }
 
             });
 
-            //xAxis.setAxisMinimum(0);
+            xAxis.setAxisMinimum(1);
 
-            //xAxis.setAxisMaximum(6);
+            xAxis.setAxisMaximum(31);
 
             YAxis yAxis = salesByPeriodChart.getAxisLeft();
 

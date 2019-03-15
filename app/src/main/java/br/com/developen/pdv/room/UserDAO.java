@@ -16,7 +16,8 @@ public interface UserDAO {
                     "Sbj.level, " +
                     "Ind.name, " +
                     "Usr.login, " +
-                    "Usr.password " +
+                    "Usr.password, " +
+                    "Usr.numericPassword " +
                     "FROM User Usr " +
                     "INNER JOIN Individual Ind ON Ind.subject = Usr.individual " +
                     "INNER JOIN Subject Sbj ON Sbj.identifier = Ind.subject " +
@@ -29,7 +30,8 @@ public interface UserDAO {
                     "Sbj.level, " +
                     "Ind.name, " +
                     "Usr.login, " +
-                    "Usr.password " +
+                    "Usr.password, " +
+                    "Usr.numericPassword " +
                     "FROM User Usr " +
                     "INNER JOIN Individual Ind ON Ind.subject = Usr.individual " +
                     "INNER JOIN Subject Sbj ON Sbj.identifier = Ind.subject " +

@@ -2,6 +2,7 @@ package br.com.developen.pdv.task;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.lang.ref.WeakReference;
 
@@ -11,12 +12,11 @@ import br.com.developen.pdv.exception.ValidationException;
 import br.com.developen.pdv.room.UserModel;
 import br.com.developen.pdv.utils.DB;
 import br.com.developen.pdv.utils.Messaging;
-import br.com.developen.pdv.utils.StringUtils;
 
 
-public final class AuthenticateAsyncTask<
-        A extends Activity & AuthenticateAsyncTask.Listener,
-        B extends String,
+public final class ConfirmPasswordAsyncTask<
+        A extends Activity & ConfirmPasswordAsyncTask.Listener,
+        B extends Object,
         C extends Integer,
         D> extends AsyncTask<B, C, D> {
 
@@ -24,7 +24,7 @@ public final class AuthenticateAsyncTask<
     private final WeakReference<A> activity;
 
 
-    public AuthenticateAsyncTask(A activity) {
+    public ConfirmPasswordAsyncTask(A activity) {
 
         this.activity = new WeakReference<>(activity);
 
@@ -37,16 +37,18 @@ public final class AuthenticateAsyncTask<
 
         if (listener != null)
 
-            listener.onAuthenticatePreExecute();
+            listener.onConfirmPasswordPreExecute();
 
     }
 
 
-    protected Object doInBackground(String... parameters) {
+    protected Object doInBackground(Object... parameters) {
 
-        String login = parameters[0];
+        Integer user = (Integer) parameters[0];
 
-        String password = parameters[1];
+        String numericPassword = (String) parameters[1];
+
+        Integer sleep = (Integer) parameters[2];
 
         DB database = null;
 
@@ -60,13 +62,15 @@ public final class AuthenticateAsyncTask<
 
         try {
 
-            Thread.sleep(1000);
+            if (sleep > 0)
 
-            UserModel userModel = database.userDAO().getUserByLogin(login);
+                Thread.sleep(sleep);
+
+            UserModel userModel = database.userDAO().getUserByIdentifier(user);
 
             if (userModel == null)
 
-                throw new ValidationException("Nenhum usuário vinculado ao login informado.");
+                throw new ValidationException("Nenhum usuário vinculado ao código informado.");
 
             if (userModel.getLevel() < 2)
 
@@ -76,9 +80,7 @@ public final class AuthenticateAsyncTask<
 
                 throw new ValidationException("Usuário não está ativo.");
 
-            String digestedPassword = StringUtils.digestString(password);
-
-            if (!digestedPassword.equals(userModel.getPassword()))
+            if (!numericPassword.equals(userModel.getNumericPassword()))
 
                 throw new ValidationException("Senha incorreta.");
 
@@ -105,13 +107,13 @@ public final class AuthenticateAsyncTask<
 
             if (callResult instanceof UserModel) {
 
-                listener.onAuthenticateSuccess((UserModel) callResult);
+                listener.onConfirmPasswordSuccess((UserModel) callResult);
 
             } else {
 
                 if (callResult instanceof Messaging) {
 
-                    listener.onAuthenticateFailure((Messaging) callResult);
+                    listener.onConfirmPasswordFailure((Messaging) callResult);
 
                 }
 
@@ -124,11 +126,11 @@ public final class AuthenticateAsyncTask<
 
     public interface Listener {
 
-        void onAuthenticatePreExecute();
+        void onConfirmPasswordPreExecute();
 
-        void onAuthenticateSuccess(UserModel userModel);
+        void onConfirmPasswordSuccess(UserModel userModel);
 
-        void onAuthenticateFailure(Messaging messaging);
+        void onConfirmPasswordFailure(Messaging messaging);
 
     }
 
