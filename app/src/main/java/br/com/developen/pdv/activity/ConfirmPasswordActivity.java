@@ -25,7 +25,10 @@ public class ConfirmPasswordActivity
 
     public static final String USER_NAME = "USER_NAME";
 
+    public static final String MINIMUM_LEVEL = "MINIMUM_LEVEL";
+
     public static final int RESULT_OK = 1;
+
 
     private View progressView, formView;
 
@@ -225,7 +228,9 @@ public class ConfirmPasswordActivity
 
         new ConfirmPasswordAsyncTask<>(this).execute(
                 getIntent().getIntExtra(USER_IDENTIFIER, 0),
-                password, attemptCount>=3?10000:500);
+                password,
+                getIntent().getIntExtra(MINIMUM_LEVEL, 0),
+                attemptCount>=3?10000:500);
 
     }
 

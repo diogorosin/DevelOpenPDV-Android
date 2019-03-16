@@ -131,6 +131,8 @@
     <string name="revenues">Faturamento</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
+    <string name="report">Relatório</string>
+    <string name="title_activity_report">ReportActivity</string>
 
 
 </resources>

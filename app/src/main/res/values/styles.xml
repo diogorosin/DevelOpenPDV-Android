@@ -1,20 +1,25 @@
 <resources>
+
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorGreenMedium</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorGreenMedium</item>
     </style>
+
     <style name="CashActivityExpandedTitle" parent="@android:style/TextAppearance">
         <item name="android:textColor">#ffffff</item>
         <item name="android:textSize">36sp</item>
     </style>
+
     <style name="CashActivityCollapsedTitle" parent="@android:style/TextAppearance">
         <item name="android:textColor">#ffffff</item>
         <item name="android:textSize">21sp</item>
     </style>
+
     <style name="CashActivityToolBarStyle" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <item name="android:colorControlNormal">#ffffff</item>
     </style>
+
     <style name="AppTheme.Dark" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -27,17 +32,24 @@
         <item name="colorButtonNormal">@color/colorPrimaryDark</item>
         <item name="android:colorButtonNormal">@color/colorPrimaryDark</item>
     </style>
+
     <style name="MainActivityNavigationDrawer">
         <item name="colorPrimary">@color/colorWhite</item>
         <item name="colorControlHighlight">@color/colorPrimaryDark</item>
     </style>
+
     <style name="menu_labels_style">
         <item name="android:background">@drawable/fab_background</item>
         <item name="android:textColor">@color/colorWhite</item>
     </style>
+
     <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/colorWhite</item>
         <item name="android:textColorPrimary">@color/colorGreyDark</item>
         <item name="android:background">@color/colorBlackDark</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -22,22 +22,23 @@ dependencies {
 
     //Android
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
-    implementation 'com.google.android.material:material:1.1.0-alpha02'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha03'
+    implementation 'org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.0.5'
+    implementation 'com.google.android.material:material:1.1.0-alpha04'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha01'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha03'
     implementation 'androidx.cardview:cardview:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
     //Room Database
-    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.1.0-alpha01'
-    implementation 'androidx.lifecycle:lifecycle-livedata:2.1.0-alpha01'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'
-    implementation 'androidx.room:room-runtime:2.1.0-alpha04'
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.1.0-alpha01"
-    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha04"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.1.0-alpha03'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.1.0-alpha03'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha03'
+    implementation 'androidx.room:room-runtime:2.1.0-alpha05'
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.1.0-alpha03"
+    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha05"
 
     //Jersey --- NUNCA ATUALIZAR AS VERSOES DAS BIBLIOTECAS ABAIXO
     implementation 'org.glassfish.jersey.core:jersey-client:2.17'
@@ -62,6 +63,9 @@ dependencies {
 
     //Graficos
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
+
+    //Lista Seccionada
+    implementation 'com.truizlop.sectionedrecyclerview:library:1.2.0'
 
 }
 

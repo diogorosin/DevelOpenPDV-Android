@@ -2,7 +2,6 @@ package br.com.developen.pdv.task;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.lang.ref.WeakReference;
 
@@ -12,6 +11,7 @@ import br.com.developen.pdv.exception.ValidationException;
 import br.com.developen.pdv.room.UserModel;
 import br.com.developen.pdv.utils.DB;
 import br.com.developen.pdv.utils.Messaging;
+import br.com.developen.pdv.utils.StringUtils;
 
 
 public final class ConfirmPasswordAsyncTask<
@@ -48,7 +48,9 @@ public final class ConfirmPasswordAsyncTask<
 
         String numericPassword = (String) parameters[1];
 
-        Integer sleep = (Integer) parameters[2];
+        Integer minimumLevel = (Integer) parameters[2];
+
+        Integer sleep = (Integer) parameters[3];
 
         DB database = null;
 
@@ -72,9 +74,9 @@ public final class ConfirmPasswordAsyncTask<
 
                 throw new ValidationException("Nenhum usuário vinculado ao código informado.");
 
-            if (userModel.getLevel() < 2)
+            if (userModel.getLevel() < minimumLevel)
 
-                throw new ValidationException("Usuário não tem permissão de acesso a esta empresa.");
+                throw new ValidationException("Essa função requer previlégios de " + StringUtils.getDenominationOfLevel(minimumLevel) + ".");
 
             if (!userModel.getActive())
 

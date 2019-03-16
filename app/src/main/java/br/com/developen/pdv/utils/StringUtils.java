@@ -172,4 +172,40 @@ public class StringUtils {
 
     }
 
+    public static String getDenominationOfLevel(int level){
+
+        String result = "";
+
+        switch (level){
+
+            case Constants.UNDEFINED_LEVEL: result = "Indefinido";
+                break;
+
+            case Constants.CUSTOMER_SUPPLIER_LEVEL: result = "Cliente/Fornecedor";
+                break;
+
+            case Constants.CASHIER_LEVEL: result = "Operador de Caixa";
+                break;
+
+            case Constants.MANAGER_LEVEL: result = "Gerente";
+                break;
+
+            case Constants.SUPERVISOR_LEVEL: result = "Supervisor";
+                break;
+
+            case Constants.OWNER_PARTNER_LEVEL: result = "Sócio/Proprietário";
+                break;
+
+            case Constants.SUPPORT_ANALYST_LEVEL: result = "Analista de Suporte";
+                break;
+
+            case Constants.DEVELOPER_LEVEL: result = "Desenvolvedor";
+                break;
+
+        }
+
+        return result;
+
+    }
+
 }

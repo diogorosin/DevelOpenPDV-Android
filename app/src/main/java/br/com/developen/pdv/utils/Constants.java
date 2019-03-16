@@ -2,6 +2,30 @@ package br.com.developen.pdv.utils;
 
 public class Constants {
 
+    //00 INDEFINIDO (BLOQUEADO)
+    public static final int UNDEFINED_LEVEL = 00;
+
+    //01 CLIENTE/FORNECEDOR
+    public static final int CUSTOMER_SUPPLIER_LEVEL = 01;
+
+    //02 OPERADOR DE CAIXA
+    public static final int CASHIER_LEVEL = 02;
+
+    //03 GERENTE
+    public static final int MANAGER_LEVEL = 03;
+
+    //04 SUPERVISOR
+    public static final int SUPERVISOR_LEVEL = 04;
+
+    //05 EMPRESARIO/SOCIO PROPRIETARIO
+    public static final int OWNER_PARTNER_LEVEL = 05;
+
+    //06 ANALISTA DE SUPORTE
+    public static final int SUPPORT_ANALYST_LEVEL = 06;
+
+    //07 DESENVOLVEDOR
+    public static final int DEVELOPER_LEVEL = 07;
+
     public static final String SHARED_PREFERENCES_NAME = "DEVELOPEN_PDV";
 
     public static final String DEVICE_IDENTIFIER_PROPERTY = "DEVICE_IDENTIFIER_PROPERTY";

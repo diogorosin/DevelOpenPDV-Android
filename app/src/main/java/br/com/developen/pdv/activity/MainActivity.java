@@ -36,6 +36,8 @@ public class MainActivity
 
     private static final int CASH = 0;
 
+    private static final int REPORT = 1;
+
 
     private SharedPreferences preferences;
 
@@ -160,6 +162,14 @@ public class MainActivity
 
                 break;
 
+            case R.id.activity_main_menu_report:
+
+                drawer.closeDrawer(GravityCompat.START);
+
+                openReportActivity();
+
+                break;
+
             case R.id.activity_main_menu_logout:
 
                 SharedPreferences.Editor editor = preferences.edit();
@@ -215,6 +225,7 @@ public class MainActivity
 
     }
 
+
     public void showCashClosedAlertDialog(){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
@@ -263,7 +274,25 @@ public class MainActivity
         cashIntent.putExtra(ConfirmPasswordActivity.USER_NAME,
                 preferences.getString(Constants.USER_NAME_PROPERTY, "Desconhecido"));
 
+        cashIntent.putExtra(ConfirmPasswordActivity.MINIMUM_LEVEL, Constants.MANAGER_LEVEL);
+
         startActivityForResult(cashIntent, CASH);
+
+    }
+
+    private void openReportActivity(){
+
+        Intent reportIntent = new Intent(MainActivity.this, ConfirmPasswordActivity.class);
+
+        reportIntent.putExtra(ConfirmPasswordActivity.USER_IDENTIFIER,
+                preferences.getInt(Constants.USER_IDENTIFIER_PROPERTY, 0));
+
+        reportIntent.putExtra(ConfirmPasswordActivity.USER_NAME,
+                preferences.getString(Constants.USER_NAME_PROPERTY, "Desconhecido"));
+
+        reportIntent.putExtra(ConfirmPasswordActivity.MINIMUM_LEVEL, Constants.MANAGER_LEVEL);
+
+        startActivityForResult(reportIntent, REPORT);
 
     }
 
@@ -280,6 +309,20 @@ public class MainActivity
                     Intent cashIntent = new Intent(MainActivity.this, CashActivity.class);
 
                     startActivity(cashIntent);
+
+                }
+
+                break;
+
+            }
+
+            case (REPORT) : {
+
+                if (resultCode == ConfirmPasswordActivity.RESULT_OK) {
+
+                    Intent reportIntent = new Intent(MainActivity.this, ReportActivity.class);
+
+                    startActivity(reportIntent);
 
                 }
 
