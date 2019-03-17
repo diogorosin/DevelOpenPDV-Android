@@ -153,7 +153,7 @@ public class Constants {
                     "INNER JOIN " +
                     "Sale Sle ON Sle.identifier = SleItm.sale " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0', '-7 days') AND SleItmTkt.printed = 1";
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0') AND SleItmTkt.printed = 1";
 
     public static final String GET_SALE_COUNT_OF_WEEK =
             "SELECT " +
@@ -161,7 +161,7 @@ public class Constants {
                     "FROM " +
                     "Sale Sle " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0', '-7 days')";
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0')";
 
     public static  final String GET_SALE_BILLING_OF_WEEK =
             "SELECT " +
@@ -171,7 +171,7 @@ public class Constants {
                     "INNER JOIN " +
                     "Sale Sle ON Sle.identifier = SleItm.sale " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0', '-7 days')";
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0')";
 
     public static final String GET_SALES_BY_PERIOD_OF_WEEK =
             "SELECT " +
@@ -182,7 +182,7 @@ public class Constants {
                     "INNER JOIN " +
                     "Sale Sle ON Sle.identifier = SleItm.sale " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0', '-7 days') " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0') " +
                     "GROUP BY " +
                     "1";
 
@@ -197,7 +197,7 @@ public class Constants {
                     "INNER JOIN " +
                     "User Usr ON Usr.individual = Sle.user " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0', '-7 days') " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0') " +
                     "GROUP BY " +
                     "1 " +
                     "ORDER BY " +
@@ -214,11 +214,18 @@ public class Constants {
                     "INNER JOIN " +
                     "Saleable Slb ON Slb.identifier = SleItm.progeny " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0', '-7 days') " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0') " +
                     "GROUP BY " +
                     "1 " +
                     "ORDER BY " +
                     "2 DESC";
+
+
+    //DATE('now', 'weekday 0', '-7 days')
+    //DATE('now', 'start of day', 'weekday 6', '-7 day')
+    //DATE('now', 'weekday 0', '-1 days')
+
+
 
     /* TODAY */
 

@@ -1,6 +1,7 @@
 package br.com.developen.pdv.activity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.truizlop.sectionedrecyclerview.SectionedSpanSizeLookup;
 
@@ -12,6 +13,30 @@ import br.com.developen.pdv.R;
 import br.com.developen.pdv.widget.ReportRecyclerViewAdapter;
 
 public class ReportActivity extends AppCompatActivity {
+
+    private View.OnClickListener salesByProgenyOnClickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+
+        }
+    };
+
+    private View.OnClickListener salesByPeriodOnClickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+
+        }
+    };
+
+    private View.OnClickListener salesByUserOnClickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+
+        }
+    };
+
+    private View.OnClickListener cashSummaryOnClickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+
+        }
+    };
 
     private RecyclerView recyclerView;
 
@@ -33,7 +58,11 @@ public class ReportActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.activity_report_recyclerview);
 
-        ReportRecyclerViewAdapter adapter = new ReportRecyclerViewAdapter();
+        ReportRecyclerViewAdapter adapter = new ReportRecyclerViewAdapter(
+                salesByProgenyOnClickListener,
+                salesByPeriodOnClickListener,
+                salesByUserOnClickListener,
+                cashSummaryOnClickListener);
 
         recyclerView.setAdapter(adapter);
 
