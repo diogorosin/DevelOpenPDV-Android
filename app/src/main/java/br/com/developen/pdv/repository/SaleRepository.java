@@ -2,6 +2,7 @@ package br.com.developen.pdv.repository;
 
 import android.app.Application;
 
+import java.util.Date;
 import java.util.List;
 
 import androidx.lifecycle.AndroidViewModel;
@@ -146,7 +147,7 @@ public class SaleRepository extends AndroidViewModel {
                     getApplication()).
                     saleDAO();
 
-            saleBillingOfToday = saleDAO.getSaleBillingOfToday();
+            saleBillingOfToday = saleDAO.getSaleBillingOfDate(new Date());
 
         }
 
@@ -163,7 +164,7 @@ public class SaleRepository extends AndroidViewModel {
                     getApplication()).
                     saleDAO();
 
-            saleCountOfToday = saleDAO.getSaleCountOfToday();
+            saleCountOfToday = saleDAO.getSaleCountOfDate(new Date());
 
         }
 
@@ -180,7 +181,7 @@ public class SaleRepository extends AndroidViewModel {
                     getApplication()).
                     saleDAO();
 
-            ticketCountOfToday = saleDAO.getTicketCountOfToday();
+            ticketCountOfToday = saleDAO.getTicketCountOfDate(new Date());
 
         }
 
@@ -197,7 +198,7 @@ public class SaleRepository extends AndroidViewModel {
                     getApplication()).
                     saleDAO();
 
-            salesByPeriodOfToday = saleDAO.getSalesByPeriodOfToday();
+            salesByPeriodOfToday = saleDAO.getSalesByPeriodOfDate(new Date());
 
         }
 
@@ -214,7 +215,7 @@ public class SaleRepository extends AndroidViewModel {
                     getApplication()).
                     saleDAO();
 
-            salesByProgenyOfToday = saleDAO.getSalesByProgenyOfToday();
+            salesByProgenyOfToday = saleDAO.getSalesByProgenyOfDate(new Date());
 
         }
 
@@ -231,7 +232,7 @@ public class SaleRepository extends AndroidViewModel {
                     getApplication()).
                     saleDAO();
 
-            salesByUserOfToday = saleDAO.getSalesByUserOfToday();
+            salesByUserOfToday = saleDAO.getSalesByUserOfDate(new Date());
 
         }
 

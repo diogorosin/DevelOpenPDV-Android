@@ -8,32 +8,31 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 import androidx.room.Update;
 
 import static br.com.developen.pdv.utils.Constants.GET_RECEIVED_OF_SALE;
 import static br.com.developen.pdv.utils.Constants.GET_SALES;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PERIOD_OF_MONTH;
-import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PERIOD_OF_TODAY;
+import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PERIOD_OF_DATE;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PERIOD_OF_WEEK;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PROGENY_OF_MONTH;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PROGENY_OF_PERIOD;
-import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PROGENY_OF_TODAY;
+import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PROGENY_OF_DATE;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PROGENY_OF_WEEK;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_USER_OF_MONTH;
-import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_USER_OF_TODAY;
+import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_USER_OF_DATE;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_USER_OF_WEEK;
 import static br.com.developen.pdv.utils.Constants.GET_SALE_BILLING_OF_MONTH;
-import static br.com.developen.pdv.utils.Constants.GET_SALE_BILLING_OF_TODAY;
+import static br.com.developen.pdv.utils.Constants.GET_SALE_BILLING_OF_DATE;
 import static br.com.developen.pdv.utils.Constants.GET_SALE_BILLING_OF_WEEK;
 import static br.com.developen.pdv.utils.Constants.GET_SALE_BY_IDENTIFIER;
 import static br.com.developen.pdv.utils.Constants.GET_SALE_COUNT_OF_MONTH;
-import static br.com.developen.pdv.utils.Constants.GET_SALE_COUNT_OF_TODAY;
+import static br.com.developen.pdv.utils.Constants.GET_SALE_COUNT_OF_DATE;
 import static br.com.developen.pdv.utils.Constants.GET_SALE_COUNT_OF_WEEK;
 import static br.com.developen.pdv.utils.Constants.GET_SUBTOTAL_OF_SALE;
 import static br.com.developen.pdv.utils.Constants.GET_TICKET_COUNT_OF_MONTH;
-import static br.com.developen.pdv.utils.Constants.GET_TICKET_COUNT_OF_TODAY;
+import static br.com.developen.pdv.utils.Constants.GET_TICKET_COUNT_OF_DATE;
 import static br.com.developen.pdv.utils.Constants.GET_TICKET_COUNT_OF_WEEK;
 import static br.com.developen.pdv.utils.Constants.GET_TOTAL_OF_SALE;
 import static br.com.developen.pdv.utils.Constants.GET_TO_RECEIVE_OF_SALE;
@@ -83,12 +82,13 @@ public interface SaleDAO {
     @Query(GET_TO_RECEIVE_OF_SALE)
     Double getToReceiveOfSaleAsDouble(Integer sale);
 
+    /* REPORTS */
     @Query(GET_SALES_BY_PROGENY_OF_PERIOD)
     List<SalesByProgenyBean> getSalesByProgenyOfPeriodAsList(
             @TypeConverters({TimestampConverter.class}) Date start,
             @TypeConverters({TimestampConverter.class}) Date end);
 
-    /* MONTH */
+    /* GRAPHS MONTH */
 
     @Query(GET_SALES_BY_PERIOD_OF_MONTH)
     LiveData<List<SalesByPeriodBean>> getSalesByPeriodOfMonth();
@@ -108,7 +108,7 @@ public interface SaleDAO {
     @Query(GET_TICKET_COUNT_OF_MONTH)
     LiveData<Integer> getTicketCountOfMonth();
 
-    /* WEEK */
+    /* GRAPHS WEEK */
 
     @Query(GET_SALES_BY_PERIOD_OF_WEEK)
     LiveData<List<SalesByPeriodBean>> getSalesByPeriodOfWeek();
@@ -128,25 +128,31 @@ public interface SaleDAO {
     @Query(GET_TICKET_COUNT_OF_WEEK)
     LiveData<Integer> getTicketCountOfWeek();
 
-    /* TODAY */
+    /* GRAPHS TODAY */
 
-    @Query(GET_SALES_BY_PERIOD_OF_TODAY)
-    LiveData<List<SalesByPeriodBean>> getSalesByPeriodOfToday();
+    @Query(GET_SALES_BY_PERIOD_OF_DATE)
+    LiveData<List<SalesByPeriodBean>> getSalesByPeriodOfDate(
+            @TypeConverters({TimestampConverter.class}) Date date);
 
-    @Query(GET_SALES_BY_PROGENY_OF_TODAY)
-    LiveData<List<SalesByProgenyBean>> getSalesByProgenyOfToday();
+    @Query(GET_SALES_BY_PROGENY_OF_DATE)
+    LiveData<List<SalesByProgenyBean>> getSalesByProgenyOfDate(
+            @TypeConverters({TimestampConverter.class}) Date date);
 
-    @Query(GET_SALES_BY_USER_OF_TODAY)
-    LiveData<List<SalesByUserBean>> getSalesByUserOfToday();
+    @Query(GET_SALES_BY_USER_OF_DATE)
+    LiveData<List<SalesByUserBean>> getSalesByUserOfDate(
+            @TypeConverters({TimestampConverter.class}) Date date);
 
-    @Query(GET_SALE_BILLING_OF_TODAY)
-    LiveData<Double> getSaleBillingOfToday();
+    @Query(GET_SALE_BILLING_OF_DATE)
+    LiveData<Double> getSaleBillingOfDate(
+            @TypeConverters({TimestampConverter.class}) Date date);
 
-    @Query(GET_SALE_COUNT_OF_TODAY)
-    LiveData<Integer> getSaleCountOfToday();
+    @Query(GET_SALE_COUNT_OF_DATE)
+    LiveData<Integer> getSaleCountOfDate(
+            @TypeConverters({TimestampConverter.class}) Date date);
 
-    @Query(GET_TICKET_COUNT_OF_TODAY)
-    LiveData<Integer> getTicketCountOfToday();
+    @Query(GET_TICKET_COUNT_OF_DATE)
+    LiveData<Integer> getTicketCountOfDate(
+            @TypeConverters({TimestampConverter.class}) Date date);
 
 
     class SalesByPeriodBean {

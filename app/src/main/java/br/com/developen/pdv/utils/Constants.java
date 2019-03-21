@@ -62,6 +62,58 @@ public class Constants {
 
     /* SALES *********************************************/
 
+    public static final String GET_SALE_BY_IDENTIFIER =
+            "SELECT " +
+                    "Sle.identifier AS 'identifier', " +
+                    "Sle.number AS 'number', " +
+                    "Sle.status AS 'status', " +
+                    "Sle.dateTime AS 'dateTime', " +
+                    "Sbj.identifier AS 'user_identifier', " +
+                    "Sbj.active AS 'user_active', " +
+                    "Sbj.level AS 'user_level', " +
+                    "Ind.name AS 'user_name' " +
+                    "FROM " +
+                    "Sale Sle " +
+                    "INNER JOIN " +
+                    "User Usr ON Usr.individual = Sle.user " +
+                    "INNER JOIN " +
+                    "Individual Ind ON Ind.subject = Usr.individual " +
+                    "INNER JOIN " +
+                    "Subject Sbj ON Sbj.identifier = Ind.subject " +
+                    "WHERE " +
+                    "Sle.identifier = :identifier";
+
+
+    public static final String GET_RECEIVED_OF_SALE =
+            "SELECT " +
+                    "IFNULL(SUM(SleRpt.value), 0) " +
+                    "FROM " +
+                    "SaleReceipt SleRpt " +
+                    "WHERE " +
+                    "SleRpt.sale = :sale";
+
+    public static final String GET_TO_RECEIVE_OF_SALE =
+            "SELECT " +
+                    "(SELECT IFNULL(SUM(SleItm.total), 0) FROM SaleItem SleItm WHERE SleItm.sale = :sale)" +
+                    " - " +
+                    "(SELECT IFNULL(SUM(SleRpt.value), 0) FROM SaleReceipt SleRpt WHERE SleRpt.sale = :sale)";
+
+    public static final String GET_TOTAL_OF_SALE =
+            "SELECT " +
+                    "IFNULL(SUM(SleItm.total), 0) " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "WHERE Sle.identifier = :sale";
+
+    public static final String GET_SUBTOTAL_OF_SALE =
+            "SELECT " +
+                    "IFNULL(SUM(SleItm.total), 0) " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "WHERE Sle.identifier = :sale";
+
     /* MONTH */
 
     public static final String GET_TICKET_COUNT_OF_MONTH =
@@ -229,7 +281,7 @@ public class Constants {
 
     /* TODAY */
 
-    public static final String GET_TICKET_COUNT_OF_TODAY =
+    public static final String GET_TICKET_COUNT_OF_DATE =
             "SELECT " +
                     "COUNT(*) " +
                     "FROM " +
@@ -239,38 +291,17 @@ public class Constants {
                     "INNER JOIN " +
                     "Sale Sle ON Sle.identifier = SleItm.sale " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE('now') AND SleItmTkt.printed = 1";
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE(:date) AND SleItmTkt.printed = 1";
 
-    public static final String GET_SALE_BY_IDENTIFIER =
-            "SELECT " +
-                    "Sle.identifier AS 'identifier', " +
-                    "Sle.number AS 'number', " +
-                    "Sle.status AS 'status', " +
-                    "Sle.dateTime AS 'dateTime', " +
-                    "Sbj.identifier AS 'user_identifier', " +
-                    "Sbj.active AS 'user_active', " +
-                    "Sbj.level AS 'user_level', " +
-                    "Ind.name AS 'user_name' " +
-                    "FROM " +
-                    "Sale Sle " +
-                    "INNER JOIN " +
-                    "User Usr ON Usr.individual = Sle.user " +
-                    "INNER JOIN " +
-                    "Individual Ind ON Ind.subject = Usr.individual " +
-                    "INNER JOIN " +
-                    "Subject Sbj ON Sbj.identifier = Ind.subject " +
-                    "WHERE " +
-                    "Sle.identifier = :identifier";
-
-    public static final String GET_SALE_COUNT_OF_TODAY =
+    public static final String GET_SALE_COUNT_OF_DATE =
             "SELECT " +
                     "COUNT(*) " +
                     "FROM " +
                     "Sale Sle " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE('now')";
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE(:date)";
 
-    public static  final String GET_SALE_BILLING_OF_TODAY =
+    public static  final String GET_SALE_BILLING_OF_DATE =
             "SELECT " +
                     "IFNULL(SUM(SleItm.total), 0) " +
                     "FROM " +
@@ -278,7 +309,7 @@ public class Constants {
                     "INNER JOIN " +
                     "Sale Sle ON Sle.identifier = SleItm.sale " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE('now')";
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE(:date)";
 
     public static final String GET_SALES =
             "SELECT " +
@@ -299,7 +330,7 @@ public class Constants {
                     "INNER JOIN " +
                     "Subject Sbj ON Sbj.identifier = Ind.subject";
 
-    public static final String GET_SALES_BY_PERIOD_OF_TODAY =
+    public static final String GET_SALES_BY_PERIOD_OF_DATE =
             "SELECT " +
                     "STRFTIME('%H', Sle.dateTime) AS 'period', " +
                     "SUM(SleItm.total) AS 'total' " +
@@ -308,11 +339,11 @@ public class Constants {
                     "INNER JOIN " +
                     "Sale Sle ON Sle.identifier = SleItm.sale " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE('now') " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE(:date) " +
                     "GROUP BY " +
                     "1";
 
-    public static final String GET_SALES_BY_PROGENY_OF_TODAY =
+    public static final String GET_SALES_BY_PROGENY_OF_DATE =
             "SELECT " +
                     "Slb.identifier AS 'progeny', " +
                     "SUM(SleItm.total) AS 'total' " +
@@ -323,7 +354,7 @@ public class Constants {
                     "INNER JOIN " +
                     "Saleable Slb ON Slb.identifier = SleItm.progeny " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE('now') " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE(:date) " +
                     "GROUP BY " +
                     "1 " +
                     "ORDER BY " +
@@ -349,7 +380,7 @@ public class Constants {
                     "ORDER BY " +
                     "5 DESC";
 
-    public static final String GET_SALES_BY_USER_OF_TODAY =
+    public static final String GET_SALES_BY_USER_OF_DATE =
             "SELECT " +
                     "Usr.individual AS 'user', " +
                     "SUM(SleItm.total) AS 'total' " +
@@ -360,40 +391,10 @@ public class Constants {
                     "INNER JOIN " +
                     "User Usr ON Usr.individual = Sle.user " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE('now') " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE(:date) " +
                     "GROUP BY " +
                     "1 " +
                     "ORDER BY " +
                     "2 DESC";
-
-    public static final String GET_RECEIVED_OF_SALE =
-            "SELECT " +
-                    "IFNULL(SUM(SleRpt.value), 0) " +
-                    "FROM " +
-                    "SaleReceipt SleRpt " +
-                    "WHERE " +
-                    "SleRpt.sale = :sale";
-
-    public static final String GET_TO_RECEIVE_OF_SALE =
-            "SELECT " +
-                    "(SELECT IFNULL(SUM(SleItm.total), 0) FROM SaleItem SleItm WHERE SleItm.sale = :sale)" +
-                    " - " +
-                    "(SELECT IFNULL(SUM(SleRpt.value), 0) FROM SaleReceipt SleRpt WHERE SleRpt.sale = :sale)";
-
-    public static final String GET_TOTAL_OF_SALE =
-            "SELECT " +
-                    "IFNULL(SUM(SleItm.total), 0) " +
-                    "FROM " +
-                    "SaleItem SleItm " +
-                    "INNER JOIN Sale Sle ON Sle.identifier = SleItm.sale " +
-                    "WHERE Sle.identifier = :sale";
-
-    public static final String GET_SUBTOTAL_OF_SALE =
-            "SELECT " +
-                    "IFNULL(SUM(SleItm.total), 0) " +
-                    "FROM " +
-                    "SaleItem SleItm " +
-                    "INNER JOIN Sale Sle ON Sle.identifier = SleItm.sale " +
-                    "WHERE Sle.identifier = :sale";
 
 }
