@@ -59,7 +59,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:textColor="@color/colorWhite"
-            android:background="@drawable/border_button"
+            android:background="@drawable/activity_login_button_background"
             android:layout_gravity="center_horizontal"
             style="?android:attr/borderlessButtonStyle"
             android:padding="12dp"

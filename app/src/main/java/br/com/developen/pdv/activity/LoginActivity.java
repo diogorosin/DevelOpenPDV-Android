@@ -230,7 +230,7 @@ public class LoginActivity extends AppCompatActivity
 
         if (progressDialog==null){
 
-            progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Dark);
+            progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme);
 
             progressDialog.setIndeterminate(true);
 

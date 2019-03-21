@@ -22,7 +22,7 @@
         </item>
         <item
             android:id="@+id/activity_main_menu_report"
-            android:icon="@drawable/printer_24"
+            android:icon="@drawable/report_24"
             android:checkable="false"
             android:title="@string/report">
         </item>

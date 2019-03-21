@@ -90,6 +90,12 @@ public class StringUtils {
 
     }
 
+    public static String formatDate(Date dateTime){
+
+        return dateFormat.format("dd/MM/yyyy", dateTime).toString();
+
+    }
+
     public static String formatDateTime(Date dateTime){
 
         return dateFormat.format("dd/MM/yyyy HH:mm:ss", dateTime).toString();

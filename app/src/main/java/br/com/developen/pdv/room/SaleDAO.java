@@ -1,5 +1,6 @@
 package br.com.developen.pdv.room;
 
+import java.util.Date;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -7,6 +8,8 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 import androidx.room.Update;
 
 import static br.com.developen.pdv.utils.Constants.GET_RECEIVED_OF_SALE;
@@ -15,6 +18,7 @@ import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PERIOD_OF_MONTH;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PERIOD_OF_TODAY;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PERIOD_OF_WEEK;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PROGENY_OF_MONTH;
+import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PROGENY_OF_PERIOD;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PROGENY_OF_TODAY;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PROGENY_OF_WEEK;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_USER_OF_MONTH;
@@ -79,6 +83,11 @@ public interface SaleDAO {
     @Query(GET_TO_RECEIVE_OF_SALE)
     Double getToReceiveOfSaleAsDouble(Integer sale);
 
+    @Query(GET_SALES_BY_PROGENY_OF_PERIOD)
+    List<SalesByProgenyBean> getSalesByProgenyOfPeriodAsList(
+            @TypeConverters({TimestampConverter.class}) Date start,
+            @TypeConverters({TimestampConverter.class}) Date end);
+
     /* MONTH */
 
     @Query(GET_SALES_BY_PERIOD_OF_MONTH)
@@ -99,26 +108,6 @@ public interface SaleDAO {
     @Query(GET_TICKET_COUNT_OF_MONTH)
     LiveData<Integer> getTicketCountOfMonth();
 
-    /* TODAY */
-
-    @Query(GET_SALES_BY_PERIOD_OF_TODAY)
-    LiveData<List<SalesByPeriodBean>> getSalesByPeriodOfToday();
-
-    @Query(GET_SALES_BY_PROGENY_OF_TODAY)
-    LiveData<List<SalesByProgenyBean>> getSalesByProgenyOfToday();
-
-    @Query(GET_SALES_BY_USER_OF_TODAY)
-    LiveData<List<SalesByUserBean>> getSalesByUserOfToday();
-
-    @Query(GET_SALE_BILLING_OF_TODAY)
-    LiveData<Double> getSaleBillingOfToday();
-
-    @Query(GET_SALE_COUNT_OF_TODAY)
-    LiveData<Integer> getSaleCountOfToday();
-
-    @Query(GET_TICKET_COUNT_OF_TODAY)
-    LiveData<Integer> getTicketCountOfToday();
-
     /* WEEK */
 
     @Query(GET_SALES_BY_PERIOD_OF_WEEK)
@@ -138,6 +127,26 @@ public interface SaleDAO {
 
     @Query(GET_TICKET_COUNT_OF_WEEK)
     LiveData<Integer> getTicketCountOfWeek();
+
+    /* TODAY */
+
+    @Query(GET_SALES_BY_PERIOD_OF_TODAY)
+    LiveData<List<SalesByPeriodBean>> getSalesByPeriodOfToday();
+
+    @Query(GET_SALES_BY_PROGENY_OF_TODAY)
+    LiveData<List<SalesByProgenyBean>> getSalesByProgenyOfToday();
+
+    @Query(GET_SALES_BY_USER_OF_TODAY)
+    LiveData<List<SalesByUserBean>> getSalesByUserOfToday();
+
+    @Query(GET_SALE_BILLING_OF_TODAY)
+    LiveData<Double> getSaleBillingOfToday();
+
+    @Query(GET_SALE_COUNT_OF_TODAY)
+    LiveData<Integer> getSaleCountOfToday();
+
+    @Query(GET_TICKET_COUNT_OF_TODAY)
+    LiveData<Integer> getTicketCountOfToday();
 
 
     class SalesByPeriodBean {
@@ -168,15 +177,31 @@ public interface SaleDAO {
 
         private Integer progeny;
 
+        private String reference;
+
+        private String label;
+
+        private Double quantity;
+
         private Double total;
 
-        public Integer getProgeny() {
-            return progeny;
-        }
+        public Integer getProgeny() { return progeny; }
 
         public void setProgeny(Integer progeny) {
             this.progeny = progeny;
         }
+
+        public String getReference() { return reference; }
+
+        public void setReference(String reference) { this.reference = reference; }
+
+        public String getLabel() { return label; }
+
+        public void setLabel(String label) { this.label = label; }
+
+        public Double getQuantity() { return quantity; }
+
+        public void setQuantity(Double quantity) { this.quantity = quantity; }
 
         public Double getTotal() {
             return total;

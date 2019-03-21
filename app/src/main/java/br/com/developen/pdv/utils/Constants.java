@@ -153,7 +153,9 @@ public class Constants {
                     "INNER JOIN " +
                     "Sale Sle ON Sle.identifier = SleItm.sale " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0') AND SleItmTkt.printed = 1";
+                    "Sle.status = 'F' AND " +
+                    "DATE(Sle.dateTime) >= CASE WHEN STRFTIME('%w', 'now') = '0' THEN DATE('now') ELSE DATE('now', 'weekday 0', '-7 days') END " +
+                    "AND SleItmTkt.printed = 1";
 
     public static final String GET_SALE_COUNT_OF_WEEK =
             "SELECT " +
@@ -161,7 +163,8 @@ public class Constants {
                     "FROM " +
                     "Sale Sle " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0')";
+                    "Sle.status = 'F' AND " +
+                    "DATE(Sle.dateTime) >= CASE WHEN STRFTIME('%w', 'now') = '0' THEN DATE('now') ELSE DATE('now', 'weekday 0', '-7 days') END";
 
     public static  final String GET_SALE_BILLING_OF_WEEK =
             "SELECT " +
@@ -171,7 +174,8 @@ public class Constants {
                     "INNER JOIN " +
                     "Sale Sle ON Sle.identifier = SleItm.sale " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0')";
+                    "Sle.status = 'F' AND " +
+                    "DATE(Sle.dateTime) >= CASE WHEN STRFTIME('%w', 'now') = '0' THEN DATE('now') ELSE DATE('now', 'weekday 0', '-7 days') END";
 
     public static final String GET_SALES_BY_PERIOD_OF_WEEK =
             "SELECT " +
@@ -182,7 +186,8 @@ public class Constants {
                     "INNER JOIN " +
                     "Sale Sle ON Sle.identifier = SleItm.sale " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0') " +
+                    "Sle.status = 'F' AND " +
+                    "DATE(Sle.dateTime) >= CASE WHEN STRFTIME('%w', 'now') = '0' THEN DATE('now') ELSE DATE('now', 'weekday 0', '-7 days') END " +
                     "GROUP BY " +
                     "1";
 
@@ -197,7 +202,8 @@ public class Constants {
                     "INNER JOIN " +
                     "User Usr ON Usr.individual = Sle.user " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0') " +
+                    "Sle.status = 'F' AND " +
+                    "DATE(Sle.dateTime) >= CASE WHEN STRFTIME('%w', 'now') = '0' THEN DATE('now') ELSE DATE('now', 'weekday 0', '-7 days') END " +
                     "GROUP BY " +
                     "1 " +
                     "ORDER BY " +
@@ -214,18 +220,12 @@ public class Constants {
                     "INNER JOIN " +
                     "Saleable Slb ON Slb.identifier = SleItm.progeny " +
                     "WHERE " +
-                    "Sle.status = 'F' AND DATE(Sle.dateTime) >= DATE('now', 'weekday 0') " +
+                    "Sle.status = 'F' AND " +
+                    "DATE(Sle.dateTime) >= CASE WHEN STRFTIME('%w', 'now') = '0' THEN DATE('now') ELSE DATE('now', 'weekday 0', '-7 days') END " +
                     "GROUP BY " +
                     "1 " +
                     "ORDER BY " +
                     "2 DESC";
-
-
-    //DATE('now', 'weekday 0', '-7 days')
-    //DATE('now', 'start of day', 'weekday 6', '-7 day')
-    //DATE('now', 'weekday 0', '-1 days')
-
-
 
     /* TODAY */
 
@@ -328,6 +328,26 @@ public class Constants {
                     "1 " +
                     "ORDER BY " +
                     "2 DESC";
+
+        public static final String GET_SALES_BY_PROGENY_OF_PERIOD =
+            "SELECT " +
+                    "Slb.identifier AS 'progeny', " +
+                    "Slb.reference AS 'reference', " +
+                    "Slb.label AS 'label', " +
+                    "SUM(SleItm.quantity) AS 'quantity', " +
+                    "SUM(SleItm.total) AS 'total' " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "INNER JOIN " +
+                    "Saleable Slb ON Slb.identifier = SleItm.progeny " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) BETWEEN :start AND :end " +
+                    "GROUP BY " +
+                    "1, 2, 3 " +
+                    "ORDER BY " +
+                    "5 DESC";
 
     public static final String GET_SALES_BY_USER_OF_TODAY =
             "SELECT " +

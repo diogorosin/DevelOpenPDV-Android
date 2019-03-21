@@ -62,8 +62,8 @@
         fab:fab_addButtonColorPressed="@color/colorBlackDark"
         fab:fab_addButtonPlusIconColor="@color/colorGreyDark"
         fab:fab_addButtonSize="normal"
-        fab:fab_labelStyle="@style/menu_labels_style"
-        fab:fab_labelsPosition="left">
+        fab:fab_labelsPosition="left"
+        app:fab_labelStyle="@style/MenuLabelStyle">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/activity_cash_removal_fab"

@@ -23,7 +23,6 @@
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -42,10 +41,10 @@
         <activity android:name=".activity.AccountActivity" />
         <activity
             android:name=".activity.LoginActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme.Green" />
         <activity
             android:name=".activity.ConfirmPasswordActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme.Green" />
         <activity android:name=".activity.CatalogActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

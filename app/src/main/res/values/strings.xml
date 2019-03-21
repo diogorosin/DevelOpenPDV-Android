@@ -73,6 +73,19 @@
     <string name="salesByPeriod">Vendas por Período</string>
     <string name="salesByProgeny">Vendas por Produto/Serviço</string>
     <string name="salesByUser">Vendas por Usuário</string>
+    <string name="check">Cheque</string>
+    <string name="credit_card">Cartão de Crédito</string>
+    <string name="debit_card">Cartão de Débito</string>
+    <string name="revenues">Faturamento</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="report">Relatório</string>
+    <string name="title_activity_report">ReportActivity</string>
+    <string name="forgotPassword">Esqueceu sua senha?</string>
+    <string name="period">Período</string>
+    <string name="from">De:</string>
+    <string name="to">Até:</string>
+
 
     <!-- Messages        -->
     <string name="error_invalid_email">O login informado é inválido.</string>
@@ -88,6 +101,7 @@
     <string name="success_cash_opened">Caixa aberto.</string>
     <string name="success_cash_supplied">Caixa complementado.</string>
     <string name="success_cash_removed">Caixa sangrado.</string>
+    <string name="success_print">A impressão do relatório foi concluída.</string>
 
     <!-- Dialogs         -->
     <string name="dlg_title_sale_finish_failure">Não foi possível finalizar a venda:</string>
@@ -124,15 +138,5 @@
     <string name="welcome_company">Selecione uma opção abaixo e pressione avançar:</string>
     <string name="finish_line_01">Parabéns! Dispositivo configurado com sucesso.</string>
     <string name="company_register">Informe os dados da sua empresa:</string>
-    <string name="check">Cheque</string>
-    <string name="credit_card">Cartão de Crédito</string>
-    <string name="debit_card">Cartão de Débito</string>
-    <string name="forgotPassword">Esqueceu sua senha?</string>
-    <string name="revenues">Faturamento</string>
-    <string name="yes">Sim</string>
-    <string name="no">Não</string>
-    <string name="report">Relatório</string>
-    <string name="title_activity_report">ReportActivity</string>
-
 
 </resources>

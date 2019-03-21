@@ -1,14 +1,15 @@
 package br.com.developen.pdv.report;
 
 import java.util.Date;
+import java.util.Map;
 
 import br.com.developen.pdv.report.adapter.PrintListener;
 import br.com.developen.pdv.report.task.PT7003CloseCashAsyncTask;
 import br.com.developen.pdv.report.task.PT7003OpenCashAsyncTask;
+import br.com.developen.pdv.report.task.PT7003PrintSalesByProgenyAsyncTask;
 import br.com.developen.pdv.report.task.PT7003PrintTicketsOfSaleAsyncTask;
 import br.com.developen.pdv.report.task.PT7003RemoveCashAsyncTask;
 import br.com.developen.pdv.report.task.PT7003SupplyCashAsyncTask;
-import br.com.developen.pdv.repository.CatalogRepository;
 import br.com.developen.pdv.room.CashModel;
 
 public class PT7003Report implements Report {
@@ -103,6 +104,24 @@ public class PT7003Report implements Report {
                 subtitle,
                 dateTime,
                 deviceAlias).execute(cashModels);
+
+    }
+
+    /* VENDAS POR PRODUTO/SERVICO */
+    public void printSalesByProgeny(
+            PrintListener listener,
+            String title,
+            String subtitle,
+            Date dateTime,
+            String deviceAlias,
+            Map... parameters) {
+
+        new PT7003PrintSalesByProgenyAsyncTask<>(
+                listener,
+                title,
+                subtitle,
+                dateTime,
+                deviceAlias).execute(parameters);
 
     }
 
