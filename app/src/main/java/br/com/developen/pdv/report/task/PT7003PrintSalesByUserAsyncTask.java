@@ -13,12 +13,12 @@ import br.com.developen.pdv.report.Report;
 import br.com.developen.pdv.report.ReportName;
 import br.com.developen.pdv.report.adapter.PrintListener;
 import br.com.developen.pdv.report.layout.PT7003HeaderLayout;
-import br.com.developen.pdv.report.layout.PT7003SalesByProgenyLayout;
+import br.com.developen.pdv.report.layout.PT7003SalesByUserLayout;
 import br.com.developen.pdv.room.SaleDAO;
 import br.com.developen.pdv.utils.App;
 import br.com.developen.pdv.utils.DB;
 
-public class PT7003PrintSalesByProgenyAsyncTask<
+public class PT7003PrintSalesByUserAsyncTask<
         A extends PrintListener,
         B extends Map,
         C extends Integer,
@@ -29,16 +29,16 @@ public class PT7003PrintSalesByProgenyAsyncTask<
 
     private PT7003HeaderLayout header;
 
-    private PT7003SalesByProgenyLayout body;
+    private PT7003SalesByUserLayout body;
 
     private Printer printer;
 
 
-    public PT7003PrintSalesByProgenyAsyncTask(A listener,
-                                              String title,
-                                              String subtitle,
-                                              Date dateTime,
-                                              String deviceAlias){
+    public PT7003PrintSalesByUserAsyncTask(A listener,
+                                           String title,
+                                           String subtitle,
+                                           Date dateTime,
+                                           String deviceAlias){
 
         this.listener = new WeakReference<>(listener);
 
@@ -54,9 +54,9 @@ public class PT7003PrintSalesByProgenyAsyncTask<
 
         this.header.setDateTime(dateTime);
 
-        this.body = new PT7003SalesByProgenyLayout(this.printer);
+        this.body = new PT7003SalesByUserLayout(this.printer);
 
-        this.body.setReportName("VENDAS POR PRODUTO/SERVICO");
+        this.body.setReportName("VENDAS POR USUARIO");
 
     }
 
@@ -88,19 +88,19 @@ public class PT7003PrintSalesByProgenyAsyncTask<
 
         DB database = DB.getInstance(App.getInstance());
 
-        List<SaleDAO.SalesByProgenyBean> salesByProgeny;
+        List<SaleDAO.SalesByUserBean> salesByUser;
 
         if (periodStart.equals(periodEnd))
 
-            salesByProgeny = database.
-                    saleDAO().getSalesByProgenyOfDateAsList(periodStart);
+            salesByUser = database.
+                    saleDAO().getSalesByUserOfDateAsList(periodStart);
 
         else
 
-            salesByProgeny = database.
-                    saleDAO().getSalesByProgenyOfPeriodAsList(periodStart, periodEnd);
+            salesByUser = database.
+                    saleDAO().getSalesByUserOfPeriodAsList(periodStart, periodEnd);
 
-        this.body.setRows(salesByProgeny);
+        this.body.setRows(salesByUser);
 
         if (this.body.getRows() != null && !this.body.getRows().isEmpty()) {
 
@@ -109,7 +109,7 @@ public class PT7003PrintSalesByProgenyAsyncTask<
             if (l != null)
 
                 l.onPrintProgressInitialize(
-                        ReportName.SALES_BY_PROGENY,
+                        ReportName.SALES_BY_USER,
                         0, 1);
 
             try {
@@ -143,7 +143,7 @@ public class PT7003PrintSalesByProgenyAsyncTask<
 
             return;
 
-        l.onPrintSuccess(ReportName.SALES_BY_PROGENY);
+        l.onPrintSuccess(ReportName.SALES_BY_USER);
 
     }
 
@@ -154,7 +154,7 @@ public class PT7003PrintSalesByProgenyAsyncTask<
 
         if (l != null)
 
-            l.onPrintProgressUpdate(ReportName.SALES_BY_PROGENY, progress[0]);
+            l.onPrintProgressUpdate(ReportName.SALES_BY_USER, progress[0]);
 
     }
 
@@ -165,10 +165,9 @@ public class PT7003PrintSalesByProgenyAsyncTask<
 
         if (l != null)
 
-            l.onPrintCancelled(ReportName.SALES_BY_PROGENY);
+            l.onPrintCancelled(ReportName.SALES_BY_USER);
 
     }
-
 
 
 }

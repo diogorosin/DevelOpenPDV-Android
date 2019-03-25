@@ -12,6 +12,12 @@ public enum ReportName {
 
     REMOVE_CASH_COUPON,
 
-    SALES_BY_PROGENY
+    SALES_BY_PROGENY,
+
+    SALES_BY_CATALOG,
+
+    SALES_BY_USER,
+
+    SALEABLES
 
 }

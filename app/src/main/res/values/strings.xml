@@ -39,7 +39,7 @@
     <string name="sale">Venda</string>
     <string name="removals">Sangria</string>
     <string name="supply">Complemento</string>
-    <string name="catalog">Catálogo</string>
+    <string name="catalog">Categoria</string>
     <string name="removal">Sangria</string>
     <string name="undefined">Indefinido</string>
     <string name="money">Dinheiro</string>
@@ -80,6 +80,7 @@
     <string name="yes">Sim</string>
     <string name="no">Não</string>
     <string name="report">Relatório</string>
+    <string name="reports">Relatórios</string>
     <string name="title_activity_report">ReportActivity</string>
     <string name="forgotPassword">Esqueceu sua senha?</string>
     <string name="period">Período</string>
@@ -138,5 +139,6 @@
     <string name="welcome_company">Selecione uma opção abaixo e pressione avançar:</string>
     <string name="finish_line_01">Parabéns! Dispositivo configurado com sucesso.</string>
     <string name="company_register">Informe os dados da sua empresa:</string>
+    <string name="salesByCatalog">Vendas por Categoria</string>
 
 </resources>

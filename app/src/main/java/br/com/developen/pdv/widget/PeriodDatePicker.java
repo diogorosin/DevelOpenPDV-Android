@@ -25,9 +25,9 @@ import br.com.developen.pdv.utils.StringUtils;
 public class PeriodDatePicker extends LinearLayout {
 
 
-    private Date startDateTime, finishDateTime;
+    private Date startDateTime, endDateTime;
 
-    private TextView startTextView, finishTextView;
+    private TextView startTextView, endTextView;
 
 
     private SublimePickerFragment.Callback mFragmentCallback = new SublimePickerFragment.Callback() {
@@ -43,13 +43,13 @@ public class PeriodDatePicker extends LinearLayout {
 
                 setStartDateTime(selectedDate.getFirstDate().getTime());
 
-                setFinishDateTime(selectedDate.getSecondDate().getTime());
+                setEndDateTime(selectedDate.getSecondDate().getTime());
 
             } else {
 
                 setStartDateTime(selectedDate.getStartDate().getTime());
 
-                setFinishDateTime(selectedDate.getEndDate().getTime());
+                setEndDateTime(selectedDate.getEndDate().getTime());
 
             }
 
@@ -91,7 +91,7 @@ public class PeriodDatePicker extends LinearLayout {
 
         startTextView = view.findViewById(R.id.period_date_picker_start);
 
-        finishTextView = view.findViewById(R.id.period_date_picker_finish);
+        endTextView = view.findViewById(R.id.period_date_picker_end);
 
         this.setOnClickListener(new OnClickListener() {
 
@@ -122,45 +122,48 @@ public class PeriodDatePicker extends LinearLayout {
 
     private Pair<Boolean, SublimeOptions> getOptions() {
 
+
         SublimeOptions options = new SublimeOptions();
 
         int displayOptions = 0;
 
         displayOptions |= SublimeOptions.ACTIVATE_DATE_PICKER;
 
-        //displayOptions |= SublimeOptions.ACTIVATE_TIME_PICKER;
-
-        //displayOptions |= SublimeOptions.ACTIVATE_RECURRENCE_PICKER;
-
-        /* if (rbDatePicker.getVisibility() == View.VISIBLE && rbDatePicker.isChecked()) {
-            options.setPickerToShow(SublimeOptions.Picker.DATE_PICKER);
-        } else if (rbTimePicker.getVisibility() == View.VISIBLE && rbTimePicker.isChecked()) {
-            options.setPickerToShow(SublimeOptions.Picker.TIME_PICKER);
-        } else if (rbRecurrencePicker.getVisibility() == View.VISIBLE && rbRecurrencePicker.isChecked()) {
-            options.setPickerToShow(SublimeOptions.Picker.REPEAT_OPTION_PICKER);
-        } */
-
         options.setDisplayOptions(displayOptions);
 
         options.setCanPickDateRange(true);
 
-        Calendar todayCalendar = Calendar.getInstance();
 
-        todayCalendar.setTime(new Date());
+        Calendar startCalendar = Calendar.getInstance();
 
-        Calendar startCal = Calendar.getInstance();
-        startCal.set(todayCalendar.get(Calendar.YEAR),
-                todayCalendar.get(Calendar.MONTH),
-                todayCalendar.get(Calendar.DAY_OF_MONTH));
+        startCalendar.setTime(getStartDateTime());
 
-        Calendar endCal = Calendar.getInstance();
-        endCal.set(todayCalendar.get(Calendar.YEAR),
-                todayCalendar.get(Calendar.MONTH),
-                todayCalendar.get(Calendar.DAY_OF_MONTH));
+        startCalendar.set(Calendar.MILLISECOND, 0);
 
-        options.setDateParams(startCal, endCal);
+        startCalendar.set(Calendar.SECOND, 0);
+
+        startCalendar.set(Calendar.MINUTE, 0);
+
+        startCalendar.set(Calendar.HOUR_OF_DAY, 0);
+
+
+        Calendar endCalendar = Calendar.getInstance();
+
+        endCalendar.setTime(getEndDateTime());
+
+        endCalendar.set(Calendar.MILLISECOND, 0);
+
+        endCalendar.set(Calendar.SECOND, 0);
+
+        endCalendar.set(Calendar.MINUTE, 0);
+
+        endCalendar.set(Calendar.HOUR_OF_DAY, 0);
+
+
+        options.setDateParams(startCalendar, endCalendar);
 
         return new Pair<>(displayOptions != 0 ? Boolean.TRUE : Boolean.FALSE, options);
+
 
     }
 
@@ -187,24 +190,24 @@ public class PeriodDatePicker extends LinearLayout {
     }
 
 
-    public Date getFinishDateTime() {
+    public Date getEndDateTime() {
 
-        return finishDateTime;
+        return endDateTime;
 
     }
 
 
-    public void setFinishDateTime(Date finishDateTime) {
+    public void setEndDateTime(Date finishDateTime) {
 
-        this.finishDateTime = finishDateTime;
+        this.endDateTime = finishDateTime;
 
-        if (this.finishDateTime != null)
+        if (this.endDateTime != null)
 
-            finishTextView.setText(StringUtils.formatDate(this.finishDateTime));
+            endTextView.setText(StringUtils.formatDate(this.endDateTime));
 
         else
 
-            finishTextView.setText("");
+            endTextView.setText("");
 
     }
 

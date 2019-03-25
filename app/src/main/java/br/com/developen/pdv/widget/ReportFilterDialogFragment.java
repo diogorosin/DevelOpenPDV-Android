@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -51,11 +53,28 @@ public class ReportFilterDialogFragment extends DialogFragment
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+
         LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
 
         View view = inflater.inflate(R.layout.fragment_report_filter, null);
 
         periodDatePicker = view.findViewById(R.id.fragment_report_filter_period);
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime(new Date());
+
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        calendar.set(Calendar.SECOND, 0);
+
+        calendar.set(Calendar.MINUTE, 0);
+
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+
+        periodDatePicker.setStartDateTime(calendar.getTime());
+
+        periodDatePicker.setEndDateTime(calendar.getTime());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
 
@@ -64,6 +83,7 @@ public class ReportFilterDialogFragment extends DialogFragment
         builder.setView(view).setPositiveButton(android.R.string.ok,  this);
 
         return builder.create();
+
 
     }
 
@@ -76,7 +96,7 @@ public class ReportFilterDialogFragment extends DialogFragment
 
             parameters.put(Report.PERIOD_START_PARAM, periodDatePicker.getStartDateTime());
 
-            parameters.put(Report.PERIOD_END_PARAM, periodDatePicker.getFinishDateTime());
+            parameters.put(Report.PERIOD_END_PARAM, periodDatePicker.getEndDateTime());
 
             ((ReportActivity) Objects.requireNonNull(getActivity())).onExecuteReport((ReportName) getArguments().getSerializable(REPORT_ARG), parameters);
 

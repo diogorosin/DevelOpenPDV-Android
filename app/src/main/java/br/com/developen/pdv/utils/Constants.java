@@ -346,6 +346,9 @@ public class Constants {
     public static final String GET_SALES_BY_PROGENY_OF_DATE =
             "SELECT " +
                     "Slb.identifier AS 'progeny', " +
+                    "Slb.reference AS 'reference', " +
+                    "Slb.label AS 'label', " +
+                    "SUM(SleItm.quantity) AS 'quantity', " +
                     "SUM(SleItm.total) AS 'total' " +
                     "FROM " +
                     "SaleItem SleItm " +
@@ -356,9 +359,9 @@ public class Constants {
                     "WHERE " +
                     "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE(:date) " +
                     "GROUP BY " +
-                    "1 " +
+                    "1, 2, 3 " +
                     "ORDER BY " +
-                    "2 DESC";
+                    "5 DESC";
 
         public static final String GET_SALES_BY_PROGENY_OF_PERIOD =
             "SELECT " +
@@ -383,6 +386,8 @@ public class Constants {
     public static final String GET_SALES_BY_USER_OF_DATE =
             "SELECT " +
                     "Usr.individual AS 'user', " +
+                    "Ind.name AS 'name', " +
+                    "((SUM(SleItm.total)*100)/(SELECT SUM(SI.total) FROM SaleItem SI INNER JOIN Sale S ON S.identifier = SI.sale WHERE S.status = 'F' AND DATE(S.dateTime) = DATE(:date))) AS 'percentage', " +
                     "SUM(SleItm.total) AS 'total' " +
                     "FROM " +
                     "SaleItem SleItm " +
@@ -390,11 +395,72 @@ public class Constants {
                     "Sale Sle ON Sle.identifier = SleItm.sale " +
                     "INNER JOIN " +
                     "User Usr ON Usr.individual = Sle.user " +
+                    "INNER JOIN " +
+                    "Individual Ind ON Ind.subject = Usr.individual " +
                     "WHERE " +
                     "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE(:date) " +
                     "GROUP BY " +
-                    "1 " +
+                    "1, 2 " +
                     "ORDER BY " +
-                    "2 DESC";
+                    "3 DESC";
+
+    public static final String GET_SALES_BY_USER_OF_PERIOD =
+            "SELECT " +
+                    "Usr.individual AS 'user', " +
+                    "Ind.name AS 'name', " +
+                    "((SUM(SleItm.total)*100)/(SELECT SUM(SI.total) FROM SaleItem SI INNER JOIN Sale S ON S.identifier = SI.sale WHERE S.status = 'F' AND DATE(S.dateTime) BETWEEN :start AND :end)) AS 'percentage', " +
+                    "SUM(SleItm.total) AS 'total' " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "INNER JOIN " +
+                    "User Usr ON Usr.individual = Sle.user " +
+                    "INNER JOIN " +
+                    "Individual Ind ON Ind.subject = Usr.individual " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) BETWEEN :start AND :end " +
+                    "GROUP BY " +
+                    "1, 2 " +
+                    "ORDER BY " +
+                    "3 DESC";
+
+    public static final String GET_SALES_BY_CATALOG_OF_DATE =
+            "SELECT " +
+                    "Slb.catalog_identifier AS 'catalog', " +
+                    "Slb.catalog_denomination AS 'denomination', " +
+                    "((SUM(SleItm.total)*100)/(SELECT SUM(SI.total) FROM SaleItem SI INNER JOIN Sale S ON S.identifier = SI.sale WHERE S.status = 'F' AND DATE(S.dateTime) = DATE(:date))) AS 'percentage', " +
+                    "SUM(SleItm.total) AS 'total' " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "INNER JOIN " +
+                    "Saleable Slb ON Slb.identifier = SleItm.progeny " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) = DATE(:date) " +
+                    "GROUP BY " +
+                    "1, 2 " +
+                    "ORDER BY " +
+                    "4 DESC";
+
+    public static final String GET_SALES_BY_CATALOG_OF_PERIOD =
+            "SELECT " +
+                    "Slb.catalog_identifier AS 'catalog', " +
+                    "Slb.catalog_denomination AS 'denomination', " +
+                    "((SUM(SleItm.total)*100)/(SELECT SUM(SI.total) FROM SaleItem SI INNER JOIN Sale S ON S.identifier = SI.sale WHERE S.status = 'F' AND DATE(S.dateTime) BETWEEN :start AND :end)) AS 'percentage', " +
+                    "SUM(SleItm.total) AS 'total' " +
+                    "FROM " +
+                    "SaleItem SleItm " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleItm.sale " +
+                    "INNER JOIN " +
+                    "Saleable Slb ON Slb.identifier = SleItm.progeny " +
+                    "WHERE " +
+                    "Sle.status = 'F' AND DATE(Sle.dateTime) BETWEEN :start AND :end " +
+                    "GROUP BY " +
+                    "1, 2 " +
+                    "ORDER BY " +
+                    "4 DESC";
 
 }

@@ -16,45 +16,45 @@ public class ReportRecyclerViewAdapter
 
     public static final int SALES_BY_PROGENY_REPORT = 1;
 
-    public static final int SALES_BY_PERIOD_REPORT = 2;
+    public static final int SALES_BY_CATALOG_REPORT = 2;
 
     public static final int SALES_BY_USER_REPORT = 3;
 
-    public static final int CASH_SUMMARY_REPORT = 4;
+    public static final int SALEABLES_REPORT = 4;
 
 
-    private String[][] reports = {{"Vendas por Produto", "Vendas por Período", "Vendas por Usuário"},
-            {"Resumo do Caixa"}};
+    private String[][] reports = {{"Vendas por Produto/Serviço", "Vendas por Categoria", "Vendas por Usuário"},
+            {"Relação de Produtos/Serviços"}};
 
 
     private View.OnClickListener salesByProgenyOnClickListener;
 
-    private View.OnClickListener salesByPeriodOnClickListener;
+    private View.OnClickListener salesByCatalogOnClickListener;
 
     private View.OnClickListener salesByUserOnClickListener;
 
-    private View.OnClickListener cashSummaryOnClickListener;
+    private View.OnClickListener saleablesOnClickListener;
 
 
     public ReportRecyclerViewAdapter(View.OnClickListener salesByProgenyOnClickListener,
-                                     View.OnClickListener salesByPeriodOnClickListener,
+                                     View.OnClickListener salesByCatalogOnClickListener,
                                      View.OnClickListener salesByUserOnClickListener,
-                                     View.OnClickListener cashSummaryOnClickListener){
+                                     View.OnClickListener saleablesOnClickListener){
 
         this.salesByProgenyOnClickListener = salesByProgenyOnClickListener;
 
-        this.salesByPeriodOnClickListener = salesByPeriodOnClickListener;
+        this.salesByCatalogOnClickListener = salesByCatalogOnClickListener;
 
         this.salesByUserOnClickListener = salesByUserOnClickListener;
 
-        this.cashSummaryOnClickListener = cashSummaryOnClickListener;
+        this.saleablesOnClickListener = saleablesOnClickListener;
 
     }
 
 
     protected String getSectionHeaderTitle(int section) {
 
-        return section == 0 ? "Comercial" : "Financeiro";
+        return section == 0 ? "Faturamento" : "Estoque";
 
     }
 
@@ -92,7 +92,7 @@ public class ReportRecyclerViewAdapter
 
                     case 0: return SALES_BY_PROGENY_REPORT;
 
-                    case 1: return SALES_BY_PERIOD_REPORT;
+                    case 1: return SALES_BY_CATALOG_REPORT;
 
                     case 2: return SALES_BY_USER_REPORT;
 
@@ -104,7 +104,7 @@ public class ReportRecyclerViewAdapter
 
                 switch (position){
 
-                    case 0: return CASH_SUMMARY_REPORT;
+                    case 0: return SALEABLES_REPORT;
 
                 }
 
@@ -126,13 +126,13 @@ public class ReportRecyclerViewAdapter
             case SALES_BY_PROGENY_REPORT: holder.itemView.setOnClickListener(salesByProgenyOnClickListener);
                 break;
 
-            case SALES_BY_PERIOD_REPORT: holder.itemView.setOnClickListener(salesByPeriodOnClickListener);
+            case SALES_BY_CATALOG_REPORT: holder.itemView.setOnClickListener(salesByCatalogOnClickListener);
                 break;
 
             case SALES_BY_USER_REPORT: holder.itemView.setOnClickListener(salesByUserOnClickListener);
                 break;
 
-            case CASH_SUMMARY_REPORT: holder.itemView.setOnClickListener(cashSummaryOnClickListener);
+            case SALEABLES_REPORT: holder.itemView.setOnClickListener(saleablesOnClickListener);
                 break;
 
         }

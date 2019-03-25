@@ -6,7 +6,10 @@ import java.util.Map;
 import br.com.developen.pdv.report.adapter.PrintListener;
 import br.com.developen.pdv.report.task.PT7003CloseCashAsyncTask;
 import br.com.developen.pdv.report.task.PT7003OpenCashAsyncTask;
+import br.com.developen.pdv.report.task.PT7003PrintSaleablesAsyncTask;
+import br.com.developen.pdv.report.task.PT7003PrintSalesByCatalogAsyncTask;
 import br.com.developen.pdv.report.task.PT7003PrintSalesByProgenyAsyncTask;
+import br.com.developen.pdv.report.task.PT7003PrintSalesByUserAsyncTask;
 import br.com.developen.pdv.report.task.PT7003PrintTicketsOfSaleAsyncTask;
 import br.com.developen.pdv.report.task.PT7003RemoveCashAsyncTask;
 import br.com.developen.pdv.report.task.PT7003SupplyCashAsyncTask;
@@ -117,6 +120,60 @@ public class PT7003Report implements Report {
             Map... parameters) {
 
         new PT7003PrintSalesByProgenyAsyncTask<>(
+                listener,
+                title,
+                subtitle,
+                dateTime,
+                deviceAlias).execute(parameters);
+
+    }
+
+    /* VENDAS POR CATEGORIA */
+    public void printSalesByCatalog(
+            PrintListener listener,
+            String title,
+            String subtitle,
+            Date dateTime,
+            String deviceAlias,
+            Map... parameters) {
+
+        new PT7003PrintSalesByCatalogAsyncTask<>(
+                listener,
+                title,
+                subtitle,
+                dateTime,
+                deviceAlias).execute(parameters);
+
+    }
+
+    /* VENDAS POR USUARIO */
+    public void printSalesByUser(
+            PrintListener listener,
+            String title,
+            String subtitle,
+            Date dateTime,
+            String deviceAlias,
+            Map... parameters) {
+
+        new PT7003PrintSalesByUserAsyncTask<>(
+                listener,
+                title,
+                subtitle,
+                dateTime,
+                deviceAlias).execute(parameters);
+
+    }
+
+    /* LISTA DE PRECOS */
+    public void printSaleables(
+            PrintListener listener,
+            String title,
+            String subtitle,
+            Date dateTime,
+            String deviceAlias,
+            Map... parameters) {
+
+        new PT7003PrintSaleablesAsyncTask<>(
                 listener,
                 title,
                 subtitle,

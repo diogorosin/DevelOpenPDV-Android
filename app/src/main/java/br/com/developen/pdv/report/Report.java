@@ -62,4 +62,28 @@ public interface Report {
             String deviceAlias,
             Map... parameters);
 
+    void printSalesByCatalog(
+            PrintListener listener,
+            String title,
+            String subtitle,
+            Date dateTime,
+            String deviceAlias,
+            Map... parameters);
+
+    void printSalesByUser(
+            PrintListener listener,
+            String title,
+            String subtitle,
+            Date dateTime,
+            String deviceAlias,
+            Map... parameters);
+
+    void printSaleables(
+            PrintListener listener,
+            String title,
+            String subtitle,
+            Date dateTime,
+            String deviceAlias,
+            Map... parameters);
+
 }

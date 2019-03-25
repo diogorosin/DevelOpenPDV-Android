@@ -13,6 +13,8 @@ import androidx.room.Update;
 
 import static br.com.developen.pdv.utils.Constants.GET_RECEIVED_OF_SALE;
 import static br.com.developen.pdv.utils.Constants.GET_SALES;
+import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_CATALOG_OF_DATE;
+import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_CATALOG_OF_PERIOD;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PERIOD_OF_MONTH;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PERIOD_OF_DATE;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PERIOD_OF_WEEK;
@@ -22,6 +24,7 @@ import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PROGENY_OF_DATE;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_PROGENY_OF_WEEK;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_USER_OF_MONTH;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_USER_OF_DATE;
+import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_USER_OF_PERIOD;
 import static br.com.developen.pdv.utils.Constants.GET_SALES_BY_USER_OF_WEEK;
 import static br.com.developen.pdv.utils.Constants.GET_SALE_BILLING_OF_MONTH;
 import static br.com.developen.pdv.utils.Constants.GET_SALE_BILLING_OF_DATE;
@@ -82,12 +85,6 @@ public interface SaleDAO {
     @Query(GET_TO_RECEIVE_OF_SALE)
     Double getToReceiveOfSaleAsDouble(Integer sale);
 
-    /* REPORTS */
-    @Query(GET_SALES_BY_PROGENY_OF_PERIOD)
-    List<SalesByProgenyBean> getSalesByProgenyOfPeriodAsList(
-            @TypeConverters({TimestampConverter.class}) Date start,
-            @TypeConverters({TimestampConverter.class}) Date end);
-
     /* GRAPHS MONTH */
 
     @Query(GET_SALES_BY_PERIOD_OF_MONTH)
@@ -138,9 +135,36 @@ public interface SaleDAO {
     LiveData<List<SalesByProgenyBean>> getSalesByProgenyOfDate(
             @TypeConverters({TimestampConverter.class}) Date date);
 
+    @Query(GET_SALES_BY_PROGENY_OF_DATE)
+    List<SalesByProgenyBean> getSalesByProgenyOfDateAsList(
+            @TypeConverters({TimestampConverter.class}) Date date);
+
+    @Query(GET_SALES_BY_PROGENY_OF_PERIOD)
+    List<SalesByProgenyBean> getSalesByProgenyOfPeriodAsList(
+            @TypeConverters({TimestampConverter.class}) Date start,
+            @TypeConverters({TimestampConverter.class}) Date end);
+
     @Query(GET_SALES_BY_USER_OF_DATE)
     LiveData<List<SalesByUserBean>> getSalesByUserOfDate(
             @TypeConverters({TimestampConverter.class}) Date date);
+
+    @Query(GET_SALES_BY_USER_OF_DATE)
+    List<SalesByUserBean> getSalesByUserOfDateAsList(
+            @TypeConverters({TimestampConverter.class}) Date date);
+
+    @Query(GET_SALES_BY_USER_OF_PERIOD)
+    List<SalesByUserBean> getSalesByUserOfPeriodAsList(
+            @TypeConverters({TimestampConverter.class}) Date start,
+            @TypeConverters({TimestampConverter.class}) Date end);
+
+    @Query(GET_SALES_BY_CATALOG_OF_DATE)
+    List<SalesByCatalogBean> getSalesByCatalogOfDateAsList(
+            @TypeConverters({TimestampConverter.class}) Date date);
+
+    @Query(GET_SALES_BY_CATALOG_OF_PERIOD)
+    List<SalesByCatalogBean> getSalesByCatalogOfPeriodAsList(
+            @TypeConverters({TimestampConverter.class}) Date start,
+            @TypeConverters({TimestampConverter.class}) Date end);
 
     @Query(GET_SALE_BILLING_OF_DATE)
     LiveData<Double> getSaleBillingOfDate(
@@ -178,6 +202,7 @@ public interface SaleDAO {
         }
 
     }
+
 
     class SalesByProgenyBean {
 
@@ -219,9 +244,14 @@ public interface SaleDAO {
 
     }
 
+
     class SalesByUserBean {
 
         private Integer user;
+
+        private String name;
+
+        private Double percentage;
 
         private Double total;
 
@@ -233,6 +263,14 @@ public interface SaleDAO {
             this.user = user;
         }
 
+        public String getName() { return name; }
+
+        public void setName(String name) { this.name = name; }
+
+        public Double getPercentage() { return percentage; }
+
+        public void setPercentage(Double percentage) { this.percentage = percentage; }
+
         public Double getTotal() {
             return total;
         }
@@ -242,5 +280,39 @@ public interface SaleDAO {
         }
 
     }
+
+
+    class SalesByCatalogBean {
+
+        private Integer catalog;
+
+        private String denomination;
+
+        private Double percentage;
+
+        private Double total;
+
+        public Integer getCatalog() { return catalog; }
+
+        public void setCatalog(Integer catalog) { this.catalog = catalog; }
+
+        public String getDenomination() { return denomination; }
+
+        public void setDenomination(String denomination) { this.denomination = denomination; }
+
+        public Double getPercentage() { return percentage; }
+
+        public void setPercentage(Double percentage) { this.percentage = percentage; }
+
+        public Double getTotal() {
+            return total;
+        }
+
+        public void setTotal(Double total) {
+            this.total = total;
+        }
+
+    }
+
 
 }

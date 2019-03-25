@@ -9,7 +9,9 @@ import android.widget.Toast;
 import com.truizlop.sectionedrecyclerview.SectionedSpanSizeLookup;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -41,9 +43,14 @@ public class ReportActivity extends AppCompatActivity implements PrintListener {
         }
     };
 
-    private View.OnClickListener salesByPeriodOnClickListener = new View.OnClickListener() {
+    private View.OnClickListener salesByCatalogOnClickListener = new View.OnClickListener() {
 
         public void onClick(View v) {
+
+            ReportFilterDialogFragment dialog = ReportFilterDialogFragment.
+                    newInstance(ReportName.SALES_BY_CATALOG, R.string.salesByCatalog);
+
+            dialog.show(ReportActivity.this.getSupportFragmentManager(), "ReportFilterDialogFragment");
 
         }
 
@@ -53,13 +60,20 @@ public class ReportActivity extends AppCompatActivity implements PrintListener {
 
         public void onClick(View v) {
 
+            ReportFilterDialogFragment dialog = ReportFilterDialogFragment.
+                    newInstance(ReportName.SALES_BY_USER, R.string.salesByUser);
+
+            dialog.show(ReportActivity.this.getSupportFragmentManager(), "ReportFilterDialogFragment");
+
         }
 
     };
 
-    private View.OnClickListener cashSummaryOnClickListener = new View.OnClickListener() {
+    private View.OnClickListener saleablesOnClickListener = new View.OnClickListener() {
 
         public void onClick(View v) {
+
+            ReportActivity.this.onExecuteReport(ReportName.SALEABLES, null);
 
         }
 
@@ -75,7 +89,7 @@ public class ReportActivity extends AppCompatActivity implements PrintListener {
 
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle(R.string.report);
+        getSupportActionBar().setTitle(R.string.reports);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -85,9 +99,9 @@ public class ReportActivity extends AppCompatActivity implements PrintListener {
 
         ReportRecyclerViewAdapter adapter = new ReportRecyclerViewAdapter(
                 salesByProgenyOnClickListener,
-                salesByPeriodOnClickListener,
+                salesByCatalogOnClickListener,
                 salesByUserOnClickListener,
-                cashSummaryOnClickListener);
+                saleablesOnClickListener);
 
         recyclerView.setAdapter(adapter);
 
@@ -173,6 +187,75 @@ public class ReportActivity extends AppCompatActivity implements PrintListener {
                             newInstance();
 
                     report.printSalesByProgeny(
+                            this,
+                            title,
+                            subtitle,
+                            dateTime,
+                            deviceAlias, parameters);
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+
+                }
+
+                break;
+
+            case SALES_BY_USER:
+
+                try {
+
+                    Report report = (Report) Class.
+                            forName("br.com.developen.pdv.report.PT7003Report").
+                            newInstance();
+
+                    report.printSalesByUser(
+                            this,
+                            title,
+                            subtitle,
+                            dateTime,
+                            deviceAlias, parameters);
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+
+                }
+
+                break;
+
+            case SALES_BY_CATALOG:
+
+                try {
+
+                    Report report = (Report) Class.
+                            forName("br.com.developen.pdv.report.PT7003Report").
+                            newInstance();
+
+                    report.printSalesByCatalog(
+                            this,
+                            title,
+                            subtitle,
+                            dateTime,
+                            deviceAlias, parameters);
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+
+                }
+
+                break;
+
+            case SALEABLES:
+
+                try {
+
+                    Report report = (Report) Class.
+                            forName("br.com.developen.pdv.report.PT7003Report").
+                            newInstance();
+
+                    report.printSaleables(
                             this,
                             title,
                             subtitle,
