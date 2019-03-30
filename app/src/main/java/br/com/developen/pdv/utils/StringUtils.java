@@ -194,28 +194,28 @@ public class StringUtils {
 
         switch (level){
 
-            case Constants.UNDEFINED_LEVEL: result = "Indefinido";
+            case Constants.UNDEFINED_SUBJECT_LEVEL: result = "Indefinido";
                 break;
 
-            case Constants.CUSTOMER_SUPPLIER_LEVEL: result = "Cliente/Fornecedor";
+            case Constants.CUSTOMER_SUPPLIER_SUBJECT_LEVEL: result = "Cliente/Fornecedor";
                 break;
 
-            case Constants.CASHIER_LEVEL: result = "Operador de Caixa";
+            case Constants.CASHIER_SUBJECT_LEVEL: result = "Operador de Caixa";
                 break;
 
-            case Constants.MANAGER_LEVEL: result = "Gerente";
+            case Constants.MANAGER_SUBJECT_LEVEL: result = "Gerente";
                 break;
 
-            case Constants.SUPERVISOR_LEVEL: result = "Supervisor";
+            case Constants.SUPERVISOR_SUBJECT_LEVEL: result = "Supervisor";
                 break;
 
-            case Constants.OWNER_PARTNER_LEVEL: result = "Sócio/Proprietário";
+            case Constants.OWNER_PARTNER_SUBJECT_LEVEL: result = "Sócio/Proprietário";
                 break;
 
-            case Constants.SUPPORT_ANALYST_LEVEL: result = "Analista de Suporte";
+            case Constants.SUPPORT_ANALYST_SUBJECT_LEVEL: result = "Analista de Suporte";
                 break;
 
-            case Constants.DEVELOPER_LEVEL: result = "Desenvolvedor";
+            case Constants.DEVELOPER_SUBJECT_LEVEL: result = "Desenvolvedor";
                 break;
 
         }
@@ -223,5 +223,25 @@ public class StringUtils {
         return result;
 
     }
+
+
+    public static String getDenominationOfSaleStatus(String status){
+
+        String result = "";
+
+        switch (status){
+
+            case Constants.OPENED_SALE_STATUS: result = "Em aberto";
+                break;
+
+            case Constants.FINISHED_SALE_STATUS: result = "Finalizada";
+                break;
+
+        }
+
+        return result;
+
+    }
+
 
 }

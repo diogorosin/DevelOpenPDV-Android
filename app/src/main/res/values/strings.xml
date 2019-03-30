@@ -36,6 +36,7 @@
     <string name="closure">Fechamento</string>
     <string name="supplies">Complementos</string>
     <string name="sales">Vendas</string>
+    <string name="status">Situação</string>
     <string name="sale">Venda</string>
     <string name="removals">Sangria</string>
     <string name="supply">Complemento</string>
@@ -70,9 +71,9 @@
     <string name="today">Hoje</string>
     <string name="week">Semana</string>
     <string name="month">Mês</string>
-    <string name="salesByPeriod">Vendas por Período</string>
-    <string name="salesByProgeny">Vendas por Produto/Serviço</string>
-    <string name="salesByUser">Vendas por Usuário</string>
+    <string name="sales_by_period">Vendas por Período</string>
+    <string name="sales_by_progeny">Vendas por Produto/Serviço</string>
+    <string name="sales_by_user">Vendas por Usuário</string>
     <string name="check">Cheque</string>
     <string name="credit_card">Cartão de Crédito</string>
     <string name="debit_card">Cartão de Débito</string>
@@ -82,11 +83,11 @@
     <string name="report">Relatório</string>
     <string name="reports">Relatórios</string>
     <string name="title_activity_report">ReportActivity</string>
-    <string name="forgotPassword">Esqueceu sua senha?</string>
+    <string name="forgot_password">Esqueceu sua senha?</string>
     <string name="period">Período</string>
     <string name="from">De:</string>
     <string name="to">Até:</string>
-
+    <string name="saleReverse">Estornar Venda</string>
 
     <!-- Messages        -->
     <string name="error_invalid_email">O login informado é inválido.</string>
@@ -139,6 +140,10 @@
     <string name="welcome_company">Selecione uma opção abaixo e pressione avançar:</string>
     <string name="finish_line_01">Parabéns! Dispositivo configurado com sucesso.</string>
     <string name="company_register">Informe os dados da sua empresa:</string>
-    <string name="salesByCatalog">Vendas por Categoria</string>
+    <string name="sales_by_catalog">Vendas por Categoria</string>
+    <string name="number">Número</string>
+    <string name="progeny">Produto/Serviço</string>
+    <string name="quantity">Quantidade</string>
+    <string name="measure_unit">measureUnit</string>
 
 </resources>

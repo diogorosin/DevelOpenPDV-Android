@@ -9,22 +9,22 @@
             android:checked="true">
         </item>
         <item
-            android:id="@+id/activity_main_menu_catalog"
-            android:icon="@drawable/sale_24"
-            android:checkable="false"
-            android:title="@string/sale">
-        </item>
-        <item
             android:id="@+id/activity_main_menu_cash"
             android:icon="@drawable/cash_24"
             android:checkable="false"
             android:title="Caixa">
         </item>
         <item
+            android:id="@+id/activity_main_menu_sale"
+            android:icon="@drawable/sale_24"
+            android:checkable="false"
+            android:title="@string/sales">
+        </item>
+        <item
             android:id="@+id/activity_main_menu_report"
             android:icon="@drawable/report_24"
             android:checkable="false"
-            android:title="@string/report">
+            android:title="@string/reports">
         </item>
     </group>
     <group android:checkableBehavior="none">

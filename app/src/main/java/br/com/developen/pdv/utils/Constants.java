@@ -2,29 +2,66 @@ package br.com.developen.pdv.utils;
 
 public class Constants {
 
-    //00 INDEFINIDO (BLOQUEADO)
-    public static final int UNDEFINED_LEVEL = 00;
+    /** 00 INDEFINIDO (BLOQUEADO) */
+    public static final int UNDEFINED_SUBJECT_LEVEL = 00;
 
-    //01 CLIENTE/FORNECEDOR
-    public static final int CUSTOMER_SUPPLIER_LEVEL = 01;
+    /** 01 CLIENTE/FORNECEDOR */
+    public static final int CUSTOMER_SUPPLIER_SUBJECT_LEVEL = 01;
 
-    //02 OPERADOR DE CAIXA
-    public static final int CASHIER_LEVEL = 02;
+    /** 02 OPERADOR DE CAIXA */
+    public static final int CASHIER_SUBJECT_LEVEL = 02;
 
-    //03 GERENTE
-    public static final int MANAGER_LEVEL = 03;
+    /** 03 GERENTE */
+    public static final int MANAGER_SUBJECT_LEVEL = 03;
 
-    //04 SUPERVISOR
-    public static final int SUPERVISOR_LEVEL = 04;
+    /** 04 SUPERVISOR */
+    public static final int SUPERVISOR_SUBJECT_LEVEL = 04;
 
-    //05 EMPRESARIO/SOCIO PROPRIETARIO
-    public static final int OWNER_PARTNER_LEVEL = 05;
+     /** 05 EMPRESARIO/SOCIO PROPRIETARIO */
+    public static final int OWNER_PARTNER_SUBJECT_LEVEL = 05;
 
-    //06 ANALISTA DE SUPORTE
-    public static final int SUPPORT_ANALYST_LEVEL = 06;
+     /** 06 ANALISTA DE SUPORTE */
+    public static final int SUPPORT_ANALYST_SUBJECT_LEVEL = 06;
 
-    //07 DESENVOLVEDOR
-    public static final int DEVELOPER_LEVEL = 07;
+     /** 07 DESENVOLVEDOR */
+    public static final int DEVELOPER_SUBJECT_LEVEL = 07;
+
+
+     /** VENDA EM ABERTO */
+    public static final String OPENED_SALE_STATUS = "A";
+
+     /** VENDA FINALIZADA */
+    public static final String FINISHED_SALE_STATUS = "F";
+
+
+     /** ABERTURA DO CAIXA */
+    public static final String OPEN_CASH_OPERATION = "ABE";
+
+     /** FECHAMENTO DO CAIXA */
+    public static final String CLOSE_CASH_OPERATION = "FEC";
+
+     /** SANGRIA DO CAIXA */
+    public static final String REMOVAL_CASH_OPERATION = "SAN";
+
+     /** SUPRIMENTO DO CAIXA */
+    public static final String SUPPLY_CASH_OPERATION = "SUP";
+
+     /** RECEBIMENTO DO CAIXA */
+    public static final String RECEIPT_CASH_OPERATION = "REC";
+
+     /** TROCO DO CAIXA */
+    public static final String CHANGE_CASH_OPERATION = "TRC";
+
+    /** ESTORNO DO CAIXA */
+    public static final String REVERSAL_CASH_OPERATION = "EST";
+
+
+    /** SAIDA DO CAIXA */
+    public static final String OUT_CASH_TYPE = "S";
+
+    /** ENTRADA DO CAIXA */
+    public static final String ENTRY_CASH_TYPE = "E";
+
 
     public static final String SHARED_PREFERENCES_NAME = "DEVELOPEN_PDV";
 
@@ -71,7 +108,8 @@ public class Constants {
                     "Sbj.identifier AS 'user_identifier', " +
                     "Sbj.active AS 'user_active', " +
                     "Sbj.level AS 'user_level', " +
-                    "Ind.name AS 'user_name' " +
+                    "Ind.name AS 'user_name', " +
+                    "(SELECT SUM(total) FROM SaleItem WHERE sale = Sle.identifier) AS 'total' " +
                     "FROM " +
                     "Sale Sle " +
                     "INNER JOIN " +
@@ -82,7 +120,6 @@ public class Constants {
                     "Subject Sbj ON Sbj.identifier = Ind.subject " +
                     "WHERE " +
                     "Sle.identifier = :identifier";
-
 
     public static final String GET_RECEIVED_OF_SALE =
             "SELECT " +
@@ -320,7 +357,8 @@ public class Constants {
                     "Sbj.identifier AS 'user_identifier', " +
                     "Sbj.active AS 'user_active', " +
                     "Sbj.level AS 'user_level', " +
-                    "Ind.name AS 'user_name' " +
+                    "Ind.name AS 'user_name', " +
+                    "(SELECT SUM(total) FROM SaleItem WHERE sale = Sle.identifier) AS 'total' " +
                     "FROM " +
                     "Sale Sle " +
                     "INNER JOIN " +
@@ -328,7 +366,9 @@ public class Constants {
                     "INNER JOIN " +
                     "Individual Ind ON Ind.subject = Usr.individual " +
                     "INNER JOIN " +
-                    "Subject Sbj ON Sbj.identifier = Ind.subject";
+                    "Subject Sbj ON Sbj.identifier = Ind.subject " +
+                    "WHERE Sle.status <> 'A' " +
+                    "ORDER BY Sle.identifier DESC";
 
     public static final String GET_SALES_BY_PERIOD_OF_DATE =
             "SELECT " +
@@ -363,7 +403,7 @@ public class Constants {
                     "ORDER BY " +
                     "5 DESC";
 
-        public static final String GET_SALES_BY_PROGENY_OF_PERIOD =
+    public static final String GET_SALES_BY_PROGENY_OF_PERIOD =
             "SELECT " +
                     "Slb.identifier AS 'progeny', " +
                     "Slb.reference AS 'reference', " +

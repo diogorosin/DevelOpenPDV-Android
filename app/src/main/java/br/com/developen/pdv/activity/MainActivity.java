@@ -140,17 +140,17 @@ public class MainActivity
 
                 break;
 
-            case R.id.activity_main_menu_catalog:
+            case R.id.activity_main_menu_sale:
 
                 drawer.closeDrawers();
 
-                if (cashOpen)
+                //if (cashOpen)
 
                     openSaleActivity();
 
-                else
+                //else
 
-                    showCashClosedAlertDialog();
+                  //  showCashClosedAlertDialog();
 
                 break;
 
@@ -258,7 +258,7 @@ public class MainActivity
 
     private void openSaleActivity(){
 
-        Intent saleIntent = new Intent(MainActivity.this, CatalogActivity.class);
+        Intent saleIntent = new Intent(MainActivity.this, SaleActivity.class);
 
         startActivity(saleIntent);
 
@@ -274,7 +274,7 @@ public class MainActivity
         cashIntent.putExtra(ConfirmPasswordActivity.USER_NAME,
                 preferences.getString(Constants.USER_NAME_PROPERTY, "Desconhecido"));
 
-        cashIntent.putExtra(ConfirmPasswordActivity.MINIMUM_LEVEL, Constants.MANAGER_LEVEL);
+        cashIntent.putExtra(ConfirmPasswordActivity.MINIMUM_LEVEL, Constants.MANAGER_SUBJECT_LEVEL);
 
         startActivityForResult(cashIntent, CASH);
 
@@ -290,7 +290,7 @@ public class MainActivity
         reportIntent.putExtra(ConfirmPasswordActivity.USER_NAME,
                 preferences.getString(Constants.USER_NAME_PROPERTY, "Desconhecido"));
 
-        reportIntent.putExtra(ConfirmPasswordActivity.MINIMUM_LEVEL, Constants.MANAGER_LEVEL);
+        reportIntent.putExtra(ConfirmPasswordActivity.MINIMUM_LEVEL, Constants.MANAGER_SUBJECT_LEVEL);
 
         startActivityForResult(reportIntent, REPORT);
 

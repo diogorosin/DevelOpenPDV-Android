@@ -9,9 +9,7 @@ import android.widget.Toast;
 import com.truizlop.sectionedrecyclerview.SectionedSpanSizeLookup;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -36,7 +34,7 @@ public class ReportActivity extends AppCompatActivity implements PrintListener {
         public void onClick(View v) {
 
             ReportFilterDialogFragment dialog = ReportFilterDialogFragment.
-                    newInstance(ReportName.SALES_BY_PROGENY, R.string.salesByProgeny);
+                    newInstance(ReportName.SALES_BY_PROGENY, R.string.sales_by_progeny);
 
             dialog.show(ReportActivity.this.getSupportFragmentManager(), "ReportFilterDialogFragment");
 
@@ -48,7 +46,7 @@ public class ReportActivity extends AppCompatActivity implements PrintListener {
         public void onClick(View v) {
 
             ReportFilterDialogFragment dialog = ReportFilterDialogFragment.
-                    newInstance(ReportName.SALES_BY_CATALOG, R.string.salesByCatalog);
+                    newInstance(ReportName.SALES_BY_CATALOG, R.string.sales_by_catalog);
 
             dialog.show(ReportActivity.this.getSupportFragmentManager(), "ReportFilterDialogFragment");
 
@@ -61,7 +59,7 @@ public class ReportActivity extends AppCompatActivity implements PrintListener {
         public void onClick(View v) {
 
             ReportFilterDialogFragment dialog = ReportFilterDialogFragment.
-                    newInstance(ReportName.SALES_BY_USER, R.string.salesByUser);
+                    newInstance(ReportName.SALES_BY_USER, R.string.sales_by_user);
 
             dialog.show(ReportActivity.this.getSupportFragmentManager(), "ReportFilterDialogFragment");
 

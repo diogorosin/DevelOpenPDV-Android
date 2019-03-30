@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -68,7 +69,7 @@ public interface SaleDAO {
     LiveData<Double> getTotalOfSale(Integer sale);
 
     @Query(GET_SALES)
-    List<SaleModel> getSales();
+    DataSource.Factory<Integer, SaleModel> getSalesPaged();
 
     @Query(GET_TOTAL_OF_SALE)
     Double getTotalOfSaleAsDouble(Integer sale);

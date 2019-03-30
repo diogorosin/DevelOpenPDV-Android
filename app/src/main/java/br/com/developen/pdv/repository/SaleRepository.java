@@ -7,10 +7,17 @@ import java.util.List;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 import br.com.developen.pdv.room.SaleDAO;
+import br.com.developen.pdv.room.SaleModel;
 import br.com.developen.pdv.utils.DB;
 
 public class SaleRepository extends AndroidViewModel {
+
+
+    private LiveData<PagedList<SaleModel>> salesPaged;
 
 
     private LiveData<Double> subtotalOfSale;
@@ -64,6 +71,27 @@ public class SaleRepository extends AndroidViewModel {
     public SaleRepository(Application application) {
 
         super(application);
+
+    }
+
+
+    public LiveData<PagedList<SaleModel>> getSalesPaged(){
+
+        if (salesPaged==null){
+
+            DataSource.Factory<Integer, SaleModel> factory = DB.getInstance(
+                    getApplication()).
+                    saleDAO().
+                    getSalesPaged();
+
+            LivePagedListBuilder<Integer, SaleModel> listBuilder =
+                    new LivePagedListBuilder<>(factory, 50);
+
+            salesPaged = listBuilder.build();
+
+        }
+
+        return salesPaged;
 
     }
 

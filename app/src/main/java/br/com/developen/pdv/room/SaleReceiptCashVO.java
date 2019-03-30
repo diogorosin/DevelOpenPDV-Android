@@ -35,6 +35,9 @@ public class SaleReceiptCashVO {
     @ColumnInfo(name = "cash")
     private Integer cash;
 
+    @ColumnInfo(name = "reversal")
+    private Integer reversal;
+
     public Integer getSale() {
 
         return sale;
@@ -68,6 +71,18 @@ public class SaleReceiptCashVO {
     public void setCash(Integer cash) {
 
         this.cash = cash;
+
+    }
+
+    public Integer getReversal() {
+
+        return reversal;
+
+    }
+
+    public void setReversal(Integer reversal) {
+
+        this.reversal = reversal;
 
     }
 

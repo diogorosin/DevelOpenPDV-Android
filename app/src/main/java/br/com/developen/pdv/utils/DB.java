@@ -1,10 +1,12 @@
 package br.com.developen.pdv.utils;
 
+import android.content.Context;
+
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import android.content.Context;
-
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 import br.com.developen.pdv.room.CashDAO;
 import br.com.developen.pdv.room.CashVO;
 import br.com.developen.pdv.room.CatalogDAO;
@@ -69,8 +71,20 @@ import br.com.developen.pdv.room.UserVO;
         CashVO.class,
         SaleVO.class,
         SaleItemVO.class,
-        SaleItemTicketVO.class}, views = {SaleableModel.class}, version = 001, exportSchema = false)
+        SaleItemTicketVO.class}, views = {SaleableModel.class}, version = 002, exportSchema = false)
 public abstract class DB extends RoomDatabase {
+
+
+
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+
+        public void migrate(SupportSQLiteDatabase database) {
+
+            database.execSQL("ALTER TABLE 'SaleReceiptCash' ADD 'reversal' INTEGER");
+
+        }
+
+    };
 
     private static DB INSTANCE;
 
@@ -80,7 +94,9 @@ public abstract class DB extends RoomDatabase {
 
             INSTANCE = Room
                     .databaseBuilder(context.getApplicationContext(), DB.class, "developenpdv")
-                    .allowMainThreadQueries().build();
+                    .addMigrations(MIGRATION_1_2)
+                    .allowMainThreadQueries().
+                            build();
 
         }
 

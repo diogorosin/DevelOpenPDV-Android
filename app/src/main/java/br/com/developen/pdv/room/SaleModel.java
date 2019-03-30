@@ -19,6 +19,8 @@ public class SaleModel {
     @Embedded(prefix = "user_")
     private UserModel user;
 
+    private Double total;
+
     public Integer getIdentifier() {
 
         return identifier;
@@ -76,6 +78,18 @@ public class SaleModel {
     public void setUser(UserModel user) {
 
         this.user = user;
+
+    }
+
+    public Double getTotal() {
+
+        return total;
+
+    }
+
+    public void setTotal(Double total) {
+
+        this.total = total;
 
     }
 
