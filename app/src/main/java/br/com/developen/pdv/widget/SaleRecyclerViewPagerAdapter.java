@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import br.com.developen.pdv.R;
 import br.com.developen.pdv.room.SaleModel;
 import br.com.developen.pdv.utils.App;
+import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.StringUtils;
 
 public class SaleRecyclerViewPagerAdapter extends PagedListAdapter<SaleModel, SaleRecyclerViewPagerAdapter.SaleViewHolder> {
@@ -51,6 +52,11 @@ public class SaleRecyclerViewPagerAdapter extends PagedListAdapter<SaleModel, Sa
         holder.dateTime.setText(StringUtils.formatDateTime(holder.saleModel.getDateTime()));
 
         holder.status.setText(StringUtils.getDenominationOfSaleStatus(holder.saleModel.getStatus()));
+
+        int color = ContextCompat.getColor(App.getContext(),
+                holder.saleModel.getStatus().equals(Constants.CANCELED_SALE_STATUS) ?  R.color.colorRedLight : R.color.colorWhite);
+
+        holder.status.setTextColor(color);
 
         holder.total.setText(StringUtils.formatCurrency(holder.saleModel.getTotal()));
 
@@ -110,7 +116,7 @@ public class SaleRecyclerViewPagerAdapter extends PagedListAdapter<SaleModel, Sa
 
         if (value)
 
-            selectedItems.put(position, value);
+            selectedItems.put(position, true);
 
         else
 

@@ -2,6 +2,7 @@ package br.com.developen.pdv.utils;
 
 public class Constants {
 
+
     /** 00 INDEFINIDO (BLOQUEADO) */
     public static final int UNDEFINED_SUBJECT_LEVEL = 00;
 
@@ -32,6 +33,9 @@ public class Constants {
 
      /** VENDA FINALIZADA */
     public static final String FINISHED_SALE_STATUS = "F";
+
+    /** VENDA CANCELADA */
+    public static final String CANCELED_SALE_STATUS = "C";
 
 
      /** ABERTURA DO CAIXA */
@@ -109,7 +113,8 @@ public class Constants {
                     "Sbj.active AS 'user_active', " +
                     "Sbj.level AS 'user_level', " +
                     "Ind.name AS 'user_name', " +
-                    "(SELECT SUM(total) FROM SaleItem WHERE sale = Sle.identifier) AS 'total' " +
+                    "(SELECT SUM(total) FROM SaleItem WHERE sale = Sle.identifier) AS 'total', " +
+                    "Sle.note AS 'note' " +
                     "FROM " +
                     "Sale Sle " +
                     "INNER JOIN " +
@@ -358,7 +363,8 @@ public class Constants {
                     "Sbj.active AS 'user_active', " +
                     "Sbj.level AS 'user_level', " +
                     "Ind.name AS 'user_name', " +
-                    "(SELECT SUM(total) FROM SaleItem WHERE sale = Sle.identifier) AS 'total' " +
+                    "(SELECT SUM(total) FROM SaleItem WHERE sale = Sle.identifier) AS 'total', " +
+                    "Sle.note AS 'note' " +
                     "FROM " +
                     "Sale Sle " +
                     "INNER JOIN " +

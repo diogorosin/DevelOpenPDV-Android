@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -36,14 +37,16 @@ public class MainActivity
 
     private static final int CASH = 0;
 
-    private static final int REPORT = 1;
+    private static final int REPORTS = 1;
+
+    private static final int SALES = 2;
 
 
     private SharedPreferences preferences;
 
     private Snackbar cashClosedSnackbar;
 
-    private Boolean cashOpen = false;
+    private Boolean cashIsOpen = false;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,9 +99,9 @@ public class MainActivity
 
             public void onChanged(Boolean isOpen) {
 
-                cashOpen = isOpen;
+                cashIsOpen = isOpen;
 
-                if (!isOpen)
+                if (!cashIsOpen)
 
                     getCashClosedSnackbar().show();
 
@@ -106,9 +109,54 @@ public class MainActivity
 
                     getCashClosedSnackbar().dismiss();
 
+                supportInvalidateOptionsMenu();
+
             }
 
         });
+
+    }
+
+
+    public boolean onPrepareOptionsMenu (Menu menu) {
+
+        menu.findItem(R.id.activity_main_menu_newsale).setVisible(cashIsOpen);
+
+        return true;
+
+    }
+
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.activity_main_menu, menu);
+
+        return true;
+
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.activity_main_menu_newsale:
+
+                if (cashIsOpen)
+
+                    openCatalogActivity();
+
+                else
+
+                    showCashClosedAlertDialog();
+
+                return true;
+
+            default:
+
+                return super.onOptionsItemSelected(item);
+
+        }
 
     }
 
@@ -136,25 +184,19 @@ public class MainActivity
 
         switch (item.getItemId()){
 
-            case R.id.activity_main_menu_home:
+            case R.id.activity_main_drawer_menu_home:
 
                 break;
 
-            case R.id.activity_main_menu_sale:
+            case R.id.activity_main_drawer_menu_sale:
 
                 drawer.closeDrawers();
 
-                //if (cashOpen)
-
-                    openSaleActivity();
-
-                //else
-
-                  //  showCashClosedAlertDialog();
+                openSaleActivity();
 
                 break;
 
-            case R.id.activity_main_menu_cash:
+            case R.id.activity_main_drawer_menu_cash:
 
                 drawer.closeDrawer(GravityCompat.START);
 
@@ -162,7 +204,7 @@ public class MainActivity
 
                 break;
 
-            case R.id.activity_main_menu_report:
+            case R.id.activity_main_drawer_menu_report:
 
                 drawer.closeDrawer(GravityCompat.START);
 
@@ -170,7 +212,7 @@ public class MainActivity
 
                 break;
 
-            case R.id.activity_main_menu_logout:
+            case R.id.activity_main_drawer_menu_logout:
 
                 SharedPreferences.Editor editor = preferences.edit();
 
@@ -258,9 +300,25 @@ public class MainActivity
 
     private void openSaleActivity(){
 
-        Intent saleIntent = new Intent(MainActivity.this, SaleActivity.class);
+        Intent saleIntent = new Intent(MainActivity.this, ConfirmPasswordActivity.class);
 
-        startActivity(saleIntent);
+        saleIntent.putExtra(ConfirmPasswordActivity.USER_IDENTIFIER,
+                preferences.getInt(Constants.USER_IDENTIFIER_PROPERTY, 0));
+
+        saleIntent.putExtra(ConfirmPasswordActivity.USER_NAME,
+                preferences.getString(Constants.USER_NAME_PROPERTY, "Desconhecido"));
+
+        saleIntent.putExtra(ConfirmPasswordActivity.MINIMUM_LEVEL, Constants.MANAGER_SUBJECT_LEVEL);
+
+        startActivityForResult(saleIntent, SALES);
+
+    }
+
+    private void openCatalogActivity(){
+
+        Intent catalogIntent = new Intent(MainActivity.this, CatalogActivity.class);
+
+        startActivity(catalogIntent);
 
     }
 
@@ -292,7 +350,7 @@ public class MainActivity
 
         reportIntent.putExtra(ConfirmPasswordActivity.MINIMUM_LEVEL, Constants.MANAGER_SUBJECT_LEVEL);
 
-        startActivityForResult(reportIntent, REPORT);
+        startActivityForResult(reportIntent, REPORTS);
 
     }
 
@@ -316,13 +374,27 @@ public class MainActivity
 
             }
 
-            case (REPORT) : {
+            case (REPORTS) : {
 
                 if (resultCode == ConfirmPasswordActivity.RESULT_OK) {
 
                     Intent reportIntent = new Intent(MainActivity.this, ReportActivity.class);
 
                     startActivity(reportIntent);
+
+                }
+
+                break;
+
+            }
+
+            case (SALES) : {
+
+                if (resultCode == ConfirmPasswordActivity.RESULT_OK) {
+
+                    Intent salesIntent = new Intent(MainActivity.this, SaleActivity.class);
+
+                    startActivity(salesIntent);
 
                 }
 

@@ -13,7 +13,7 @@ import androidx.room.Update;
 public interface SaleItemDAO {
 
     String GET_ITEMS =
-                    "SELECT " +
+            "SELECT " +
                     "Sle.identifier AS 'sale_identifier', " +
                     "Sle.number AS 'sale_number', " +
                     "Sle.status AS 'sale_status', " +
@@ -24,6 +24,8 @@ public interface SaleItemDAO {
                     "Ind.name AS 'sale_user_name', " +
                     "Usr.login AS 'sale_user_login', " +
                     "Usr.password AS 'sale_user_password', " +
+                    "(SELECT SUM(total) FROM SaleItem WHERE sale = Sle.identifier) AS 'sale_total', " +
+                    "Sle.note AS 'sale_note', " +
                     "SleItm.item AS 'item', " +
                     "Slb.identifier AS 'saleable_identifier', " +
                     "Slb.catalog_identifier AS 'saleable_catalog_identifier', " +

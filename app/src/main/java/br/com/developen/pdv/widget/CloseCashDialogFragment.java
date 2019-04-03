@@ -3,16 +3,9 @@ package br.com.developen.pdv.widget;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -21,6 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import br.com.developen.pdv.R;
 import br.com.developen.pdv.repository.CashRepository;
 import br.com.developen.pdv.room.CashModel;
@@ -124,6 +124,11 @@ public class CloseCashDialogFragment extends DialogFragment
         cashViewModel.value().observe(getActivity(), new Observer<Double>() {
 
             public void onChanged(final Double value) {
+
+                //int color = ContextCompat.getColor(App.getContext(),
+                  //      value >= 0 ?  R.color.colorBlueLight : R.color.colorRedLight);
+
+                //valueTextView.setTextColor(color);
 
                 valueTextView.setText(StringUtils.formatCurrencyWithSymbol(value));
 

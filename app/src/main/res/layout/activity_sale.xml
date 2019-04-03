@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:id="@+id/activity_sale_layout"
     tools:context=".activity.SaleActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -21,6 +22,10 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <include layout="@layout/activity_sale_content" />
+
+    <!--
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -82,14 +87,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-    </LinearLayout>
+    </LinearLayout> -->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/activity_sale_new"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:layout_margin="30dp"
+        app:srcCompat="@drawable/new_sale_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

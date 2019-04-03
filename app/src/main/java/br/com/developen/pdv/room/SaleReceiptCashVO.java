@@ -19,8 +19,17 @@ import androidx.room.Index;
                         parentColumns = "identifier",
                         childColumns = "cash",
                         onDelete = ForeignKey.RESTRICT,
+                        onUpdate = ForeignKey.CASCADE),
+                @ForeignKey(entity = CashVO.class,
+                        parentColumns = "identifier",
+                        childColumns = "reversal",
+                        onDelete = ForeignKey.RESTRICT,
                         onUpdate = ForeignKey.CASCADE)},
-        indices = {@Index(value={"sale", "receipt", "cash"})})
+        indices = {
+                @Index(value={"sale", "receipt", "cash"}),
+                @Index(value={"reversal"})
+        }
+)
 public class SaleReceiptCashVO {
 
     @NonNull

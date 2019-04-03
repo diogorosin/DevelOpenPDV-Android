@@ -1,7 +1,5 @@
 package br.com.developen.pdv.widget;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +7,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import br.com.developen.pdv.R;
 import br.com.developen.pdv.room.CashModel;
+import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.StringUtils;
 
 public class CashSummaryRecyclerViewAdapter extends RecyclerView.Adapter<CashSummaryRecyclerViewAdapter.CashSummaryViewHolder>{
@@ -40,39 +41,18 @@ public class CashSummaryRecyclerViewAdapter extends RecyclerView.Adapter<CashSum
 
         holder.cashModel = cashModelList.get(position);
 
-        Integer operation;
+        String type = holder.cashModel.getType();
 
-        switch (cashModelList.get(position).getOperation()){
+        Double value = holder.cashModel.getValue();
 
-            case "ABE": operation = R.string.opening;
-                break;
+        holder.operation.setText(StringUtils.getDenominationOfCashOperation(holder.cashModel.getOperation()));
 
-            case "FEC": operation = R.string.closure;
-                break;
+        //int color = ContextCompat.getColor(App.getContext(),
+//                holder.cashModel.getType().equals(Constants.OUT_CASH_TYPE) ?  R.color.colorRedLight : R.color.colorBlueLight);
 
-            case "SAN": operation = R.string.removals;
-                break;
+//        holder.value.setTextColor(color);
 
-            case "COM": operation = R.string.supply;
-                break;
-
-            case "REC": operation = R.string.receipt;
-                break;
-
-            case "TRC": operation = R.string.change;
-                break;
-
-            default: operation = R.string.undefined;
-
-        }
-
-        String type = cashModelList.get(position).getType();
-
-        Double value = cashModelList.get(position).getValue();
-
-        holder.operation.setText(operation);
-
-        holder.value.setText(StringUtils.formatCurrencyWithSymbol(type.equals("S") ? value * -1 : value));
+        holder.value.setText(StringUtils.formatCurrencyWithSymbol(type.equals(Constants.OUT_CASH_TYPE) ? value * -1 : value));
 
     }
 

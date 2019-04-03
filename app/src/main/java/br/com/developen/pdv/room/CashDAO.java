@@ -1,5 +1,7 @@
 package br.com.developen.pdv.room;
 
+import java.util.List;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -7,10 +9,20 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import java.util.List;
-
 @Dao
 public interface CashDAO {
+
+    String GET_CASH_VALUE = "SELECT IFNULL(" +
+            "(SELECT IFNULL(SUM(E1.value), 0) " +
+            "FROM Cash E1 " +
+            "WHERE E1.type = 'E' AND E1.identifier >= (SELECT MAX(E2.identifier) FROM Cash E2 WHERE E2.operation == 'ABE')) " +
+            "-" +
+            "(SELECT IFNULL(SUM(S1.value), 0) " +
+            "FROM Cash S1 " +
+            "WHERE S1.type = 'S' AND S1.identifier >= (SELECT MAX(S2.identifier) FROM Cash S2 WHERE S2.operation == 'ABE')) " +
+            ", 0)";
+
+    String GET_CASH_OPEN = "SELECT (COUNT(*) > 0) AND (C.operation <> 'FEC') FROM Cash C ORDER BY C.dateTime DESC LIMIT 1";
 
     @Insert
     Long create(CashVO cashVO);
@@ -27,19 +39,17 @@ public interface CashDAO {
     @Delete
     void delete(CashVO cashVO);
 
-    @Query("SELECT (COUNT(*) > 0) AND (C.operation <> 'FEC') FROM Cash C ORDER BY C.dateTime DESC LIMIT 1")
+    @Query(GET_CASH_OPEN)
     LiveData<Boolean> isOpen();
 
-    @Query("SELECT IFNULL(" +
-            "(SELECT IFNULL(SUM(E1.value), 0) " +
-            "FROM Cash E1 " +
-            "WHERE E1.type = 'E' AND E1.identifier >= (SELECT MAX(E2.identifier) FROM Cash E2 WHERE E2.operation == 'ABE')) " +
-            "-" +
-            "(SELECT IFNULL(SUM(S1.value), 0) " +
-            "FROM Cash S1 " +
-            "WHERE S1.type = 'S' AND S1.identifier >= (SELECT MAX(S2.identifier) FROM Cash S2 WHERE S2.operation == 'ABE')) " +
-            ", 0)")
+    @Query(GET_CASH_OPEN)
+    Boolean isOpenAsBoolean();
+
+    @Query(GET_CASH_VALUE)
     LiveData<Double> value();
+
+    @Query(GET_CASH_VALUE)
+    Double valueAsDouble();
 
     @Query("SELECT C1.operation AS 'operation', C1.dateTime AS 'dateTime', C1.value AS 'value', C1.type AS 'type' " +
             "FROM Cash C1 " +

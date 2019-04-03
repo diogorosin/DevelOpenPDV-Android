@@ -13,7 +13,7 @@ import androidx.room.Update;
 public interface SaleReceiptDAO {
 
     String GET_RECEIPTS =
-                    "SELECT " +
+            "SELECT " +
                     "Sle.identifier AS 'sale_identifier', " +
                     "Sle.number AS 'sale_number', " +
                     "Sle.status AS 'sale_status', " +
@@ -24,6 +24,8 @@ public interface SaleReceiptDAO {
                     "Ind.name AS 'sale_user_name', " +
                     "Usr.login AS 'sale_user_login', " +
                     "Usr.password AS 'sale_user_password', " +
+                    "(SELECT SUM(total) FROM SaleItem WHERE sale = Sle.identifier) AS 'sale_total', " +
+                    "Sle.note AS 'sale_note', " +
                     "SleRpt.receipt AS 'receipt', " +
                     "RptMth.identifier AS 'receiptMethod_identifier', " +
                     "RptMth.denomination AS 'receiptMethod_denomination', " +
@@ -89,6 +91,8 @@ public interface SaleReceiptDAO {
             "Ind.name AS 'sale_user_name', " +
             "Usr.login AS 'sale_user_login', " +
             "Usr.password AS 'sale_user_password', " +
+            "(SELECT SUM(total) FROM SaleItem WHERE sale = Sle.identifier) AS 'sale_total', " +
+            "Sle.note AS 'sale_note', " +
             "SleRpt.receipt AS 'receipt', " +
             "RptMth.identifier AS 'receiptMethod_identifier', " +
             "RptMth.denomination AS 'receiptMethod_denomination', " +

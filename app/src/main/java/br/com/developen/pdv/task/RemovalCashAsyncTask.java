@@ -10,6 +10,7 @@ import br.com.developen.pdv.exception.CannotInitializeDatabaseException;
 import br.com.developen.pdv.exception.InternalException;
 import br.com.developen.pdv.room.CashModel;
 import br.com.developen.pdv.room.CashVO;
+import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.DB;
 import br.com.developen.pdv.utils.Messaging;
 
@@ -49,9 +50,9 @@ public final class RemovalCashAsyncTask<A extends Activity & RemovalCashAsyncTas
 
             CashVO cashVO = new CashVO();
 
-            cashVO.setType("S");
+            cashVO.setType(Constants.OUT_CASH_TYPE);
 
-            cashVO.setOperation("SAN");
+            cashVO.setOperation(Constants.REMOVAL_CASH_OPERATION);
 
             cashVO.setValue(value);
 

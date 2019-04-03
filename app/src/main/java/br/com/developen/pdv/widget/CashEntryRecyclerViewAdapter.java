@@ -1,7 +1,5 @@
 package br.com.developen.pdv.widget;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +11,11 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import br.com.developen.pdv.R;
 import br.com.developen.pdv.room.CashModel;
+import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.StringUtils;
 
 public class CashEntryRecyclerViewAdapter extends RecyclerView.Adapter<CashEntryRecyclerViewAdapter.CashEntryViewHolder>{
@@ -52,59 +53,24 @@ public class CashEntryRecyclerViewAdapter extends RecyclerView.Adapter<CashEntry
 
         holder.cashModel = cashModelList.get(position);
 
-        Integer operation;
+        Double total = holder.cashModel.getValue();
 
-        switch (cashModelList.get(position).getOperation()){
+        holder.operation.setText(StringUtils.getDenominationOfCashOperation(holder.cashModel.getOperation()));
 
-            case "ABE": operation = R.string.opening;
-                break;
+        holder.dateTime.setText(StringUtils.formatShortDateTime(holder.cashModel.getDateTime()));
 
-            case "FEC": operation = R.string.closure;
-                break;
+        //int color = ContextCompat.getColor(App.getContext(),
+//                holder.cashModel.getType().equals(Constants.OUT_CASH_TYPE) ?  R.color.colorRedLight : R.color.colorBlueLight);
 
-            case "SAN": operation = R.string.removal;
-                break;
+//        holder.value.setTextColor(color);
 
-            case "COM": operation = R.string.supply;
-                break;
+        holder.value.setText(StringUtils.formatCurrencyWithSymbol(holder.cashModel.getType().equals(Constants.OUT_CASH_TYPE) ? total * -1 : total));
 
-            case "REC": operation = R.string.receipt;
-                break;
+        holder.type.setText(StringUtils.getDenominationOfCashType(holder.cashModel.getType()));
 
-            case "TRC": operation = R.string.change;
-                break;
+        holder.userName.setText(holder.cashModel.getUser().getName());
 
-            default: operation = R.string.undefined;
-
-        }
-
-        Integer type;
-
-        switch (cashModelList.get(position).getType()){
-
-            case "E": type = R.string.input;
-                break;
-
-            case "S": type = R.string.output;
-                break;
-
-            default: type = R.string.undefined;
-
-        }
-
-        Double total = cashModelList.get(position).getValue();
-
-        holder.operation.setText(operation);
-
-        holder.dateTime.setText(StringUtils.formatShortDateTime(cashModelList.get(position).getDateTime()));
-
-        holder.value.setText(StringUtils.formatCurrencyWithSymbol(cashModelList.get(position).getType().equals("S") ? total * -1 : total));
-
-        holder.type.setText(type);
-
-        holder.userName.setText(cashModelList.get(position).getUser().getName());
-
-        holder.note.setText(cashModelList.get(position).getNote());
+        holder.note.setText(holder.cashModel.getNote());
 
         boolean isSelected = position == selectedItem;
 

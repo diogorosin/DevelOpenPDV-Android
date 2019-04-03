@@ -1,22 +1,23 @@
 /*
     IDENTIFIER: IDENTIFICADOR DA VENDA
     NUMBER....: NUMERO DA VENDA
-    STATUS....: STATUS DA VENDA (A=ABERTA, F=FINALIZADA)
+    STATUS....: STATUS DA VENDA (A=ABERTA, F=FINALIZADA, C=CANCELADA)
     DATETIME..: DATA/HORA
     USER......: USUARIO
+    NOTE......: OBSERVACOES
 */
 package br.com.developen.pdv.room;
 
+import java.io.Serializable;
+import java.util.Date;
+
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
-import androidx.annotation.NonNull;
-
-import java.io.Serializable;
-import java.util.Date;
 
 @Entity(tableName = "Sale",
         foreignKeys = {
@@ -27,6 +28,7 @@ import java.util.Date;
                         onUpdate = ForeignKey.CASCADE)},
         indices = {@Index("identifier")})
 public class SaleVO implements Serializable {
+
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "identifier")
@@ -47,6 +49,10 @@ public class SaleVO implements Serializable {
     @NonNull
     @ColumnInfo(name="user")
     private Integer user;
+
+    @ColumnInfo(name="note")
+    private String note;
+
 
     public Integer getIdentifier() {
 
@@ -105,6 +111,18 @@ public class SaleVO implements Serializable {
     public void setUser(Integer user) {
 
         this.user = user;
+
+    }
+
+    public String getNote() {
+
+        return note;
+
+    }
+
+    public void setNote(String note) {
+
+        this.note = note;
 
     }
 

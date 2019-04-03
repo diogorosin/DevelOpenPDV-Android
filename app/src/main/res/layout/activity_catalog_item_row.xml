@@ -34,7 +34,7 @@
             android:minHeight="30dp"
             android:minWidth="30dp"
             android:textAlignment="center"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorWhite"
             android:textStyle="bold"
             android:textSize="14sp"
             android:clickable="false"

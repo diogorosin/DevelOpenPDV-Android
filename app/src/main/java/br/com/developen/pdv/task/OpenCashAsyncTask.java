@@ -10,6 +10,7 @@ import br.com.developen.pdv.exception.CannotInitializeDatabaseException;
 import br.com.developen.pdv.exception.InternalException;
 import br.com.developen.pdv.room.CashModel;
 import br.com.developen.pdv.room.CashVO;
+import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.DB;
 import br.com.developen.pdv.utils.Messaging;
 
@@ -49,9 +50,9 @@ public final class OpenCashAsyncTask<A extends Activity & OpenCashAsyncTask.List
 
             CashVO cashVO = new CashVO();
 
-            cashVO.setType("E");
+            cashVO.setType(Constants.ENTRY_CASH_TYPE);
 
-            cashVO.setOperation("ABE");
+            cashVO.setOperation(Constants.OPEN_CASH_OPERATION);
 
             cashVO.setValue(value);
 

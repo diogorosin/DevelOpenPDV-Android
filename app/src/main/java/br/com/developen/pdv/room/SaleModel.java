@@ -7,6 +7,7 @@ import androidx.room.TypeConverters;
 
 public class SaleModel {
 
+
     private Integer identifier;
 
     private Integer number;
@@ -20,6 +21,9 @@ public class SaleModel {
     private UserModel user;
 
     private Double total;
+
+    private String note;
+
 
     public Integer getIdentifier() {
 
@@ -93,6 +97,18 @@ public class SaleModel {
 
     }
 
+    public String getNote() {
+
+        return note;
+
+    }
+
+    public void setNote(String note) {
+
+        this.note = note;
+
+    }
+
     public boolean equals(Object o) {
 
         if (this == o) return true;
@@ -106,6 +122,23 @@ public class SaleModel {
 
         return identifier.hashCode();
 
+    }
+
+    public boolean hasSameContents(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SaleModel saleModel = (SaleModel) o;
+        if (identifier != null ? !identifier.equals(saleModel.identifier) : saleModel.identifier != null)
+            return false;
+        if (number != null ? !number.equals(saleModel.number) : saleModel.number != null)
+            return false;
+        if (status != null ? !status.equals(saleModel.status) : saleModel.status != null)
+            return false;
+        if (dateTime != null ? !dateTime.equals(saleModel.dateTime) : saleModel.dateTime != null)
+            return false;
+        if (user != null ? !user.equals(saleModel.user) : saleModel.user != null) return false;
+        if (total != null ? !total.equals(saleModel.total) : saleModel.total != null) return false;
+        return note != null ? note.equals(saleModel.note) : saleModel.note == null;
     }
 
 }

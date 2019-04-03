@@ -81,7 +81,7 @@ public class CatalogActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle(R.string.sale);
+        getSupportActionBar().setTitle(R.string.new_sale);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -161,6 +161,15 @@ public class CatalogActivity extends AppCompatActivity
                 return super.onOptionsItemSelected(item);
 
         }
+
+    }
+
+
+    public boolean onSupportNavigateUp() {
+
+        onBackPressed();
+
+        return true;
 
     }
 

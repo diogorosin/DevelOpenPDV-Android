@@ -14,7 +14,7 @@ public class SaleDiffCallback extends DiffUtil.ItemCallback<SaleModel> {
 
     public boolean areContentsTheSame(@NonNull SaleModel oldItem, @NonNull SaleModel newItem) {
 
-        return oldItem.equals(newItem);
+        return oldItem.hasSameContents(newItem);
 
     }
 

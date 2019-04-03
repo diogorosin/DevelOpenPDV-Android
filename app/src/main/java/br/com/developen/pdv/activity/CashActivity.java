@@ -2,25 +2,11 @@ package br.com.developen.pdv.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.fragment.app.DialogFragment;
-import androidx.core.app.NavUtils;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -30,6 +16,9 @@ import android.widget.Toast;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -38,6 +27,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import br.com.developen.pdv.R;
 import br.com.developen.pdv.report.Report;
 import br.com.developen.pdv.report.ReportName;
@@ -125,7 +123,7 @@ public class CashActivity extends AppCompatActivity implements
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
-        final AppBarLayout barLayout = findViewById(R.id.activity_cash_register_bar_layout);
+        final AppBarLayout barLayout = findViewById(R.id.activity_cash_bar_layout);
 
         final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.activity_cash_toolbar_layout);
 
@@ -188,11 +186,18 @@ public class CashActivity extends AppCompatActivity implements
 
             public void onChanged(final Double money) {
 
+               // int color = ContextCompat.getColor(App.getContext(),
+               //         money >= 0 ?  R.color.colorBlueLight : R.color.colorRedLight);
+
                 TextView moneyTextView = findViewById(R.id.activity_cash_money_textview);
+
+                //moneyTextView.setTextColor(color);
 
                 moneyTextView.setText(StringUtils.formatCurrencyWithSymbol(money));
 
                 TextView totalMoneyTextView = findViewById(R.id.activity_cash_summary_value_textview);
+
+                //totalMoneyTextView.setTextColor(color);
 
                 totalMoneyTextView.setText(StringUtils.formatCurrencyWithSymbol(money));
 
@@ -239,21 +244,11 @@ public class CashActivity extends AppCompatActivity implements
 
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onSupportNavigateUp() {
 
-        switch (item.getItemId()) {
+        onBackPressed();
 
-            case android.R.id.home:
-
-                NavUtils.navigateUpFromSameTask(this);
-
-                return true;
-
-            default:
-
-                return super.onOptionsItemSelected(item);
-
-        }
+        return true;
 
     }
 

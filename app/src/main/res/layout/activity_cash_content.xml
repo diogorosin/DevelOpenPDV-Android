@@ -13,7 +13,6 @@
     <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/GridLayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="100dp"
@@ -55,7 +54,7 @@
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_marginTop="30dp"
                     android:gravity="center_horizontal|center_vertical"
-                    android:textSize="18sp"/>
+                    android:textSize="32sp"/>
 
             </LinearLayout>
 

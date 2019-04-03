@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/activity_sale_menu_cancelsale"
-        android:icon="@drawable/cancel_24"
+        android:icon="@drawable/cancel_sale_24"
         android:title="@string/cancel"
         android:orderInCategory="0"
         app:showAsAction="always"/>

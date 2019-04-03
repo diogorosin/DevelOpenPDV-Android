@@ -38,6 +38,7 @@
     <string name="sales">Vendas</string>
     <string name="status">Situação</string>
     <string name="sale">Venda</string>
+    <string name="new_sale">Nova Venda</string>
     <string name="removals">Sangria</string>
     <string name="supply">Complemento</string>
     <string name="catalog">Categoria</string>
@@ -145,5 +146,8 @@
     <string name="progeny">Produto/Serviço</string>
     <string name="quantity">Quantidade</string>
     <string name="measure_unit">measureUnit</string>
+    <string name="success_sale_cancel">Venda(s) cancelada(s) com sucesso</string>
+    <string name="confirm">Confirme</string>
+    <string name="error">Erro</string>
 
 </resources>

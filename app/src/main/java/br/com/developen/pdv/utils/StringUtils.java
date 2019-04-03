@@ -190,11 +190,11 @@ public class StringUtils {
 
     public static String getDenominationOfLevel(int level){
 
-        String result = "";
+        String result;
 
         switch (level){
 
-            case Constants.UNDEFINED_SUBJECT_LEVEL: result = "Indefinido";
+            case Constants.UNDEFINED_SUBJECT_LEVEL: result = "Bloqueado";
                 break;
 
             case Constants.CUSTOMER_SUPPLIER_SUBJECT_LEVEL: result = "Cliente/Fornecedor";
@@ -218,6 +218,8 @@ public class StringUtils {
             case Constants.DEVELOPER_SUBJECT_LEVEL: result = "Desenvolvedor";
                 break;
 
+            default: result = "Indefinido";
+
         }
 
         return result;
@@ -227,7 +229,7 @@ public class StringUtils {
 
     public static String getDenominationOfSaleStatus(String status){
 
-        String result = "";
+        String result;
 
         switch (status){
 
@@ -237,11 +239,72 @@ public class StringUtils {
             case Constants.FINISHED_SALE_STATUS: result = "Finalizada";
                 break;
 
+            case Constants.CANCELED_SALE_STATUS: result = "Cancelada";
+                break;
+
+            default: result = "Indefinido";
+
         }
 
         return result;
 
     }
 
+
+    public static String getDenominationOfCashOperation(String operation){
+
+        String result;
+
+        switch (operation){
+
+            case Constants.CHANGE_CASH_OPERATION: result = "Troco";
+                break;
+
+            case Constants.OPEN_CASH_OPERATION: result = "Abertura";
+                break;
+
+            case Constants.CLOSE_CASH_OPERATION: result = "Fechamento";
+                break;
+
+            case Constants.SUPPLY_CASH_OPERATION: result = "Complemento";
+                break;
+
+            case Constants.REMOVAL_CASH_OPERATION: result = "Sangria";
+                break;
+
+            case Constants.RECEIPT_CASH_OPERATION: result = "Recebimento";
+                break;
+
+            case Constants.REVERSAL_CASH_OPERATION: result = "Estorno";
+                break;
+
+            default: result = "Indefinido";
+
+        }
+
+        return result;
+
+    }
+
+
+    public static String getDenominationOfCashType(String type){
+
+        String result;
+
+        switch (type){
+
+            case Constants.OUT_CASH_TYPE: result = "Saída";
+                break;
+
+            case Constants.ENTRY_CASH_TYPE: result = "Entrada";
+                break;
+
+            default: result = "Indefinido";
+
+        }
+
+        return result;
+
+    }
 
 }

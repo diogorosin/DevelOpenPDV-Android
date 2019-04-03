@@ -1,21 +1,26 @@
 package br.com.developen.pdv.task;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import br.com.developen.pdv.exception.CannotInitializeDatabaseException;
+import br.com.developen.pdv.exception.TaskException;
 import br.com.developen.pdv.room.CashVO;
 import br.com.developen.pdv.room.SaleModel;
 import br.com.developen.pdv.room.SaleReceiptCashModel;
 import br.com.developen.pdv.room.SaleReceiptCashVO;
+import br.com.developen.pdv.room.SaleVO;
 import br.com.developen.pdv.utils.App;
 import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.DB;
 import br.com.developen.pdv.utils.Messaging;
+import br.com.developen.pdv.utils.StringUtils;
 
 public final class CancelSaleAsyncTask<L extends CancelSaleAsyncTask.Listener>
         extends AsyncTask<SaleModel, Void, Object> {
@@ -36,7 +41,21 @@ public final class CancelSaleAsyncTask<L extends CancelSaleAsyncTask.Listener>
     }
 
 
+    protected void onPreExecute() {
+
+        L l = this.listener.get();
+
+        if (l != null)
+
+            l.onCancelSalePreExecute();
+
+    }
+
+
+    @SuppressLint("DefaultLocale")
     protected Object doInBackground(SaleModel... parameters) {
+
+        List<String> exceptions = new ArrayList<>();
 
         DB database = DB.getInstance(App.getInstance());
 
@@ -44,76 +63,142 @@ public final class CancelSaleAsyncTask<L extends CancelSaleAsyncTask.Listener>
 
             return new CannotInitializeDatabaseException();
 
+        L l = listener.get();
+
+        if (l != null)
+
+            l.onCancelSaleProgressInitialize(
+                    0,
+                    parameters.length);
+
         try {
 
+            //INICIA A TRANSACAO
             database.beginTransaction();
 
             for (SaleModel saleModel: parameters) {
 
-                //VERIFICA SE A VENDA ESTA FINALIZADA
-                switch (saleModel.getStatus()){
+                switch (saleModel.getStatus()) {
 
-                    case Constants.FINISHED_SALE_STATUS:
+                    //VERIFICA SE A VENDA ESTA FINALIZADA
+                    case Constants.FINISHED_SALE_STATUS: {
 
-                        //ESTORNA OS LANCAMENTOS NO CAIXA
-                        List<SaleReceiptCashModel> saleReceiptCashList = database.
-                                saleReceiptCashDAO().
-                                getListBySale(saleModel.getIdentifier());
+                        //VERIFICA SE O CAIXA ESTA ABERTO
+                        if (!database.cashDAO().isOpenAsBoolean()) {
 
-                        for (SaleReceiptCashModel saleReceiptCashModel: saleReceiptCashList) {
+                            exceptions.add(String.format("Não foi possível cancelar a venda nº %d: Caixa encontra-se fechado.", saleModel.getNumber()));
 
+                        } else {
 
-                            CashVO cashVO = new CashVO();
+                            //OBTEM A SOMA DOS RECEBIMENTOS
+                            //EM DINHEIRO DA VENDA
+                            Double cashSumOfSale = database.
+                                    saleReceiptCashDAO().
+                                    getTotalBySale(saleModel.getIdentifier());
 
-                            cashVO.setDateTime(new Date());
+                            if (cashSumOfSale > 0) {
 
-                            cashVO.setOperation(Constants.REVERSAL_CASH_OPERATION);
+                                //OBTEM O SALDO DO CAIXA
+                                Double cashValue = database.cashDAO().valueAsDouble();
 
-                            cashVO.setType(Constants.OUT_CASH_TYPE);
+                                //VERIFICA SE EXISTE SALDO SUFICIENTE NO CAIXA
+                                //PARA REALIZAR A DEVOLUCAO DO DINHEIRO AO CLIENTE
+                                if (cashSumOfSale > cashValue) {
 
-                            cashVO.setNote("Venda Nº " + saleModel.getIdentifier());
+                                    exceptions.add(String.format("Não foi possível cancelar a venda nº %d: Saldo do caixa é insuficiente.", saleModel.getNumber()));
 
-                            cashVO.setUser(preferences.getInt(Constants.USER_IDENTIFIER_PROPERTY, 0));
+                                } else {
 
-                            cashVO.setValue(saleReceiptCashModel.getCash().getValue());
+                                    //OBTEM OS PAGAMENTOS EM DINHEIRO DA VENDA
+                                    List<SaleReceiptCashModel> saleReceiptCashList = database.
+                                            saleReceiptCashDAO().
+                                            getListBySale(saleModel.getIdentifier());
 
-                            cashVO.setIdentifier(database.cashDAO().create(cashVO).intValue());
+                                    for (SaleReceiptCashModel saleReceiptCashModel : saleReceiptCashList) {
 
+                                        //VERIFICA SE O RECEBIMENTO
+                                        //JA FOI PREVIAMENTE ESTORNADO
+                                        if (saleReceiptCashModel.getReversal() == null) {
 
-                            SaleReceiptCashVO saleReceiptCash = database.saleReceiptCashDAO().retrieve(
+                                            //LANCA O MOVIMENTO DE ESTORNO NO CAIXA
+                                            CashVO cashVO = new CashVO();
 
-                                    saleReceiptCashModel.getSaleReceipt().getSale().getIdentifier(),
-                                    saleReceiptCashModel.getSaleReceipt().getReceipt(),
-                                    saleReceiptCashModel.getCash().getIdentifier()
+                                            cashVO.setDateTime(new Date());
 
-                            );
+                                            cashVO.setOperation(Constants.REVERSAL_CASH_OPERATION);
 
-                            saleReceiptCash.setReversal(cashVO.getIdentifier());
+                                            cashVO.setType(Constants.OUT_CASH_TYPE);
 
-                            database.saleReceiptCashDAO().update(saleReceiptCash);
+                                            cashVO.setNote("Venda Nº " + saleModel.getIdentifier());
+
+                                            cashVO.setUser(preferences.getInt(Constants.USER_IDENTIFIER_PROPERTY, 0));
+
+                                            cashVO.setValue(saleReceiptCashModel.getCash().getValue());
+
+                                            cashVO.setIdentifier(database.cashDAO().create(cashVO).intValue());
+
+                                            //VINCULA O NOVO LANCAMENTO AO RECEBIMENTO ESTORNADO
+                                            SaleReceiptCashVO saleReceiptCash = database.saleReceiptCashDAO().retrieve(
+
+                                                    saleReceiptCashModel.getSaleReceipt().getSale().getIdentifier(),
+                                                    saleReceiptCashModel.getSaleReceipt().getReceipt(),
+                                                    saleReceiptCashModel.getCash().getIdentifier()
+
+                                            );
+
+                                            saleReceiptCash.setReversal(cashVO.getIdentifier());
+
+                                            database.saleReceiptCashDAO().update(saleReceiptCash);
+
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+
+                            //DEFINE A VENDA COMO CANCELADA
+                            SaleVO saleVO = database.
+                                    saleDAO().
+                                    retrieve(saleModel.getIdentifier());
+
+                            saleVO.setStatus(Constants.CANCELED_SALE_STATUS);
+
+                            saleVO.setNote(String.format("Venda cancelada por %s em %s.",
+                                    preferences.getString(Constants.USER_NAME_PROPERTY,"Desconhecido"),
+                                    StringUtils.formatDateTime(new Date())));
+
+                            database.saleDAO().update(saleVO);
 
                         }
 
-
-
-
-
-
-
-
                         break;
 
+                    }
+
                 }
+
+                //ATUALIZA O STATUS
+                if (l != null)
+
+                    l.onCancelSaleProgressUpdate(1);
+
+                Thread.sleep(500);
 
             }
 
             database.setTransactionSuccessful();
 
-            return null;
+            if (exceptions.isEmpty())
+
+                return 0;
+
+            else
+
+                return new TaskException(exceptions.toArray(new String[0]));
 
         } catch(Exception exception) {
-
-            exception.printStackTrace();
 
             return exception;
 
@@ -153,11 +238,41 @@ public final class CancelSaleAsyncTask<L extends CancelSaleAsyncTask.Listener>
     }
 
 
+    protected void onProgressUpdate(Integer... progress) {
+
+        L l = this.listener.get();
+
+        if (l != null)
+
+            l.onCancelSaleProgressUpdate(progress[0]);
+
+    }
+
+
+    protected void onCancelled() {
+
+        L l = this.listener.get();
+
+        if (l != null)
+
+            l.onCancelSaleCancelled();
+
+    }
+
+
     public interface Listener {
+
+        void onCancelSalePreExecute();
+
+        void onCancelSaleProgressInitialize(int progress, int max);
+
+        void onCancelSaleProgressUpdate(int status);
 
         void onCancelSaleSuccess();
 
-        void onCancelSaleFailure(Messaging messaging);
+        void onCancelSaleFailure(Messaging message);
+
+        void onCancelSaleCancelled();
 
     }
 

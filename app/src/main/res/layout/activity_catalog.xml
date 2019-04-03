@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="30dp"
-        app:backgroundTint="@color/colorBlackMedium"
+        app:backgroundTint="@color/colorGreenMedium"
         app:srcCompat="@drawable/sale_24"
         app:elevation="6dp" />
 

@@ -1,15 +1,25 @@
 package br.com.developen.pdv.activity;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
 import android.util.SparseBooleanArray;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.Toolbar;
@@ -19,6 +29,7 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import br.com.developen.pdv.R;
+import br.com.developen.pdv.repository.CashRepository;
 import br.com.developen.pdv.repository.SaleRepository;
 import br.com.developen.pdv.room.SaleModel;
 import br.com.developen.pdv.task.CancelSaleAsyncTask;
@@ -32,6 +43,16 @@ public class SaleActivity extends AppCompatActivity implements CancelSaleAsyncTa
 
 
     private ActionMode actionMode;
+
+    private RecyclerView recyclerView;
+
+    private Snackbar cashClosedSnackbar;
+
+    private SaleRepository saleRepository;
+
+    private ProgressDialog progressDialog;
+
+    private FloatingActionButton newSaleFAB;
 
     private SaleRecyclerViewPagerAdapter adapter;
 
@@ -53,7 +74,7 @@ public class SaleActivity extends AppCompatActivity implements CancelSaleAsyncTa
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        RecyclerView recyclerView = findViewById(R.id.activity_sale_recyclerview);
+        recyclerView = findViewById(R.id.activity_sale_recyclerview);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
 
@@ -81,13 +102,26 @@ public class SaleActivity extends AppCompatActivity implements CancelSaleAsyncTa
 
         }));
 
-        SaleRepository saleRepository = ViewModelProviders.of(this).get(SaleRepository.class);
+        newSaleFAB = findViewById(R.id.activity_sale_new);
+
+        newSaleFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent saleIntent = new Intent(SaleActivity.this, CatalogActivity.class);
+
+                startActivity(saleIntent);
+
+            }
+        });
+
+        saleRepository = ViewModelProviders.of(this).get(SaleRepository.class);
 
         saleRepository.getSalesPaged().observe(this, new Observer<PagedList<SaleModel>>() {
 
             public void onChanged(PagedList<SaleModel> saleModels) {
 
-                if (saleModels!=null)
+                if (saleModels != null)
 
                     adapter.submitList(saleModels);
 
@@ -95,20 +129,47 @@ public class SaleActivity extends AppCompatActivity implements CancelSaleAsyncTa
 
         });
 
-        FloatingActionButton fab = findViewById(R.id.activity_sale_new);
+        CashRepository cashRepository = ViewModelProviders.of(this).get(CashRepository.class);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        cashRepository.isOpen().observe(this, new Observer<Boolean>() {
 
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onChanged(Boolean isOpen) {
+
+                newSaleFAB.setVisibility(isOpen ? View.VISIBLE : View.GONE);
+
+                if (!isOpen)
+
+                    getCashClosedSnackbar().show();
+
+                else
+
+                    getCashClosedSnackbar().dismiss();
 
             }
+
         });
 
+        progressDialog = new ProgressDialog(this);
 
     }
+
+
+    public void onResume(){
+
+        super.onResume();
+
+        new Handler().postDelayed(new Runnable() {
+
+            public void run() {
+
+                recyclerView.scrollToPosition(0);
+
+            }
+
+        }, 500);
+
+    }
+
 
     private void onListItemSelect(int position) {
 
@@ -128,12 +189,12 @@ public class SaleActivity extends AppCompatActivity implements CancelSaleAsyncTa
 
             int count = adapter.getSelectedItemsCount();
 
-            actionMode.setTitle(String.valueOf(count) + " venda" + (count>1?"s":"") + " selecionada" + (count>1?"s":""));
-
+            actionMode.setTitle(String.valueOf(count) + " venda" + (count > 1 ? "s" : "") + " selecionada" + (count > 1 ? "s" : ""));
 
         }
 
     }
+
 
     public void setNullToActionMode() {
 
@@ -143,26 +204,199 @@ public class SaleActivity extends AppCompatActivity implements CancelSaleAsyncTa
 
     }
 
+
     public void cancelSales() {
 
-        SparseBooleanArray selected = adapter.getSelectedItems();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
 
-        List<SaleModel> saleModelList = new ArrayList<>();
+        builder.setMessage("Deseja realmente cancelar a(s) venda(s) selecionada(s)?");
 
-        for (int i = (selected.size() - 1); i >= 0; i--)
+        builder.setCancelable(true);
 
-            if (selected.valueAt(i))
+        builder.setTitle(R.string.confirm);
 
-                saleModelList.add(adapter.getCurrentList().get(i));
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 
-        new CancelSaleAsyncTask<>(this).execute(saleModelList.toArray(new SaleModel[0]));
+            public void onClick(DialogInterface dialog, int which) {
 
-        actionMode.finish();
+                List<SaleModel> saleModelList = new ArrayList<>();
+
+                SparseBooleanArray selected = adapter.getSelectedItems();
+
+                for (int i = (selected.size() - 1); i >= 0; i--)
+
+                    saleModelList.add(Objects.requireNonNull(adapter.getCurrentList()).get(selected.keyAt(i)));
+
+                new CancelSaleAsyncTask<>(SaleActivity.this).execute(saleModelList.toArray(new SaleModel[0]));
+
+                actionMode.finish();
+
+            }
+
+        });
+
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+
+            }
+
+        });
+
+        AlertDialog alert = builder.create();
+
+        alert.setCanceledOnTouchOutside(false);
+
+        alert.show();
 
     }
 
-    public void onCancelSaleSuccess() {}
 
-    public void onCancelSaleFailure(Messaging messaging) {}
+    public void onCancelSalePreExecute() {
 
-}
+        progressDialog.setCancelable(false);
+
+        progressDialog.setTitle("Aguarde");
+
+        progressDialog.setMessage("Cancelando venda(s)...");
+
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+
+        progressDialog.show();
+
+    }
+
+
+    public void onCancelSaleProgressInitialize(int progress, int max) {
+
+        progressDialog.setProgress(progress);
+
+        progressDialog.setMax(max);
+
+    }
+
+
+    public void onCancelSaleProgressUpdate(int status) {
+
+        progressDialog.incrementProgressBy(status);
+
+    }
+
+
+    public void onCancelSaleSuccess() {
+
+        progressDialog.hide();
+
+        Toast.makeText(
+                getBaseContext(),
+                getResources().
+                        getString(R.string.success_sale_cancel),
+                Toast.LENGTH_SHORT).show();
+
+    }
+
+
+    public void onCancelSaleFailure(Messaging messaging) {
+
+        showAlertDialog(messaging);
+
+    }
+
+
+    public void onCancelSaleCancelled() {
+
+        progressDialog.hide();
+
+    }
+
+
+    private void showAlertDialog(Messaging messaging){
+
+        if (progressDialog.isShowing())
+
+            progressDialog.hide();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(SaleActivity.this, R.style.AppCompatAlertDialogStyle);
+
+        builder.setMessage(TextUtils.join("\n", messaging.getMessages()));
+
+        builder.setCancelable(true);
+
+        builder.setTitle(R.string.error);
+
+        builder.setPositiveButton(android.R.string.ok,
+
+                new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        dialog.cancel();
+
+                    }
+
+                });
+
+        AlertDialog alert = builder.create();
+
+        alert.setCanceledOnTouchOutside(false);
+
+        alert.show();
+
+    }
+
+
+    private Snackbar getCashClosedSnackbar(){
+
+        if (cashClosedSnackbar == null){
+
+            cashClosedSnackbar = Snackbar.make(findViewById(R.id.activity_sale_layout), "O caixa encontra-se fechado", Snackbar.LENGTH_INDEFINITE);
+
+            cashClosedSnackbar.setActionTextColor(Color.WHITE);
+
+            cashClosedSnackbar.setAction("ABRIR", new View.OnClickListener() {
+
+                public void onClick(View view) {}
+
+            });
+
+            cashClosedSnackbar.addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+
+                                               public void onShown(Snackbar transientBottomBar) {
+
+                                                   super.onShown(transientBottomBar);
+
+                                                   transientBottomBar.getView().findViewById(R.id.snackbar_action).setOnClickListener(new View.OnClickListener() {
+
+                                                       public void onClick(View v) {
+
+                                                           openCashActivity();
+
+                                                       }
+
+                                                   });
+
+                                               }
+
+                                           });
+
+            cashClosedSnackbar.getView().setBackgroundResource(R.color.colorRedDark);
+
+            }
+
+            return cashClosedSnackbar;
+
+        }
+
+
+        private void openCashActivity(){
+
+            Intent cashIntent = new Intent(SaleActivity.this, CashActivity.class);
+
+            startActivity(cashIntent);
+
+        }
+
+
+    }
