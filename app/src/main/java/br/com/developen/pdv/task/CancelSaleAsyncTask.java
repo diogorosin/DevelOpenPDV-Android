@@ -92,9 +92,10 @@ public final class CancelSaleAsyncTask<L extends CancelSaleAsyncTask.Listener>
 
                             //OBTEM A SOMA DOS RECEBIMENTOS
                             //EM DINHEIRO DA VENDA
+                            //DESCONTANDO O TROCO
                             Double cashSumOfSale = database.
                                     saleReceiptCashDAO().
-                                    getTotalBySale(saleModel.getIdentifier());
+                                    getTotalReceivedOfSale(saleModel.getIdentifier());
 
                             if (cashSumOfSale > 0) {
 
@@ -118,14 +119,20 @@ public final class CancelSaleAsyncTask<L extends CancelSaleAsyncTask.Listener>
 
                                         //VERIFICA SE O RECEBIMENTO
                                         //JA FOI PREVIAMENTE ESTORNADO
-                                        if (saleReceiptCashModel.getReversal() == null) {
+                                        //OBS: HAVERA SEMPRE UM UNICO LANCAMENTO POR VENDA
+                                        //COMO RECEBIMENTO EM DINHEIRO
+                                        if (saleReceiptCashModel.getReversal() == null &&
+                                                saleReceiptCashModel.
+                                                        getCash().
+                                                        getOperation().
+                                                        equals(Constants.RECEIPT_CASH_OPERATION)) {
 
                                             //LANCA O MOVIMENTO DE ESTORNO NO CAIXA
                                             CashVO cashVO = new CashVO();
 
                                             cashVO.setDateTime(new Date());
 
-                                            cashVO.setOperation(Constants.REVERSAL_CASH_OPERATION);
+                                            cashVO.setOperation(Constants.REFUND_CASH_OPERATION);
 
                                             cashVO.setType(Constants.OUT_CASH_TYPE);
 
@@ -133,7 +140,7 @@ public final class CancelSaleAsyncTask<L extends CancelSaleAsyncTask.Listener>
 
                                             cashVO.setUser(preferences.getInt(Constants.USER_IDENTIFIER_PROPERTY, 0));
 
-                                            cashVO.setValue(saleReceiptCashModel.getCash().getValue());
+                                            cashVO.setValue(cashSumOfSale);
 
                                             cashVO.setIdentifier(database.cashDAO().create(cashVO).intValue());
 
@@ -154,22 +161,22 @@ public final class CancelSaleAsyncTask<L extends CancelSaleAsyncTask.Listener>
 
                                     }
 
+                                    //DEFINE A VENDA COMO CANCELADA
+                                    SaleVO saleVO = database.
+                                            saleDAO().
+                                            retrieve(saleModel.getIdentifier());
+
+                                    saleVO.setStatus(Constants.CANCELED_SALE_STATUS);
+
+                                    saleVO.setNote(String.format("Venda cancelada por %s em %s.",
+                                            preferences.getString(Constants.USER_NAME_PROPERTY,"Desconhecido"),
+                                            StringUtils.formatDateTime(new Date())));
+
+                                    database.saleDAO().update(saleVO);
+
                                 }
 
                             }
-
-                            //DEFINE A VENDA COMO CANCELADA
-                            SaleVO saleVO = database.
-                                    saleDAO().
-                                    retrieve(saleModel.getIdentifier());
-
-                            saleVO.setStatus(Constants.CANCELED_SALE_STATUS);
-
-                            saleVO.setNote(String.format("Venda cancelada por %s em %s.",
-                                    preferences.getString(Constants.USER_NAME_PROPERTY,"Desconhecido"),
-                                    StringUtils.formatDateTime(new Date())));
-
-                            database.saleDAO().update(saleVO);
 
                         }
 

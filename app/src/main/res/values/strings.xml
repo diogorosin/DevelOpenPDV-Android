@@ -18,8 +18,8 @@
     <string name="confirm_password">Confirme a senha</string>
     <string name="sign_in">Entrar</string>
     <string name="try_again">Tentar novamente</string>
-    <string name="cash_closed">Caixa fechado</string>
-    <string name="cash_opened">Caixa aberto</string>
+    <string name="cash_closed">Fechado</string>
+    <string name="cash_opened">Aberto</string>
     <string name="open_value">Valor inicial</string>
     <string name="value">Valor</string>
     <string name="total">Total</string>
@@ -149,5 +149,6 @@
     <string name="success_sale_cancel">Venda(s) cancelada(s) com sucesso</string>
     <string name="confirm">Confirme</string>
     <string name="error">Erro</string>
+    <string name="cash">Caixa</string>
 
 </resources>

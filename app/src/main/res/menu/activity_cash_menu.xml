@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.SaleActivity">
+
+    <item
+        android:id="@+id/activity_cash_menu_supply"
+        android:icon="@drawable/cash_supply_24"
+        android:title="@string/cash_summary"
+        android:orderInCategory="0"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/activity_cash_menu_removal"
+        android:icon="@drawable/cash_removal_24"
+        android:title="@string/cash_removal"
+        android:orderInCategory="0"
+        app:showAsAction="ifRoom"/>
+
+</menu>

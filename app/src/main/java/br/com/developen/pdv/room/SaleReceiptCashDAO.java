@@ -86,7 +86,7 @@ public interface SaleReceiptCashDAO {
 
     String GET_SALE_RECEIPT_CASH_TOTAL_BY_SALE =
             "SELECT " +
-                    "SUM(Cas.value) " +
+                    "(SELECT IFNULL(SUM(Cas.value), 0) " +
                     "FROM " +
                     "SaleReceiptCash SleRptCas " +
                     "INNER JOIN " +
@@ -95,7 +95,18 @@ public interface SaleReceiptCashDAO {
                     "Sale Sle ON Sle.identifier = SleRpt.sale " +
                     "INNER JOIN " +
                     "Cash Cas ON Cas.identifier = SleRptCas.cash " +
-                    "WHERE Sle.identifier = :sale";
+                    "WHERE Sle.identifier = :sale AND Cas.operation = 'REC') " +
+                    "-" +
+                    "(SELECT IFNULL(SUM(Cas.value), 0) " +
+                    "FROM " +
+                    "SaleReceiptCash SleRptCas " +
+                    "INNER JOIN " +
+                    "SaleReceipt SleRpt ON SleRpt.sale = SleRptCas.sale AND SleRpt.receipt = SleRptCas.receipt " +
+                    "INNER JOIN " +
+                    "Sale Sle ON Sle.identifier = SleRpt.sale " +
+                    "INNER JOIN " +
+                    "Cash Cas ON Cas.identifier = SleRptCas.cash " +
+                    "WHERE Sle.identifier = :sale AND Cas.operation = 'TRC') ";
 
     @Insert
     void create(SaleReceiptCashVO saleReceiptCashVO);
@@ -116,6 +127,6 @@ public interface SaleReceiptCashDAO {
     List<SaleReceiptCashModel> getListBySale(int sale);
 
     @Query(GET_SALE_RECEIPT_CASH_TOTAL_BY_SALE)
-    Double getTotalBySale(int sale);
+    Double getTotalReceivedOfSale(int sale);
 
 }

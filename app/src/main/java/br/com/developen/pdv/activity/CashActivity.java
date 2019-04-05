@@ -4,20 +4,16 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.math.BigDecimal;
@@ -25,7 +21,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -64,19 +59,19 @@ public class CashActivity extends AppCompatActivity implements
         SummaryCashReportAsyncTask.Listener,
         View.OnClickListener {
 
+
     private FloatingActionButton openCloseFAB;
 
     private CashSummaryRecyclerViewAdapter cashSummaryRecyclerViewAdapter;
 
     private CashEntryRecyclerViewAdapter cashEntryRecyclerViewAdapter;
 
-    private FloatingActionsMenu menuFAM;
-
     private SharedPreferences preferences;
 
     private ProgressDialog progressDialog;
 
     private Boolean cashOpen = false;
+
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -85,47 +80,21 @@ public class CashActivity extends AppCompatActivity implements
 
         setContentView(R.layout.activity_cash);
 
-
         preferences = getSharedPreferences(
                 Constants.SHARED_PREFERENCES_NAME, 0);
 
-
         progressDialog = new ProgressDialog(this);
-
-        openCloseFAB = findViewById(R.id.activity_cash_fab);
-
-        openCloseFAB.setOnClickListener(CashActivity.this);
-
-        menuFAM = findViewById(R.id.activity_cash_fam);
-
-        com.getbase.floatingactionbutton.FloatingActionButton supplyFAB = findViewById(R.id.activity_cash_supply_fab);
-
-        supplyFAB.setOnClickListener(this);
-
-        com.getbase.floatingactionbutton.FloatingActionButton removalFAB = findViewById(R.id.activity_cash_removal_fab);
-
-        removalFAB.setOnClickListener(this);
-
-
-        Window window = getWindow();
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-        window.setStatusBarColor(Color.TRANSPARENT);
 
 
         Toolbar toolbar = findViewById(R.id.activity_cash_toolbar);
 
         setSupportActionBar(toolbar);
 
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.cash);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-
-        final AppBarLayout barLayout = findViewById(R.id.activity_cash_bar_layout);
-
-        final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.activity_cash_toolbar_layout);
 
 
         CashRepository cashRepository = ViewModelProviders.of(this).get(CashRepository.class);
@@ -136,47 +105,30 @@ public class CashActivity extends AppCompatActivity implements
 
                 cashOpen = isOpen;
 
-                if (menuFAM.isExpanded())
+                TextView statusTextView = findViewById(R.id.activity_cash_status_textview);
 
-                    menuFAM.collapseImmediately();
+                statusTextView.setText(cashOpen ? R.string.cash_opened : R.string.cash_closed);
 
-                menuFAM.setVisibility(cashOpen ? View.VISIBLE : View.GONE);
+                int color = ContextCompat.getColor(CashActivity.this,
+                        cashOpen ?  R.color.colorGreenLight: R.color.colorRedLight);
 
-                barLayout.setBackgroundColor(
-
-                        cashOpen ? getResources().getColor(R.color.colorCashOpened) : getResources().getColor(R.color.colorCashClosed)
-
-                );
-
-                collapsingToolbarLayout.setTitle(
-
-                        cashOpen ? getResources().getString(R.string.cash_opened) : getResources().getString(R.string.cash_closed)
-
-                );
-
-                collapsingToolbarLayout.setStatusBarScrimColor(
-
-                        cashOpen ? getResources().getColor(R.color.colorCashOpened) : getResources().getColor(R.color.colorCashClosed)
-
-                );
-
-                collapsingToolbarLayout.setContentScrimColor(
-
-                        cashOpen ? getResources().getColor(R.color.colorCashOpened) : getResources().getColor(R.color.colorCashClosed)
-
-                );
+                statusTextView.setTextColor(color);
 
                 openCloseFAB.setBackgroundTintList(
 
-                        cashOpen ? ContextCompat.getColorStateList(CashActivity.this, R.color.colorBlackMedium) : ContextCompat.getColorStateList(CashActivity.this, R.color.colorBlackMedium)
+                        cashOpen ? ContextCompat.getColorStateList(CashActivity.this, R.color.colorRedMedium) :
+                                ContextCompat.getColorStateList(CashActivity.this, R.color.colorGreenMedium)
 
                 );
 
                 openCloseFAB.setImageDrawable(
 
-                        cashOpen ? ContextCompat.getDrawable(CashActivity.this, R.drawable.lock_24) : ContextCompat.getDrawable(CashActivity.this, R.drawable.unlock_24)
+                        cashOpen ? ContextCompat.getDrawable(CashActivity.this, R.drawable.lock_24) :
+                                ContextCompat.getDrawable(CashActivity.this, R.drawable.unlock_24)
 
                 );
+
+                supportInvalidateOptionsMenu();
 
             }
 
@@ -204,6 +156,7 @@ public class CashActivity extends AppCompatActivity implements
             }
 
         });
+
 
         RecyclerView cashSummaryRecyclerView = findViewById(R.id.activity_cash_summary_recyclerview);
 
@@ -242,7 +195,103 @@ public class CashActivity extends AppCompatActivity implements
 
         });
 
+
+        openCloseFAB = findViewById(R.id.activity_cash_fab);
+
+        openCloseFAB.setOnClickListener(CashActivity.this);
+
+
     }
+
+
+    public boolean onPrepareOptionsMenu (Menu menu) {
+
+        menu.findItem(R.id.activity_cash_menu_supply).setVisible(cashOpen);
+
+        menu.findItem(R.id.activity_cash_menu_removal).setVisible(cashOpen);
+
+        return true;
+
+    }
+
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.activity_cash_menu, menu);
+
+        return true;
+
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.activity_cash_menu_supply:
+
+                if (cashOpen) {
+
+                    NumberPickerBuilder supplyCashNPB = new NumberPickerBuilder()
+                            .setFragmentManager(CashActivity.this.getSupportFragmentManager())
+                            .setStyleResId(R.style.BetterPickersDialogFragment)
+                            .setPlusMinusVisibility(View.INVISIBLE)
+                            .setMaxNumber(BigDecimal.valueOf(99999))
+                            .setDecimalVisibility(View.VISIBLE)
+                            .setLabelText("R$")
+                            .addNumberPickerDialogHandler(new NumberPickerDialogFragment.NumberPickerDialogHandlerV2() {
+
+                                public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
+
+                                    new SupplyCashAsyncTask<>(CashActivity.this).
+                                            execute(fullNumber.doubleValue(), preferences.getInt(Constants.USER_IDENTIFIER_PROPERTY, 0));
+
+                                }
+
+                            });
+
+                    supplyCashNPB.show();
+
+                }
+
+                return true;
+
+            case R.id.activity_cash_menu_removal:
+
+                if (cashOpen) {
+
+                    NumberPickerBuilder removalCashNPB = new NumberPickerBuilder()
+                            .setFragmentManager(CashActivity.this.getSupportFragmentManager())
+                            .setStyleResId(R.style.BetterPickersDialogFragment)
+                            .setPlusMinusVisibility(View.INVISIBLE)
+                            .setMaxNumber(BigDecimal.valueOf(99999))
+                            .setDecimalVisibility(View.VISIBLE)
+                            .setLabelText("R$")
+                            .addNumberPickerDialogHandler(new NumberPickerDialogFragment.NumberPickerDialogHandlerV2() {
+
+                                public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
+
+                                    new RemovalCashAsyncTask<>(CashActivity.this).
+                                            execute(fullNumber.doubleValue(), preferences.getInt(Constants.USER_IDENTIFIER_PROPERTY, 0));
+
+                                }
+
+                            });
+
+                    removalCashNPB.show();
+
+                }
+
+                return true;
+
+            default:
+
+                return super.onOptionsItemSelected(item);
+
+        }
+
+    }
+
 
     public boolean onSupportNavigateUp() {
 
@@ -251,6 +300,7 @@ public class CashActivity extends AppCompatActivity implements
         return true;
 
     }
+
 
     private void showAlertDialog(Messaging messaging){
 
@@ -278,6 +328,7 @@ public class CashActivity extends AppCompatActivity implements
 
     }
 
+
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -303,7 +354,7 @@ public class CashActivity extends AppCompatActivity implements
 
                                 public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
 
-                                    new OpenCashAsyncTask(CashActivity.this).
+                                    new OpenCashAsyncTask<>(CashActivity.this).
                                             execute(fullNumber.doubleValue(), preferences.getInt(Constants.USER_IDENTIFIER_PROPERTY, 0));
 
                                 }
@@ -316,62 +367,10 @@ public class CashActivity extends AppCompatActivity implements
 
                 break;
 
-            case R.id.activity_cash_supply_fab:
-
-                menuFAM.collapse();
-
-                NumberPickerBuilder supplyCashNPB = new NumberPickerBuilder()
-                        .setFragmentManager(CashActivity.this.getSupportFragmentManager())
-                        .setStyleResId(R.style.BetterPickersDialogFragment)
-                        .setPlusMinusVisibility(View.INVISIBLE)
-                        .setMaxNumber(BigDecimal.valueOf(99999))
-                        .setDecimalVisibility(View.VISIBLE)
-                        .setLabelText("R$")
-                        .addNumberPickerDialogHandler(new NumberPickerDialogFragment.NumberPickerDialogHandlerV2() {
-
-                            public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
-
-                                new SupplyCashAsyncTask(CashActivity.this).
-                                        execute(fullNumber.doubleValue(), preferences.getInt(Constants.USER_IDENTIFIER_PROPERTY, 0));
-
-                            }
-
-                        });
-
-                supplyCashNPB.show();
-
-                break;
-
-            case R.id.activity_cash_removal_fab:
-
-                menuFAM.collapse();
-
-                NumberPickerBuilder removalCashNPB = new NumberPickerBuilder()
-                        .setFragmentManager(CashActivity.this.getSupportFragmentManager())
-                        .setStyleResId(R.style.BetterPickersDialogFragment)
-                        .setPlusMinusVisibility(View.INVISIBLE)
-                        .setMaxNumber(BigDecimal.valueOf(99999))
-                        .setDecimalVisibility(View.VISIBLE)
-                        .setLabelText("R$")
-                        .addNumberPickerDialogHandler(new NumberPickerDialogFragment.NumberPickerDialogHandlerV2() {
-
-                            public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
-
-                                new RemovalCashAsyncTask(CashActivity.this).
-                                        execute(fullNumber.doubleValue(), preferences.getInt(Constants.USER_IDENTIFIER_PROPERTY, 0));
-
-                            }
-
-                        });
-
-                removalCashNPB.show();
-
-
-                break;
-
         }
 
     }
+
 
     public void onOpenCashSuccess(final CashModel cashModel){
 
@@ -495,7 +494,7 @@ public class CashActivity extends AppCompatActivity implements
 
     public void onCloseCash(Double value) {
 
-        new CloseCashAsyncTask(this).
+        new CloseCashAsyncTask<>(this).
                 execute(value, preferences.getInt(Constants.USER_IDENTIFIER_PROPERTY, 0));
 
     }
@@ -529,6 +528,7 @@ public class CashActivity extends AppCompatActivity implements
 
     }
 
+
     public void onPrintProgressInitialize(ReportName report, int progress, int max) {
 
         progressDialog.setProgress(progress);
@@ -536,6 +536,7 @@ public class CashActivity extends AppCompatActivity implements
         progressDialog.setMax(max);
 
     }
+
 
     public void onPrintSuccess(ReportName report) {
 

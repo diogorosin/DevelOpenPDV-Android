@@ -275,7 +275,7 @@ public class StringUtils {
             case Constants.RECEIPT_CASH_OPERATION: result = "Recebimento";
                 break;
 
-            case Constants.REVERSAL_CASH_OPERATION: result = "Estorno";
+            case Constants.REFUND_CASH_OPERATION: result = "Reembolso";
                 break;
 
             default: result = "Indefinido";

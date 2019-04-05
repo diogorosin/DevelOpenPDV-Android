@@ -56,8 +56,11 @@ public class Constants {
      /** TROCO DO CAIXA */
     public static final String CHANGE_CASH_OPERATION = "TRC";
 
-    /** ESTORNO DO CAIXA */
-    public static final String REVERSAL_CASH_OPERATION = "EST";
+    /** REEMBOLSO DO CLIENTE */
+    public static final String REFUND_CASH_OPERATION = "REE";
+
+    /** DEVOLUCAO DO CAIXA */
+    //public static final String REFUND_CASH_OPERATION = "REE";
 
 
     /** SAIDA DO CAIXA */
