@@ -92,13 +92,19 @@ public interface CashDAO {
             "FROM Cash C5 " +
             "INNER JOIN User U5 on U5.individual = C5.user " +
             "INNER JOIN Individual I5 on I5.subject = U5.individual " +
-            "WHERE C5.identifier > (SELECT MAX(S5.identifier) FROM Cash S5 WHERE S5.operation = 'ABE') AND C5.operation = 'COM' " +
+            "WHERE C5.identifier > (SELECT MAX(S5.identifier) FROM Cash S5 WHERE S5.operation = 'ABE') AND C5.operation = 'SUP' " +
             "UNION ALL " +
             "SELECT C6.operation AS 'operation', C6.dateTime AS 'dateTime', C6.value AS 'value', C6.type AS 'type', I6.name AS 'user_name' " +
             "FROM Cash C6 " +
             "INNER JOIN User U6 on U6.individual = C6.user " +
             "INNER JOIN Individual I6 on I6.subject = U6.individual " +
-            "WHERE C6.identifier > (SELECT MAX(S6.identifier) FROM Cash S6 WHERE S6.operation = 'ABE') AND C6.operation = 'FEC' " +
+            "WHERE C6.identifier > (SELECT MAX(S6.identifier) FROM Cash S6 WHERE S6.operation = 'ABE') AND C6.operation = 'REE' " +
+            "UNION ALL " +
+            "SELECT C7.operation AS 'operation', C7.dateTime AS 'dateTime', C7.value AS 'value', C7.type AS 'type', I7.name AS 'user_name' " +
+            "FROM Cash C7 " +
+            "INNER JOIN User U7 on U7.individual = C7.user " +
+            "INNER JOIN Individual I7 on I7.subject = U7.individual " +
+            "WHERE C7.identifier > (SELECT MAX(S7.identifier) FROM Cash S7 WHERE S7.operation = 'ABE') AND C7.operation = 'FEC' " +
             "ORDER BY 2")
     List<CashModel> cashSummaryReport();
 

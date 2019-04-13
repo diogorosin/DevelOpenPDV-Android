@@ -34,10 +34,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.CashActivity"/>
-        <activity android:name=".activity.AccountActivity" />
+        <activity
+            android:name=".activity.ConfigurationActivity"
+            android:theme="@style/AppTheme.Green"/>
         <activity
             android:name=".activity.LoginActivity"
-            android:theme="@style/AppTheme.Green" />
+            android:theme="@style/AppTheme.Green"/>
         <activity
             android:name=".activity.ConfirmPasswordActivity"
             android:theme="@style/AppTheme.Green" />

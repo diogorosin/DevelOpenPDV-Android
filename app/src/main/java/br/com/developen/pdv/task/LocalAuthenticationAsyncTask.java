@@ -14,8 +14,8 @@ import br.com.developen.pdv.utils.Messaging;
 import br.com.developen.pdv.utils.StringUtils;
 
 
-public final class AuthenticateAsyncTask<
-        A extends Activity & AuthenticateAsyncTask.Listener,
+public final class LocalAuthenticationAsyncTask<
+        A extends Activity & LocalAuthenticationAsyncTask.Listener,
         B extends String,
         C extends Integer,
         D> extends AsyncTask<B, C, D> {
@@ -24,7 +24,7 @@ public final class AuthenticateAsyncTask<
     private final WeakReference<A> activity;
 
 
-    public AuthenticateAsyncTask(A activity) {
+    public LocalAuthenticationAsyncTask(A activity) {
 
         this.activity = new WeakReference<>(activity);
 
@@ -37,7 +37,7 @@ public final class AuthenticateAsyncTask<
 
         if (listener != null)
 
-            listener.onAuthenticatePreExecute();
+            listener.onLocalAuthenticationPreExecute();
 
     }
 
@@ -105,13 +105,13 @@ public final class AuthenticateAsyncTask<
 
             if (callResult instanceof UserModel) {
 
-                listener.onAuthenticateSuccess((UserModel) callResult);
+                listener.onLocalAuthenticationSuccess((UserModel) callResult);
 
             } else {
 
                 if (callResult instanceof Messaging) {
 
-                    listener.onAuthenticateFailure((Messaging) callResult);
+                    listener.onLocalAuthenticationFailure((Messaging) callResult);
 
                 }
 
@@ -124,11 +124,11 @@ public final class AuthenticateAsyncTask<
 
     public interface Listener {
 
-        void onAuthenticatePreExecute();
+        void onLocalAuthenticationPreExecute();
 
-        void onAuthenticateSuccess(UserModel userModel);
+        void onLocalAuthenticationSuccess(UserModel userModel);
 
-        void onAuthenticateFailure(Messaging messaging);
+        void onLocalAuthenticationFailure(Messaging messaging);
 
     }
 

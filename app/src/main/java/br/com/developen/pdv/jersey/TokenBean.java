@@ -5,17 +5,47 @@ import java.io.Serializable;
 
 public class TokenBean implements Serializable {
 
-    private String token;
 
-    public String getToken() {
+    private String identifier;
 
-        return token;
+    private UserBean user;
+
+    private CompanyBean company;
+
+
+    public String getIdentifier() {
+
+        return identifier;
 
     }
 
-    public void setToken(String token) {
+    public void setIdentifier(String identifier) {
 
-        this.token = token;
+        this.identifier = identifier;
+
+    }
+
+    public UserBean getUser() {
+
+        return user;
+
+    }
+
+    public void setUser(UserBean user) {
+
+        this.user = user;
+
+    }
+
+    public CompanyBean getCompany() {
+
+        return company;
+
+    }
+
+    public void setCompany(CompanyBean company) {
+
+        this.company = company;
 
     }
 

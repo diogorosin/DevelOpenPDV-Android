@@ -42,9 +42,9 @@ public class CatalogRepository extends Observable {
 
     private CatalogRepository() {
 
-        final Handler handler = new Handler();
+       final Handler handler = new Handler();
 
-        handler.post(new Runnable() {
+       handler.post(new Runnable() {
 
             public void run() {
 

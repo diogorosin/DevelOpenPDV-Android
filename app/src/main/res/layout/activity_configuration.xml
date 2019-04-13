@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:showIn="@layout/activity_account">
+    tools:showIn="@layout/activity_configuration">
 
     <ProgressBar
-        android:id="@+id/activity_account_progress"
+        android:id="@+id/activity_configuration_progress"
         android:layout_width="match_parent"
         android:layout_height="37dp"
         android:layout_marginBottom="50dp"
@@ -17,19 +17,19 @@
         android:visibility="gone" />
 
     <RelativeLayout
-        android:id="@+id/activity_account_body"
+        android:id="@+id/activity_configuration_body"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="center">
 
         <br.com.developen.pdv.widget.NonSwipeableViewPager
-            android:id="@+id/activity_account_view_pager"
+            android:id="@+id/activity_configuration_view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
         <LinearLayout
-            android:id="@+id/activity_account_layout_dots"
+            android:id="@+id/activity_configuration_layout_dots"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
@@ -37,39 +37,32 @@
             android:gravity="center"
             android:orientation="horizontal"/>
 
-        <View
-            android:alpha=".5"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_above="@id/activity_account_layout_dots"
-            android:background="@color/colorPrimaryDark" />
-
         <Button
             android:id="@+id/activity_account_next_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
             android:background="@null"
             android:gravity="center"
             android:layout_marginBottom="5dp"
             android:text="@string/start"
-            android:textColor="@color/colorStatusBar" />
+            android:textColor="@color/colorWhite"/>
 
         <Button
             android:id="@+id/activity_account_preview_button"
-            android:textColor="@color/colorStatusBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
             android:layout_marginBottom="5dp"
             android:background="@null"
             android:gravity="center"
             android:visibility="invisible"
-            android:text="@string/preview" />
+            android:text="@string/preview"
+            android:textColor="@color/colorWhite"/>
 
     </RelativeLayout>
 

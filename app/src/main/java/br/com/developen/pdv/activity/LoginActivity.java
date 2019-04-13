@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -18,14 +17,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import br.com.developen.pdv.R;
 import br.com.developen.pdv.room.UserModel;
-import br.com.developen.pdv.task.AuthenticateAsyncTask;
+import br.com.developen.pdv.task.LocalAuthenticationAsyncTask;
 import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.Messaging;
 
 public class LoginActivity extends AppCompatActivity
-        implements AuthenticateAsyncTask.Listener{
+        implements LocalAuthenticationAsyncTask.Listener{
 
 
     private ProgressDialog progressDialog;
@@ -136,7 +136,7 @@ public class LoginActivity extends AppCompatActivity
 
         } else {
 
-            new AuthenticateAsyncTask<>(this).
+            new LocalAuthenticationAsyncTask<>(this).
                     execute(login, password);
 
         }
@@ -144,7 +144,7 @@ public class LoginActivity extends AppCompatActivity
     }
 
 
-    public void onAuthenticatePreExecute() {
+    public void onLocalAuthenticationPreExecute() {
 
         if (!getProgressDialog().isShowing())
 
@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity
     }
 
 
-    public void onAuthenticateSuccess(UserModel userModel) {
+    public void onLocalAuthenticationSuccess(UserModel userModel) {
 
         SharedPreferences preferences = getSharedPreferences(
                 Constants.SHARED_PREFERENCES_NAME, 0);
@@ -181,7 +181,7 @@ public class LoginActivity extends AppCompatActivity
     }
 
 
-    public void onAuthenticateFailure(Messaging messaging) {
+    public void onLocalAuthenticationFailure(Messaging messaging) {
 
         if (getProgressDialog().isShowing())
 

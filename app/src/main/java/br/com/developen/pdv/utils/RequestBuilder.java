@@ -8,7 +8,7 @@ import javax.ws.rs.client.WebTarget;
 
 public class RequestBuilder {
 
-    private static final String REST_SERVER_URL = "http://192.168.0.106:8080/DevelOpenERP-Server/rest/";
+    private static final String REST_SERVER_URL = "http://192.168.0.108:8080/DevelOpenERP-Server/rest/";
 
     private static Client client;
 

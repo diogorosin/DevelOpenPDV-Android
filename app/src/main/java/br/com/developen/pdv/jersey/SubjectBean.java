@@ -46,4 +46,19 @@ public class SubjectBean implements Serializable {
 
     }
 
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SubjectBean that = (SubjectBean) o;
+        return identifier.equals(that.identifier);
+
+    }
+
+    public int hashCode() {
+
+        return identifier.hashCode();
+
+    }
+
 }

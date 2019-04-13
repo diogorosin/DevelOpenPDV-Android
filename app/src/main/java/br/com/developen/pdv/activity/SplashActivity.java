@@ -8,11 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ProgressBar;
 
-import java.util.TimeZone;
-
 import androidx.appcompat.app.AppCompatActivity;
 import br.com.developen.pdv.R;
-import br.com.developen.pdv.repository.CatalogRepository;
+import br.com.developen.pdv.utils.App;
 import br.com.developen.pdv.utils.Constants;
 
 
@@ -24,17 +22,13 @@ public class SplashActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash);
 
-        //AJUSTA O TIMEZONE PARA CALCULOS DE DATA E HORA
-        TimeZone.setDefault(TimeZone.getTimeZone("America/Sao_Paulo"));
-        //TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+        //INICIALIZA VARIAVEIS DO SISTEMA
+        App.getInstance().initialize();
 
         //INICIALIZA BARRA DE PROGRESSO
         ProgressBar spinner = findViewById(R.id.activity_splash_progressbar);
 
         spinner.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.DST);
-
-        //INICIALIZA REPOSITORIOS
-        CatalogRepository.getInstance();
 
         //VERIFICA CONFIGURACOES
         Handler handle = new Handler();
@@ -62,7 +56,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 } else {
 
-                    intent = new Intent(SplashActivity.this, AccountActivity.class);
+                    intent = new Intent(SplashActivity.this, ConfigurationActivity.class);
 
                 }
 

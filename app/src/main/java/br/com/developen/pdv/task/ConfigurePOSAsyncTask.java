@@ -1,35 +1,44 @@
 package br.com.developen.pdv.task;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.developen.pdv.exception.HttpRequestException;
-import br.com.developen.pdv.jersey.AccountBean;
+import br.com.developen.pdv.jersey.ConfigurationBean;
 import br.com.developen.pdv.jersey.DatasetBean;
 import br.com.developen.pdv.jersey.ExceptionBean;
+import br.com.developen.pdv.utils.App;
+import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.Messaging;
 import br.com.developen.pdv.utils.RequestBuilder;
 
-public final class CreateAccountAsyncTask<
-        A extends Activity & CreateAccountAsyncTask.Listener,
-        B extends AccountBean,
+public final class ConfigurePOSAsyncTask<
+        A extends Activity & ConfigurePOSAsyncTask.Listener,
+        B extends ConfigurationBean,
         C extends Integer,
         D> extends AsyncTask<B, C, D> {
 
 
     private WeakReference<A> activity;
 
+    private SharedPreferences preferences;
 
-    public CreateAccountAsyncTask(A activity) {
+
+    public ConfigurePOSAsyncTask(A activity) {
 
         this.activity = new WeakReference<>(activity);
+
+        this.preferences = App.getInstance().
+                getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, 0);
 
     }
 
@@ -40,21 +49,24 @@ public final class CreateAccountAsyncTask<
 
         if (listener != null)
 
-            listener.onCreateAccountPreExecute();
+            listener.onConfigurePOSPreExecute();
 
     }
 
 
-    protected Object doInBackground(AccountBean... parameters) {
+    protected Object doInBackground(ConfigurationBean... parameters) {
 
-        AccountBean accountBean = parameters[0];
+        ConfigurationBean configurationBean = parameters[0];
 
         try {
 
             Response response = RequestBuilder.
-                    build("account").
+                    build("pos", "configure").
                     request(MediaType.APPLICATION_JSON).
-                    post(Entity.entity(accountBean, MediaType.APPLICATION_JSON));
+                    header(HttpHeaders.AUTHORIZATION,
+                            Constants.TOKEN_PREFIX +
+                                    preferences.getString(Constants.TOKEN_PROPERTY, "")).
+                    post(Entity.entity(configurationBean, MediaType.APPLICATION_JSON));
 
             switch (response.getStatus()) {
 
@@ -69,8 +81,6 @@ public final class CreateAccountAsyncTask<
             }
 
         } catch (Exception e){
-
-            e.printStackTrace();
 
             return new HttpRequestException();
 
@@ -89,13 +99,13 @@ public final class CreateAccountAsyncTask<
 
                 if (callResult instanceof DatasetBean){
 
-                    listener.onCreateAccountSuccess((DatasetBean) callResult);
+                    listener.onConfigurePOSSuccess((DatasetBean) callResult);
 
                 } else {
 
                     if (callResult instanceof Messaging){
 
-                        listener.onCreateAccountFailure((Messaging) callResult);
+                        listener.onConfigurePOSFailure((Messaging) callResult);
 
                     }
 
@@ -110,11 +120,11 @@ public final class CreateAccountAsyncTask<
 
     public interface Listener {
 
-        void onCreateAccountPreExecute();
+        void onConfigurePOSPreExecute();
 
-        void onCreateAccountSuccess(DatasetBean datasetBean);
+        void onConfigurePOSSuccess(DatasetBean datasetBean);
 
-        void onCreateAccountFailure(Messaging messaging);
+        void onConfigurePOSFailure(Messaging messaging);
 
     }
 

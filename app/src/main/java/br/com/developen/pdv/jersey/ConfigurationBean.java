@@ -1,6 +1,6 @@
 package br.com.developen.pdv.jersey;
 
-public class AccountBean {
+public class ConfigurationBean {
 
     private DeviceBean device;
 

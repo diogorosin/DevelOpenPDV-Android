@@ -7,21 +7,23 @@ import android.os.AsyncTask;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.developen.pdv.exception.HttpRequestException;
-import br.com.developen.pdv.jersey.DeviceBean;
+import br.com.developen.pdv.jersey.CompanyBean;
 import br.com.developen.pdv.jersey.ExceptionBean;
+import br.com.developen.pdv.jersey.TokenBean;
 import br.com.developen.pdv.utils.App;
 import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.Messaging;
 import br.com.developen.pdv.utils.RequestBuilder;
 
-public final class RetrieveDeviceBySerialNumberAsyncTask<
-        A extends Activity & RetrieveDeviceBySerialNumberAsyncTask.Listener,
-        B extends String,
+public final class ServerSwitchCompanyAsyncTask<
+        A extends Activity & ServerSwitchCompanyAsyncTask.Listener,
+        B extends Integer,
         C extends Void,
         D> extends AsyncTask<B, C, D> {
 
@@ -31,7 +33,7 @@ public final class RetrieveDeviceBySerialNumberAsyncTask<
     private SharedPreferences preferences;
 
 
-    public RetrieveDeviceBySerialNumberAsyncTask(A activity) {
+    public ServerSwitchCompanyAsyncTask(A activity) {
 
         this.activity = new WeakReference<>(activity);
 
@@ -47,30 +49,34 @@ public final class RetrieveDeviceBySerialNumberAsyncTask<
 
         if (listener != null)
 
-            listener.onRetrieveDeviceBySerialNumberPreExecute();
+            listener.onServerSwitchCompanyPreExecute();
 
     }
 
 
-    protected Object doInBackground(String... parameters) {
+    protected Object doInBackground(Integer... parameters) {
 
-        String serialNumber = parameters[0];
+        Integer identifier = parameters[0];
 
         try {
 
+            CompanyBean companyBean = new CompanyBean();
+
+            companyBean.setIdentifier(identifier);
+
             Response response = RequestBuilder.
-                    build("device", "serialNumber", serialNumber).
+                    build("security", "company").
                     request(MediaType.APPLICATION_JSON).
                     header(HttpHeaders.AUTHORIZATION,
                             Constants.TOKEN_PREFIX +
                                     preferences.getString(Constants.TOKEN_PROPERTY, "")).
-                    get();
+                    put(Entity.entity(companyBean, MediaType.APPLICATION_JSON));
 
             switch (response.getStatus()) {
 
                 case HttpURLConnection.HTTP_OK:
 
-                    return response.readEntity(DeviceBean.class);
+                    return response.readEntity(TokenBean.class);
 
                 default:
 
@@ -93,19 +99,15 @@ public final class RetrieveDeviceBySerialNumberAsyncTask<
 
         if (listener != null) {
 
-            if (callResult != null) {
+            if (callResult instanceof TokenBean){
 
-                if (callResult instanceof DeviceBean){
+                listener.onServerSwitchCompanySuccess((TokenBean) callResult);
 
-                    listener.onRetrieveDeviceBySerialNumberSuccess((DeviceBean) callResult);
+            } else {
 
-                } else {
+                if (callResult instanceof Messaging){
 
-                    if (callResult instanceof Messaging){
-
-                        listener.onRetrieveDeviceBySerialNumberFailure((Messaging) callResult);
-
-                    }
+                    listener.onServerSwitchCompanyFailure((Messaging) callResult);
 
                 }
 
@@ -118,11 +120,11 @@ public final class RetrieveDeviceBySerialNumberAsyncTask<
 
     public interface Listener {
 
-        void onRetrieveDeviceBySerialNumberPreExecute();
+        void onServerSwitchCompanyPreExecute();
 
-        void onRetrieveDeviceBySerialNumberSuccess(DeviceBean deviceBean);
+        void onServerSwitchCompanySuccess(TokenBean tokenBean);
 
-        void onRetrieveDeviceBySerialNumberFailure(Messaging messaging);
+        void onServerSwitchCompanyFailure(Messaging messaging);
 
     }
 

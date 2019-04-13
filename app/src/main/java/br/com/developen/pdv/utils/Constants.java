@@ -59,9 +59,6 @@ public class Constants {
     /** REEMBOLSO DO CLIENTE */
     public static final String REFUND_CASH_OPERATION = "REE";
 
-    /** DEVOLUCAO DO CAIXA */
-    //public static final String REFUND_CASH_OPERATION = "REE";
-
 
     /** SAIDA DO CAIXA */
     public static final String OUT_CASH_TYPE = "S";
@@ -71,6 +68,10 @@ public class Constants {
 
 
     public static final String SHARED_PREFERENCES_NAME = "DEVELOPEN_PDV";
+
+    public static final String TOKEN_PREFIX = "Bearer ";
+
+    public static final String TOKEN_PROPERTY = "TOKEN_PROPERTY";
 
     public static final String DEVICE_IDENTIFIER_PROPERTY = "DEVICE_IDENTIFIER_PROPERTY";
 

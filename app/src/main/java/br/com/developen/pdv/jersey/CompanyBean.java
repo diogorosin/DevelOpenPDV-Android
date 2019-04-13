@@ -5,12 +5,28 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class CompanyBean extends OrganizationBean {
 
+
     @JsonIgnore
     private Integer level;
 
     private String couponTitle;
 
     private String couponSubtitle;
+
+
+    @Deprecated
+    public Integer getLevel() {
+
+        return level;
+
+    }
+
+    @Deprecated
+    public void setLevel(Integer level) {
+
+        this.level = level;
+
+    }
 
     public String getCouponTitle() {
 
@@ -35,5 +51,6 @@ public class CompanyBean extends OrganizationBean {
         this.couponSubtitle = couponSubtitle;
 
     }
+
 
 }

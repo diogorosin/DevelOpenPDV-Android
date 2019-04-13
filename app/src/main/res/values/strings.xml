@@ -75,6 +75,7 @@
     <string name="sales_by_period">Vendas por Período</string>
     <string name="sales_by_progeny">Vendas por Produto/Serviço</string>
     <string name="sales_by_user">Vendas por Usuário</string>
+    <string name="sales_by_catalog">Vendas por Categoria</string>
     <string name="check">Cheque</string>
     <string name="credit_card">Cartão de Crédito</string>
     <string name="debit_card">Cartão de Débito</string>
@@ -88,16 +89,25 @@
     <string name="period">Período</string>
     <string name="from">De:</string>
     <string name="to">Até:</string>
-    <string name="saleReverse">Estornar Venda</string>
+    <string name="sale_reverse">Estornar Venda</string>
+    <string name="number">Número</string>
+    <string name="progeny">Produto/Serviço</string>
+    <string name="quantity">Quantidade</string>
+    <string name="measure_unit">measureUnit</string>
+    <string name="success_sale_cancel">Venda(s) cancelada(s) com sucesso</string>
+    <string name="confirm">Confirme</string>
+    <string name="error">Erro</string>
+    <string name="cash">Caixa</string>
+    <string name="login">Login</string>
+    <string name="welcome">Bem-Vindo!</string>
+    <string name="congratulation">Parabéns!</string>
+    <string name="device_alias">Nome do dispositivo. Ex: Caixa 001.</string>
 
     <!-- Messages        -->
     <string name="error_invalid_email">O login informado é inválido.</string>
     <string name="error_invalid_password">A senha informada é inválida.</string>
     <string name="error_user_not_active">O usuário não está ativo.</string>
-    <string name="error_invalid_name">O nome informado é inválido.</string>
-    <string name="error_invalid_company_denomination">Razão Social informada é inválida.</string>
-    <string name="error_invalid_company_fancyname">Nome fantasia informado é inválido.</string>
-    <string name="error_password_does_not_match">As senhas não coincidem.</string>
+    <string name="error_invalid_alias">Nome do dispositivo informado é inválido.</string>
     <string name="error_field_required">O preenchimento desse campo é obrigatório.</string>
     <string name="success_sale_finished">Venda finalizada.</string>
     <string name="success_cash_closed">Caixa fechado.</string>
@@ -122,33 +132,11 @@
     <string name="button_change_credentials">Informar novamente login e senha</string>
     <string name="button_ok">Ok</string>
 
-    <!-- AccountActivity -->
-    <string name="welcome">Bem-Vindo ao PocketPOS!</string>
-    <string name="welcome_line_01">Com esse aplicativo você poderá:</string>
-    <string name="welcome_line_02">Emitir cupons fiscais eletrônicos de vendas;</string>
-    <string name="welcome_line_03">Imprimir cupons fiscais e de controle;</string>
-    <string name="welcome_line_04">Realizar abertura, fechamento, reposição e sangria do caixa;</string>
-    <string name="welcome_line_05">Extrair relatórios gerenciais;</string>
-    <string name="welcome_line_06">Gerenciar produtos e preços de forma integrada com os demais dispositivos;</string>
-    <string name="welcome_line_07">Efetuar recebimento com cartão de crédito/débito e muito mais... "</string>
-    <string name="welcome_line_08">Selecione uma opção abaixo e pressione iniciar:</string>
-    <string name="welcome_option01">Criar uma nova conta.</string>
-    <string name="welcome_option02">Efetuar login com uma conta existente.</string>
-    <string name="welcome_option03">Criar uma nova empresa.</string>
-    <string name="welcome_option04">Utilizar uma empresa existente.</string>
-    <string name="welcome_register">Informe seus dados para a criação da nova conta:</string>
-    <string name="welcome_login">Informe suas credenciais para efetuar o acesso:</string>
-    <string name="welcome_company">Selecione uma opção abaixo e pressione avançar:</string>
-    <string name="finish_line_01">Parabéns! Dispositivo configurado com sucesso.</string>
-    <string name="company_register">Informe os dados da sua empresa:</string>
-    <string name="sales_by_catalog">Vendas por Categoria</string>
-    <string name="number">Número</string>
-    <string name="progeny">Produto/Serviço</string>
-    <string name="quantity">Quantidade</string>
-    <string name="measure_unit">measureUnit</string>
-    <string name="success_sale_cancel">Venda(s) cancelada(s) com sucesso</string>
-    <string name="confirm">Confirme</string>
-    <string name="error">Erro</string>
-    <string name="cash">Caixa</string>
+    <!-- ConfigurationActivity -->
+    <string name="configuration_welcome_step_message">Pressione o botão iniciar para configurar o novo ponto de venda.</string>
+    <string name="configuration_user_step_message">Informe suas credenciais para efetuar o acesso:</string>
+    <string name="configuration_company_step_message">Selecione a empresa a ser utilizada nesse dispositivo:</string>
+    <string name="configuration_device_step_message">Identifique o seu novo ponto de venda:</string>
+    <string name="configuration_finish_step_message">O novo ponto de venda foi configurado com sucesso.</string>
 
 </resources>

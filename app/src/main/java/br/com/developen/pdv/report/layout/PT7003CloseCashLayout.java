@@ -2,6 +2,8 @@ package br.com.developen.pdv.report.layout;
 
 import android.pt.printer.Printer;
 
+import br.com.developen.pdv.utils.StringUtils;
+
 public class PT7003CloseCashLayout extends CloseCashLayout {
 
 
@@ -37,7 +39,7 @@ public class PT7003CloseCashLayout extends CloseCashLayout {
 
         String pageBreak = getSummary().get(0).getOperation();
 
-        printer.printString(getDescriptionOfOperation(pageBreak));
+        printer.printString(StringUtils.getDenominationOfCashOperation(pageBreak));
 
         for(CloseCashSummaryLayout row : getSummary()){
 
@@ -45,14 +47,18 @@ public class PT7003CloseCashLayout extends CloseCashLayout {
 
                 pageBreak = row.getOperation();
 
-                printer.printString(getDescriptionOfOperation(pageBreak));
+                printer.printString(StringUtils.getDenominationOfCashOperation(pageBreak));
 
             }
 
             try {
+
                 row.print();
+
             } catch (Exception e) {
+
                 e.printStackTrace();
+
             }
 
         }
@@ -68,38 +74,6 @@ public class PT7003CloseCashLayout extends CloseCashLayout {
         printer.printString(" ");
 
         printer.printString(" ");
-
-    }
-
-    private String getDescriptionOfOperation(String code){
-
-        switch (code){
-
-            case "ABE":
-
-                return "ABERTURA";
-
-            case "VEN":
-
-                return "VENDA(S)";
-
-            case "SAN":
-
-                return "SANGRIA(S)";
-
-            case "COM":
-
-                return "COMPLEMENTO(S)";
-
-            case "FEC":
-
-                return "FECHAMENTO";
-
-            default:
-
-                return "INDEFINIDO";
-
-        }
 
     }
 

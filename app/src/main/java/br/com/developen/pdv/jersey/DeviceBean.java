@@ -15,6 +15,8 @@ public class DeviceBean {
 
     private String alias;
 
+    private Boolean allow;
+
     public Integer getIdentifier() {
 
         return identifier;
@@ -84,6 +86,18 @@ public class DeviceBean {
     public void setAlias(String alias) {
 
         this.alias = alias;
+
+    }
+
+    public Boolean getAllow() {
+
+        return allow;
+
+    }
+
+    public void setAllow(Boolean allow) {
+
+        this.allow = allow;
 
     }
 

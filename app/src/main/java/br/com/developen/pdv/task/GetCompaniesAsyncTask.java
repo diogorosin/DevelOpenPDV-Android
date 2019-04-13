@@ -6,22 +6,24 @@ import android.os.AsyncTask;
 
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
+import java.util.List;
 
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.developen.pdv.exception.HttpRequestException;
-import br.com.developen.pdv.jersey.DeviceBean;
+import br.com.developen.pdv.jersey.CompanyBean;
 import br.com.developen.pdv.jersey.ExceptionBean;
 import br.com.developen.pdv.utils.App;
 import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.Messaging;
 import br.com.developen.pdv.utils.RequestBuilder;
 
-public final class RetrieveDeviceBySerialNumberAsyncTask<
-        A extends Activity & RetrieveDeviceBySerialNumberAsyncTask.Listener,
-        B extends String,
+public final class GetCompaniesAsyncTask<
+        A extends Activity & GetCompaniesAsyncTask.Listener,
+        B extends Void,
         C extends Void,
         D> extends AsyncTask<B, C, D> {
 
@@ -31,7 +33,7 @@ public final class RetrieveDeviceBySerialNumberAsyncTask<
     private SharedPreferences preferences;
 
 
-    public RetrieveDeviceBySerialNumberAsyncTask(A activity) {
+    public GetCompaniesAsyncTask(A activity) {
 
         this.activity = new WeakReference<>(activity);
 
@@ -47,19 +49,17 @@ public final class RetrieveDeviceBySerialNumberAsyncTask<
 
         if (listener != null)
 
-            listener.onRetrieveDeviceBySerialNumberPreExecute();
+            listener.onGetCompanyPreExecute();
 
     }
 
 
-    protected Object doInBackground(String... parameters) {
-
-        String serialNumber = parameters[0];
+    protected Object doInBackground(Void... parameters) {
 
         try {
 
             Response response = RequestBuilder.
-                    build("device", "serialNumber", serialNumber).
+                    build("security", "company").
                     request(MediaType.APPLICATION_JSON).
                     header(HttpHeaders.AUTHORIZATION,
                             Constants.TOKEN_PREFIX +
@@ -68,9 +68,10 @@ public final class RetrieveDeviceBySerialNumberAsyncTask<
 
             switch (response.getStatus()) {
 
+                case HttpURLConnection.HTTP_PARTIAL:
                 case HttpURLConnection.HTTP_OK:
 
-                    return response.readEntity(DeviceBean.class);
+                    return response.readEntity(new GenericType<List<CompanyBean>>(){});
 
                 default:
 
@@ -93,19 +94,15 @@ public final class RetrieveDeviceBySerialNumberAsyncTask<
 
         if (listener != null) {
 
-            if (callResult != null) {
+            if (callResult instanceof List){
 
-                if (callResult instanceof DeviceBean){
+                listener.onGetCompanySuccess((List<CompanyBean>) callResult);
 
-                    listener.onRetrieveDeviceBySerialNumberSuccess((DeviceBean) callResult);
+            } else {
 
-                } else {
+                if (callResult instanceof Messaging){
 
-                    if (callResult instanceof Messaging){
-
-                        listener.onRetrieveDeviceBySerialNumberFailure((Messaging) callResult);
-
-                    }
+                    listener.onGetCompanyFailure((Messaging) callResult);
 
                 }
 
@@ -118,11 +115,11 @@ public final class RetrieveDeviceBySerialNumberAsyncTask<
 
     public interface Listener {
 
-        void onRetrieveDeviceBySerialNumberPreExecute();
+        void onGetCompanyPreExecute();
 
-        void onRetrieveDeviceBySerialNumberSuccess(DeviceBean deviceBean);
+        void onGetCompanySuccess(List<CompanyBean> list);
 
-        void onRetrieveDeviceBySerialNumberFailure(Messaging messaging);
+        void onGetCompanyFailure(Messaging messaging);
 
     }
 
