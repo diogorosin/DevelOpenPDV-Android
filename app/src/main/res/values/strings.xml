@@ -134,9 +134,9 @@
 
     <!-- ConfigurationActivity -->
     <string name="configuration_welcome_step_message">Pressione o botão iniciar para configurar o novo ponto de venda.</string>
-    <string name="configuration_user_step_message">Informe suas credenciais para efetuar o acesso:</string>
-    <string name="configuration_company_step_message">Selecione a empresa a ser utilizada nesse dispositivo:</string>
-    <string name="configuration_device_step_message">Identifique o seu novo ponto de venda:</string>
+    <string name="configuration_user_step_message">Informe suas credenciais para efetuar o acesso.</string>
+    <string name="configuration_company_step_message">Selecione a empresa a ser utilizada nesse dispositivo.</string>
+    <string name="configuration_device_step_message">Identifique o seu novo ponto de venda.</string>
     <string name="configuration_finish_step_message">O novo ponto de venda foi configurado com sucesso.</string>
 
 </resources>
