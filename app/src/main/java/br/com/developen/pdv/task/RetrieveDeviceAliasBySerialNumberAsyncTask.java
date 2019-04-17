@@ -12,15 +12,15 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.developen.pdv.exception.HttpRequestException;
-import br.com.developen.pdv.jersey.DeviceBean;
 import br.com.developen.pdv.jersey.ExceptionBean;
+import br.com.developen.pdv.jersey.StringBean;
 import br.com.developen.pdv.utils.App;
 import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.Messaging;
 import br.com.developen.pdv.utils.RequestBuilder;
 
-public final class RetrieveDeviceBySerialNumberAsyncTask<
-        A extends Activity & RetrieveDeviceBySerialNumberAsyncTask.Listener,
+public final class RetrieveDeviceAliasBySerialNumberAsyncTask<
+        A extends Activity & RetrieveDeviceAliasBySerialNumberAsyncTask.Listener,
         B extends String,
         C extends Void,
         D> extends AsyncTask<B, C, D> {
@@ -31,7 +31,7 @@ public final class RetrieveDeviceBySerialNumberAsyncTask<
     private SharedPreferences preferences;
 
 
-    public RetrieveDeviceBySerialNumberAsyncTask(A activity) {
+    public RetrieveDeviceAliasBySerialNumberAsyncTask(A activity) {
 
         this.activity = new WeakReference<>(activity);
 
@@ -47,7 +47,7 @@ public final class RetrieveDeviceBySerialNumberAsyncTask<
 
         if (listener != null)
 
-            listener.onRetrieveDeviceBySerialNumberPreExecute();
+            listener.onRetrieveDeviceAliasBySerialNumberPreExecute();
 
     }
 
@@ -59,7 +59,7 @@ public final class RetrieveDeviceBySerialNumberAsyncTask<
         try {
 
             Response response = RequestBuilder.
-                    build("device", "serialNumber", serialNumber).
+                    build("device", "alias", serialNumber).
                     request(MediaType.APPLICATION_JSON).
                     header(HttpHeaders.AUTHORIZATION,
                             Constants.TOKEN_PREFIX +
@@ -70,7 +70,7 @@ public final class RetrieveDeviceBySerialNumberAsyncTask<
 
                 case HttpURLConnection.HTTP_OK:
 
-                    return response.readEntity(DeviceBean.class);
+                    return response.readEntity(StringBean.class);
 
                 default:
 
@@ -95,15 +95,15 @@ public final class RetrieveDeviceBySerialNumberAsyncTask<
 
             if (callResult != null) {
 
-                if (callResult instanceof DeviceBean){
+                if (callResult instanceof StringBean){
 
-                    listener.onRetrieveDeviceBySerialNumberSuccess((DeviceBean) callResult);
+                    listener.onRetrieveDeviceAliasBySerialNumberSuccess((StringBean) callResult);
 
                 } else {
 
                     if (callResult instanceof Messaging){
 
-                        listener.onRetrieveDeviceBySerialNumberFailure((Messaging) callResult);
+                        listener.onRetrieveDeviceAliasBySerialNumberFailure((Messaging) callResult);
 
                     }
 
@@ -118,11 +118,11 @@ public final class RetrieveDeviceBySerialNumberAsyncTask<
 
     public interface Listener {
 
-        void onRetrieveDeviceBySerialNumberPreExecute();
+        void onRetrieveDeviceAliasBySerialNumberPreExecute();
 
-        void onRetrieveDeviceBySerialNumberSuccess(DeviceBean deviceBean);
+        void onRetrieveDeviceAliasBySerialNumberSuccess(StringBean stringBean);
 
-        void onRetrieveDeviceBySerialNumberFailure(Messaging messaging);
+        void onRetrieveDeviceAliasBySerialNumberFailure(Messaging messaging);
 
     }
 

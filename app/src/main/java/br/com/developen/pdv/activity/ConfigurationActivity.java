@@ -38,15 +38,15 @@ import androidx.viewpager.widget.ViewPager;
 import br.com.developen.pdv.R;
 import br.com.developen.pdv.jersey.CompanyBean;
 import br.com.developen.pdv.jersey.ConfigurationBean;
-import br.com.developen.pdv.jersey.DatasetBean;
+import br.com.developen.pdv.jersey.CompanyDeviceDatasetBean;
 import br.com.developen.pdv.jersey.DeviceBean;
+import br.com.developen.pdv.jersey.StringBean;
 import br.com.developen.pdv.jersey.TokenBean;
-import br.com.developen.pdv.jersey.UserBean;
 import br.com.developen.pdv.room.UserModel;
-import br.com.developen.pdv.task.ConfigurePOSAsyncTask;
+import br.com.developen.pdv.task.ConfigureAsyncTask;
 import br.com.developen.pdv.task.GetCompaniesAsyncTask;
 import br.com.developen.pdv.task.LocalAuthenticationAsyncTask;
-import br.com.developen.pdv.task.RetrieveDeviceBySerialNumberAsyncTask;
+import br.com.developen.pdv.task.RetrieveDeviceAliasBySerialNumberAsyncTask;
 import br.com.developen.pdv.task.ServerAuthenticationAsyncTask;
 import br.com.developen.pdv.task.ServerSwitchCompanyAsyncTask;
 import br.com.developen.pdv.utils.App;
@@ -56,13 +56,13 @@ import br.com.developen.pdv.utils.DBSync;
 import br.com.developen.pdv.utils.Messaging;
 
 public class ConfigurationActivity extends AppCompatActivity implements
-        RetrieveDeviceBySerialNumberAsyncTask.Listener,
+        RetrieveDeviceAliasBySerialNumberAsyncTask.Listener,
         ServerAuthenticationAsyncTask.Listener,
         ServerSwitchCompanyAsyncTask.Listener,
         LocalAuthenticationAsyncTask.Listener,
         GetCompaniesAsyncTask.Listener,
         ViewPager.OnPageChangeListener,
-        ConfigurePOSAsyncTask.Listener,
+        ConfigureAsyncTask.Listener,
         View.OnClickListener {
 
 
@@ -91,7 +91,11 @@ public class ConfigurationActivity extends AppCompatActivity implements
 
     private boolean spinnerInitialized = false;
 
+    private String userLogin;
+
     private String decryptedPassword;
+
+    private Integer loggedInCompany;
 
     private int[] layouts;
 
@@ -137,35 +141,13 @@ public class ConfigurationActivity extends AppCompatActivity implements
 
 
         //INICIALIZA A VARIAVEL DISPOSITIVO
-        DeviceBean deviceBean = new DeviceBean();
-
-        deviceBean.setActive(true);
-
-        deviceBean.setSerialNumber(Settings.Secure.getString(
+        getConfigurationBean().setDeviceSerialNumber(Settings.Secure.getString(
                 getBaseContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID));
 
-        deviceBean.setManufacturer(Build.MANUFACTURER.toUpperCase());
+        getConfigurationBean().setDeviceManufacturer(Build.MANUFACTURER.toUpperCase());
 
-        deviceBean.setModel(Build.MODEL);
-
-        deviceBean.setAlias(deviceBean.getManufacturer() + "/" + deviceBean.getModel());
-
-        deviceBean.setAllow(true);
-
-        getConfigurationBean().setDevice(deviceBean);
-
-
-        //INICIALIZA A VARIAVEL USUARIO
-        UserBean userBean = new UserBean();
-
-        getConfigurationBean().setUser(userBean);
-
-
-        //INICIALIZA A VARIAVEL EMPRESA
-        CompanyBean companyBean = new CompanyBean();
-
-        getConfigurationBean().setCompany(companyBean);
+        getConfigurationBean().setDeviceModel(Build.MODEL);
 
 
     }
@@ -286,7 +268,8 @@ public class ConfigurationActivity extends AppCompatActivity implements
 
         MyViewPagerAdapter() {}
 
-        public Object instantiateItem(ViewGroup container, int position) {
+        @NonNull
+        public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
             layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -394,6 +377,8 @@ public class ConfigurationActivity extends AppCompatActivity implements
 
         } else {
 
+            userLogin = login;
+
             decryptedPassword = password;
 
             new ServerAuthenticationAsyncTask<>(this).execute(login, password);
@@ -443,7 +428,9 @@ public class ConfigurationActivity extends AppCompatActivity implements
 
         } else {
 
-            new ConfigurePOSAsyncTask<>(this).execute(getConfigurationBean());
+            getConfigurationBean().setDeviceAlias(alias);
+
+            new ConfigureAsyncTask<>(this).execute(getConfigurationBean());
 
         }
 
@@ -542,8 +529,7 @@ public class ConfigurationActivity extends AppCompatActivity implements
                     case FINISH_STEP:
 
                         new LocalAuthenticationAsyncTask<>(this).
-                                execute(getConfigurationBean().getUser().getLogin(),
-                                        decryptedPassword);
+                                execute(userLogin, decryptedPassword);
 
                         break;
 
@@ -607,7 +593,7 @@ public class ConfigurationActivity extends AppCompatActivity implements
 
                 final EditText aliasEditText = findViewById(R.id.activity_configuration_device_alias_edittext);
 
-                aliasEditText.setText(getConfigurationBean().getDevice().getAlias());
+                aliasEditText.setText(getConfigurationBean().getDeviceAlias());
 
                 aliasEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -631,8 +617,8 @@ public class ConfigurationActivity extends AppCompatActivity implements
 
                 });
 
-                new RetrieveDeviceBySerialNumberAsyncTask<>(this).
-                        execute(getConfigurationBean().getDevice().getSerialNumber());
+                new RetrieveDeviceAliasBySerialNumberAsyncTask<>(this).
+                        execute(getConfigurationBean().getDeviceSerialNumber());
 
                 break;
 
@@ -691,34 +677,7 @@ public class ConfigurationActivity extends AppCompatActivity implements
 
         editor.apply();
 
-
-        getConfigurationBean().getUser().setIdentifier(tokenBean.getUser().getIdentifier());
-
-        getConfigurationBean().getUser().setName(tokenBean.getUser().getName());
-
-        getConfigurationBean().getUser().setActive(tokenBean.getUser().getActive());
-
-        getConfigurationBean().getUser().setLevel(tokenBean.getUser().getLevel());
-
-        getConfigurationBean().getUser().setLogin(tokenBean.getUser().getLogin());
-
-        getConfigurationBean().getUser().setPassword(tokenBean.getUser().getPassword());
-
-        getConfigurationBean().getUser().setNumericPassword(tokenBean.getUser().getNumericPassword());
-
-
-        getConfigurationBean().getCompany().setIdentifier(tokenBean.getCompany().getIdentifier());
-
-        getConfigurationBean().getCompany().setDenomination(tokenBean.getCompany().getDenomination());
-
-        getConfigurationBean().getCompany().setActive(tokenBean.getCompany().getActive());
-
-        getConfigurationBean().getCompany().setFancyName(tokenBean.getCompany().getFancyName());
-
-        getConfigurationBean().getCompany().setCouponTitle(tokenBean.getCompany().getCouponTitle());
-
-        getConfigurationBean().getCompany().setCouponSubtitle(tokenBean.getCompany().getCouponSubtitle());
-
+        loggedInCompany = tokenBean.getCompany().getIdentifier();
 
         viewPager.setCurrentItem(COMPANY_STEP, true);
 
@@ -792,9 +751,13 @@ public class ConfigurationActivity extends AppCompatActivity implements
 
         companySpinner.setAdapter(adapter);
 
-        if (getConfigurationBean().getCompany()!=null){
+        if (loggedInCompany != null){
 
-            int index = adapter.getPosition(getConfigurationBean().getCompany());
+            CompanyBean companyBean = new CompanyBean();
+
+            companyBean.setIdentifier(loggedInCompany);
+
+            int index = adapter.getPosition(companyBean);
 
             if (index != -1)
 
@@ -846,17 +809,7 @@ public class ConfigurationActivity extends AppCompatActivity implements
     public void onServerSwitchCompanySuccess(TokenBean tokenBean) {
 
 
-        getConfigurationBean().getCompany().setIdentifier(tokenBean.getCompany().getIdentifier());
-
-        getConfigurationBean().getCompany().setDenomination(tokenBean.getCompany().getDenomination());
-
-        getConfigurationBean().getCompany().setActive(tokenBean.getCompany().getActive());
-
-        getConfigurationBean().getCompany().setFancyName(tokenBean.getCompany().getFancyName());
-
-        getConfigurationBean().getCompany().setCouponTitle(tokenBean.getCompany().getCouponTitle());
-
-        getConfigurationBean().getCompany().setCouponSubtitle(tokenBean.getCompany().getCouponSubtitle());
+        loggedInCompany = tokenBean.getCompany().getIdentifier();
 
         showProgress(false);
 
@@ -895,34 +848,21 @@ public class ConfigurationActivity extends AppCompatActivity implements
     }
 
 
-    public void onRetrieveDeviceBySerialNumberPreExecute() {
+    public void onRetrieveDeviceAliasBySerialNumberPreExecute() {
 
         showProgress(true);
 
     }
 
 
-    public void onRetrieveDeviceBySerialNumberSuccess(DeviceBean deviceBean) {
+    public void onRetrieveDeviceAliasBySerialNumberSuccess(StringBean stringBean) {
 
 
-        getConfigurationBean().getDevice().setIdentifier(deviceBean.getIdentifier());
-
-        getConfigurationBean().getDevice().setActive(deviceBean.getActive());
-
-        getConfigurationBean().getDevice().setSerialNumber(deviceBean.getSerialNumber());
-
-        getConfigurationBean().getDevice().setManufacturer(deviceBean.getManufacturer());
-
-        getConfigurationBean().getDevice().setModel(deviceBean.getModel());
-
-        getConfigurationBean().getDevice().setAlias(
-                deviceBean.getAlias()!=null ? deviceBean.getAlias() : deviceBean.getManufacturer() + "/" + deviceBean.getModel());
-
-        getConfigurationBean().getDevice().setAllow(deviceBean.getAllow() != null ? deviceBean.getAllow() : true);
+        getConfigurationBean().setDeviceAlias(stringBean.getValue());
 
         EditText aliasEditText = findViewById(R.id.activity_configuration_device_alias_edittext);
 
-        aliasEditText.setText(getConfigurationBean().getDevice().getAlias());
+        aliasEditText.setText(getConfigurationBean().getDeviceAlias());
 
         showProgress(false);
 
@@ -930,28 +870,34 @@ public class ConfigurationActivity extends AppCompatActivity implements
     }
 
 
-    public void onRetrieveDeviceBySerialNumberFailure(Messaging messaging) {
+    public void onRetrieveDeviceAliasBySerialNumberFailure(Messaging messaging) {
+
+
+        String alias = getConfigurationBean().getDeviceManufacturer() + "/" + getConfigurationBean().getDeviceModel();
+
+        getConfigurationBean().setDeviceAlias(alias);
+
+        EditText aliasEditText = findViewById(R.id.activity_configuration_device_alias_edittext);
+
+        aliasEditText.setText(getConfigurationBean().getDeviceAlias());
 
         showProgress(false);
+
 
     }
 
 
-    public void onConfigurePOSPreExecute() {
+    public void onConfigurePreExecute() {
 
         showProgress(true);
 
     }
 
 
-    public void onConfigurePOSSuccess(DatasetBean datasetBean) {
+    public void onConfigureSuccess(CompanyDeviceDatasetBean companyDeviceDatasetBean) {
 
 
-        @SuppressLint("HardwareIds")
-        String serialNumber = Settings.Secure.getString(getBaseContext().
-                getContentResolver(), Settings.Secure.ANDROID_ID);
-
-        CompanyBean companyBean = datasetBean.getCompany();
+        CompanyBean companyBean = companyDeviceDatasetBean.getCompany();
 
         SharedPreferences preferences = getSharedPreferences(
                 Constants.SHARED_PREFERENCES_NAME, 0);
@@ -1000,25 +946,19 @@ public class ConfigurationActivity extends AppCompatActivity implements
 
             }
 
-        for (DeviceBean deviceBean : datasetBean.getDevices()) {
+        DeviceBean deviceBean = companyDeviceDatasetBean.getDevice();
 
-            if (deviceBean.getSerialNumber().equals(serialNumber)) {
+        editor.putInt(Constants.DEVICE_IDENTIFIER_PROPERTY, deviceBean.getIdentifier());
 
-                editor.putInt(Constants.DEVICE_IDENTIFIER_PROPERTY, deviceBean.getIdentifier());
+        editor.putBoolean(Constants.DEVICE_ACTIVE_PROPERTY, deviceBean.getActive() && companyDeviceDatasetBean.getAllow());
 
-                editor.putBoolean(Constants.DEVICE_ACTIVE_PROPERTY, deviceBean.getActive());
-
-                editor.putString(Constants.DEVICE_ALIAS_PROPERTY, deviceBean.getAlias());
-
-            }
-
-        }
+        editor.putString(Constants.DEVICE_ALIAS_PROPERTY, companyDeviceDatasetBean.getAlias());
 
         editor.putBoolean(Constants.DEVICE_CONFIGURED_PROPERTY, true);
 
         editor.apply();
 
-        new DBSync(DB.getInstance(getBaseContext())).syncDataset(datasetBean);
+        new DBSync(DB.getInstance(getBaseContext())).syncDataset(companyDeviceDatasetBean);
 
         viewPager.setCurrentItem(FINISH_STEP, true);
 
@@ -1028,7 +968,8 @@ public class ConfigurationActivity extends AppCompatActivity implements
     }
 
 
-    public void onConfigurePOSFailure(Messaging messaging) {
+    public void onConfigureFailure(Messaging messaging) {
+
 
         showProgress(false);
 
@@ -1054,6 +995,7 @@ public class ConfigurationActivity extends AppCompatActivity implements
 
         alert.show();
 
+
     }
 
 
@@ -1065,6 +1007,7 @@ public class ConfigurationActivity extends AppCompatActivity implements
 
 
     public void onLocalAuthenticationSuccess(UserModel userModel) {
+
 
         SharedPreferences preferences = getSharedPreferences(
                 Constants.SHARED_PREFERENCES_NAME, 0);
@@ -1091,6 +1034,7 @@ public class ConfigurationActivity extends AppCompatActivity implements
         startActivity(intent);
 
         finish();
+
 
     }
 

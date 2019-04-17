@@ -13,10 +13,6 @@ public class DeviceBean {
 
     private String model;
 
-    private String alias;
-
-    private Boolean allow;
-
     public Integer getIdentifier() {
 
         return identifier;
@@ -74,30 +70,6 @@ public class DeviceBean {
     public void setModel(String model) {
 
         this.model = model;
-
-    }
-
-    public String getAlias() {
-
-        return alias;
-
-    }
-
-    public void setAlias(String alias) {
-
-        this.alias = alias;
-
-    }
-
-    public Boolean getAllow() {
-
-        return allow;
-
-    }
-
-    public void setAllow(Boolean allow) {
-
-        this.allow = allow;
 
     }
 

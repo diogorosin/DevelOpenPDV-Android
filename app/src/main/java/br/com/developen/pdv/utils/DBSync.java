@@ -1,7 +1,7 @@
 package br.com.developen.pdv.utils;
 
 import br.com.developen.pdv.jersey.CatalogBean;
-import br.com.developen.pdv.jersey.DatasetBean;
+import br.com.developen.pdv.jersey.CompanyDeviceDatasetBean;
 import br.com.developen.pdv.jersey.MeasureUnitBean;
 import br.com.developen.pdv.jersey.MeasureUnitMeasureUnitBean;
 import br.com.developen.pdv.jersey.MerchandiseBean;
@@ -35,16 +35,16 @@ public class DBSync {
 
     }
 
-    public void syncDataset(DatasetBean datasetBean) {
+    public void syncDataset(CompanyDeviceDatasetBean companyDeviceDatasetBean) {
 
         try {
 
             database.beginTransaction();
 
-            if (datasetBean.getUsers() != null &&
-                    !datasetBean.getUsers().isEmpty()){
+            if (companyDeviceDatasetBean.getUsers() != null &&
+                    !companyDeviceDatasetBean.getUsers().isEmpty()){
 
-                for (UserBean userBean : datasetBean.getUsers()) {
+                for (UserBean userBean : companyDeviceDatasetBean.getUsers()) {
 
                     SubjectVO subjectVO = new SubjectVO();
 
@@ -98,10 +98,10 @@ public class DBSync {
 
             }
 
-            if (datasetBean.getMeasureUnits() != null &&
-                    !datasetBean.getMeasureUnits().isEmpty()) {
+            if (companyDeviceDatasetBean.getMeasureUnits() != null &&
+                    !companyDeviceDatasetBean.getMeasureUnits().isEmpty()) {
 
-                for (MeasureUnitBean measureUnitBean : datasetBean.getMeasureUnits()) {
+                for (MeasureUnitBean measureUnitBean : companyDeviceDatasetBean.getMeasureUnits()) {
 
                     MeasureUnitVO measureUnitVO = new MeasureUnitVO();
 
@@ -125,10 +125,10 @@ public class DBSync {
 
             }
 
-            if (datasetBean.getCatalogs() != null &&
-                    !datasetBean.getCatalogs().isEmpty()) {
+            if (companyDeviceDatasetBean.getCatalogs() != null &&
+                    !companyDeviceDatasetBean.getCatalogs().isEmpty()) {
 
-                for (CatalogBean catalogBean : datasetBean.getCatalogs()) {
+                for (CatalogBean catalogBean : companyDeviceDatasetBean.getCatalogs()) {
 
                     CatalogVO catalogVO = new CatalogVO();
 
@@ -152,10 +152,10 @@ public class DBSync {
 
             }
 
-            if (datasetBean.getMeasureUnitMeasureUnits() != null &&
-                    !datasetBean.getMeasureUnitMeasureUnits().isEmpty()) {
+            if (companyDeviceDatasetBean.getMeasureUnitMeasureUnits() != null &&
+                    !companyDeviceDatasetBean.getMeasureUnitMeasureUnits().isEmpty()) {
 
-                for (MeasureUnitMeasureUnitBean measureUnitMeasureUnitBean : datasetBean.getMeasureUnitMeasureUnits()) {
+                for (MeasureUnitMeasureUnitBean measureUnitMeasureUnitBean : companyDeviceDatasetBean.getMeasureUnitMeasureUnits()) {
 
                     MeasureUnitMeasureUnitVO measureUnitMeasureUnitVO = new MeasureUnitMeasureUnitVO();
 
@@ -177,10 +177,10 @@ public class DBSync {
 
             }
 
-            if (datasetBean.getProducts() != null &&
-                    !datasetBean.getProducts().isEmpty()) {
+            if (companyDeviceDatasetBean.getProducts() != null &&
+                    !companyDeviceDatasetBean.getProducts().isEmpty()) {
 
-                for (ProductBean productBean : datasetBean.getProducts()) {
+                for (ProductBean productBean : companyDeviceDatasetBean.getProducts()) {
 
                     ProgenyVO progenyVO = new ProgenyVO();
 
@@ -240,10 +240,10 @@ public class DBSync {
 
             }
 
-            if (datasetBean.getServices() != null &&
-                    !datasetBean.getServices().isEmpty()) {
+            if (companyDeviceDatasetBean.getServices() != null &&
+                    !companyDeviceDatasetBean.getServices().isEmpty()) {
 
-                for (ServiceBean serviceBean : datasetBean.getServices()) {
+                for (ServiceBean serviceBean : companyDeviceDatasetBean.getServices()) {
 
                     ProgenyVO progenyVO = new ProgenyVO();
 
@@ -289,10 +289,10 @@ public class DBSync {
 
             }
 
-            if (datasetBean.getMerchandises() != null &&
-                    !datasetBean.getMerchandises().isEmpty()) {
+            if (companyDeviceDatasetBean.getMerchandises() != null &&
+                    !companyDeviceDatasetBean.getMerchandises().isEmpty()) {
 
-                for (MerchandiseBean merchandiseBean : datasetBean.getMerchandises()) {
+                for (MerchandiseBean merchandiseBean : companyDeviceDatasetBean.getMerchandises()) {
 
                     ProgenyVO progenyVO = new ProgenyVO();
 
@@ -374,10 +374,10 @@ public class DBSync {
 
             }
 
-            if (datasetBean.getProductProducts() != null &&
-                    !datasetBean.getProductProducts().isEmpty()) {
+            if (companyDeviceDatasetBean.getProductProducts() != null &&
+                    !companyDeviceDatasetBean.getProductProducts().isEmpty()) {
 
-                for (ProductProductBean productProductBean : datasetBean.getProductProducts()) {
+                for (ProductProductBean productProductBean : companyDeviceDatasetBean.getProductProducts()) {
 
                     ProductProductVO productProductVO = new ProductProductVO();
 
@@ -401,10 +401,10 @@ public class DBSync {
 
             }
 
-            if (datasetBean.getReceiptMethods() != null &&
-                    !datasetBean.getReceiptMethods().isEmpty()) {
+            if (companyDeviceDatasetBean.getReceiptMethods() != null &&
+                    !companyDeviceDatasetBean.getReceiptMethods().isEmpty()) {
 
-                for (ReceiptMethodBean receiptMethodBean : datasetBean.getReceiptMethods()) {
+                for (ReceiptMethodBean receiptMethodBean : companyDeviceDatasetBean.getReceiptMethods()) {
 
                     ReceiptMethodVO receiptMethodVO = new ReceiptMethodVO();
 
@@ -424,10 +424,10 @@ public class DBSync {
 
             }
 
-            if (datasetBean.getPaymentMethods() != null &&
-                    !datasetBean.getPaymentMethods().isEmpty()) {
+            if (companyDeviceDatasetBean.getPaymentMethods() != null &&
+                    !companyDeviceDatasetBean.getPaymentMethods().isEmpty()) {
 
-                for (PaymentMethodBean paymentMethodBean : datasetBean.getPaymentMethods()) {
+                for (PaymentMethodBean paymentMethodBean : companyDeviceDatasetBean.getPaymentMethods()) {
 
                     PaymentMethodVO paymentMethodVO = new PaymentMethodVO();
 

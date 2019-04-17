@@ -2,45 +2,59 @@ package br.com.developen.pdv.jersey;
 
 public class ConfigurationBean {
 
-    private DeviceBean device;
+    private String deviceSerialNumber;
 
-    private CompanyBean company;
+    private String deviceManufacturer;
 
-    private UserBean user;
+    private String deviceModel;
 
-    public DeviceBean getDevice() {
+    private String deviceAlias;
 
-        return device;
+    public String getDeviceSerialNumber() {
 
-    }
-
-    public void setDevice(DeviceBean device) {
-
-        this.device = device;
+        return deviceSerialNumber;
 
     }
 
-    public CompanyBean getCompany() {
+    public void setDeviceSerialNumber(String deviceSerialNumber) {
 
-        return company;
-
-    }
-
-    public void setCompany(CompanyBean company) {
-
-        this.company = company;
+        this.deviceSerialNumber = deviceSerialNumber;
 
     }
 
-    public UserBean getUser() {
+    public String getDeviceManufacturer() {
 
-        return user;
+        return deviceManufacturer;
 
     }
 
-    public void setUser(UserBean user) {
+    public void setDeviceManufacturer(String deviceManufacturer) {
 
-        this.user = user;
+        this.deviceManufacturer = deviceManufacturer;
+
+    }
+
+    public String getDeviceModel() {
+
+        return deviceModel;
+
+    }
+
+    public void setDeviceModel(String deviceModel) {
+
+        this.deviceModel = deviceModel;
+
+    }
+
+    public String getDeviceAlias() {
+
+        return deviceAlias;
+
+    }
+
+    public void setDeviceAlias(String deviceAlias) {
+
+        this.deviceAlias = deviceAlias;
 
     }
 

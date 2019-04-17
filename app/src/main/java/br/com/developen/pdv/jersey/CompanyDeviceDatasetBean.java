@@ -2,11 +2,15 @@ package br.com.developen.pdv.jersey;
 
 import java.util.List;
 
-public class DatasetBean {
+public class CompanyDeviceDatasetBean {
 
     private CompanyBean company;
 
-    private List<DeviceBean> devices;
+    private DeviceBean device;
+
+    private Boolean allow;
+
+    private String alias;
 
     private List<OrganizationBean> organizations;
 
@@ -44,15 +48,39 @@ public class DatasetBean {
 
     }
 
-    public List<DeviceBean> getDevices() {
+    public DeviceBean getDevice() {
 
-        return devices;
+        return device;
 
     }
 
-    public void setDevices(List<DeviceBean> devices) {
+    public void setDevice(DeviceBean device) {
 
-        this.devices = devices;
+        this.device = device;
+
+    }
+
+    public Boolean getAllow() {
+
+        return allow;
+
+    }
+
+    public void setAllow(Boolean allow) {
+
+        this.allow = allow;
+
+    }
+
+    public String getAlias() {
+
+        return alias;
+
+    }
+
+    public void setAlias(String alias) {
+
+        this.alias = alias;
 
     }
 

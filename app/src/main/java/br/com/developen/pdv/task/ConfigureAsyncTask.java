@@ -14,15 +14,15 @@ import javax.ws.rs.core.Response;
 
 import br.com.developen.pdv.exception.HttpRequestException;
 import br.com.developen.pdv.jersey.ConfigurationBean;
-import br.com.developen.pdv.jersey.DatasetBean;
+import br.com.developen.pdv.jersey.CompanyDeviceDatasetBean;
 import br.com.developen.pdv.jersey.ExceptionBean;
 import br.com.developen.pdv.utils.App;
 import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.Messaging;
 import br.com.developen.pdv.utils.RequestBuilder;
 
-public final class ConfigurePOSAsyncTask<
-        A extends Activity & ConfigurePOSAsyncTask.Listener,
+public final class ConfigureAsyncTask<
+        A extends Activity & ConfigureAsyncTask.Listener,
         B extends ConfigurationBean,
         C extends Integer,
         D> extends AsyncTask<B, C, D> {
@@ -33,7 +33,7 @@ public final class ConfigurePOSAsyncTask<
     private SharedPreferences preferences;
 
 
-    public ConfigurePOSAsyncTask(A activity) {
+    public ConfigureAsyncTask(A activity) {
 
         this.activity = new WeakReference<>(activity);
 
@@ -49,7 +49,7 @@ public final class ConfigurePOSAsyncTask<
 
         if (listener != null)
 
-            listener.onConfigurePOSPreExecute();
+            listener.onConfigurePreExecute();
 
     }
 
@@ -61,7 +61,7 @@ public final class ConfigurePOSAsyncTask<
         try {
 
             Response response = RequestBuilder.
-                    build("pos", "configure").
+                    build("device", "pos").
                     request(MediaType.APPLICATION_JSON).
                     header(HttpHeaders.AUTHORIZATION,
                             Constants.TOKEN_PREFIX +
@@ -72,7 +72,7 @@ public final class ConfigurePOSAsyncTask<
 
                 case HttpURLConnection.HTTP_OK:
 
-                    return response.readEntity(DatasetBean.class);
+                    return response.readEntity(CompanyDeviceDatasetBean.class);
 
                 default:
 
@@ -97,15 +97,15 @@ public final class ConfigurePOSAsyncTask<
 
             if (callResult != null) {
 
-                if (callResult instanceof DatasetBean){
+                if (callResult instanceof CompanyDeviceDatasetBean){
 
-                    listener.onConfigurePOSSuccess((DatasetBean) callResult);
+                    listener.onConfigureSuccess((CompanyDeviceDatasetBean) callResult);
 
                 } else {
 
                     if (callResult instanceof Messaging){
 
-                        listener.onConfigurePOSFailure((Messaging) callResult);
+                        listener.onConfigureFailure((Messaging) callResult);
 
                     }
 
@@ -120,11 +120,11 @@ public final class ConfigurePOSAsyncTask<
 
     public interface Listener {
 
-        void onConfigurePOSPreExecute();
+        void onConfigurePreExecute();
 
-        void onConfigurePOSSuccess(DatasetBean datasetBean);
+        void onConfigureSuccess(CompanyDeviceDatasetBean companyDeviceDatasetBean);
 
-        void onConfigurePOSFailure(Messaging messaging);
+        void onConfigureFailure(Messaging messaging);
 
     }
 
