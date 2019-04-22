@@ -4,6 +4,7 @@ import java.util.List;
 
 public class CompanyDeviceDatasetBean {
 
+
     private CompanyBean company;
 
     private DeviceBean device;
@@ -35,6 +36,9 @@ public class CompanyDeviceDatasetBean {
     private List<ReceiptMethodBean> receiptMethods;
 
     private List<PaymentMethodBean> paymentMethods;
+
+    private List<SaleBean> sales;
+
 
     public CompanyBean getCompany() {
 
@@ -227,5 +231,18 @@ public class CompanyDeviceDatasetBean {
         this.paymentMethods = paymentMethods;
 
     }
+
+    public List<SaleBean> getSales() {
+
+        return sales;
+
+    }
+
+    public void setSales(List<SaleBean> sales) {
+
+        this.sales = sales;
+
+    }
+
 
 }

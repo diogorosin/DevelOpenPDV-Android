@@ -9,6 +9,8 @@ import br.com.developen.pdv.jersey.PaymentMethodBean;
 import br.com.developen.pdv.jersey.ProductBean;
 import br.com.developen.pdv.jersey.ProductProductBean;
 import br.com.developen.pdv.jersey.ReceiptMethodBean;
+import br.com.developen.pdv.jersey.SaleBean;
+import br.com.developen.pdv.jersey.SaleItemBean;
 import br.com.developen.pdv.jersey.ServiceBean;
 import br.com.developen.pdv.jersey.UserBean;
 import br.com.developen.pdv.room.CatalogVO;
@@ -21,6 +23,8 @@ import br.com.developen.pdv.room.ProductProductVO;
 import br.com.developen.pdv.room.ProductVO;
 import br.com.developen.pdv.room.ProgenyVO;
 import br.com.developen.pdv.room.ReceiptMethodVO;
+import br.com.developen.pdv.room.SaleItemVO;
+import br.com.developen.pdv.room.SaleVO;
 import br.com.developen.pdv.room.ServiceVO;
 import br.com.developen.pdv.room.SubjectVO;
 import br.com.developen.pdv.room.UserVO;
@@ -446,6 +450,74 @@ public class DBSync {
                 }
 
             }
+
+            if (companyDeviceDatasetBean.getSales() != null &&
+                    !companyDeviceDatasetBean.getSales().isEmpty()) {
+
+                for (SaleBean saleBean : companyDeviceDatasetBean.getSales()) {
+
+
+                    SaleVO saleVO = new SaleVO();
+
+                    saleVO.setIdentifier(saleBean.getIdentifier());
+
+                    saleVO.setNumber(saleBean.getNumber());
+
+                    saleVO.setStatus(saleBean.getStatus());
+
+                    saleVO.setDateTime(saleBean.getDateTime());
+
+                    saleVO.setUser(saleBean.getUser());
+
+                    saleVO.setNote(saleBean.getNote());
+
+
+                    if (database.saleDAO().exists(saleVO.getIdentifier()))
+
+                        database.saleDAO().update(saleVO);
+
+                    else
+
+                        database.saleDAO().create(saleVO);
+
+
+                    for (Integer key : saleBean.getItems().keySet()) {
+
+
+                        SaleItemBean saleItemBean = saleBean.getItems().get(key);
+
+
+                        SaleItemVO saleItemVO = new SaleItemVO();
+
+                        saleItemVO.setSale(saleVO.getIdentifier());
+
+                        saleItemVO.setItem(key);
+
+                        saleItemVO.setProgeny(saleItemBean.getProgeny());
+
+                        saleItemVO.setMeasureUnit(saleItemBean.getMeasureUnit());
+
+                        saleItemVO.setQuantity(saleItemBean.getQuantity());
+
+                        saleItemVO.setPrice(saleItemBean.getPrice());
+
+                        saleItemVO.setTotal(saleItemBean.getTotal());
+
+
+                        if (database.saleItemDAO().exists(saleItemVO.getSale(), saleItemVO.getItem()))
+
+                            database.saleItemDAO().update(saleItemVO);
+
+                        else
+
+                            database.saleItemDAO().create(saleItemVO);
+
+                    }
+
+                }
+
+            }
+
 
             database.setTransactionSuccessful();
 
