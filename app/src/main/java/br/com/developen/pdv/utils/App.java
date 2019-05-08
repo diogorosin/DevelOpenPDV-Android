@@ -30,6 +30,9 @@ public class App extends Application {
         //INICIALIZA REPOSITORIOS
         CatalogRepository.getInstance();
 
+        //INICIALIZA SERVICOS
+        Jobs.scheduleJob(this);
+
     }
 
 
@@ -39,10 +42,12 @@ public class App extends Application {
 
     }
 
+
     public static Context getContext(){
 
         return instance;
 
     }
+
 
 }

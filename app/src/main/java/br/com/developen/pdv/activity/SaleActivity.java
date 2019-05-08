@@ -1,7 +1,6 @@
 package br.com.developen.pdv.activity;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -23,9 +22,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import br.com.developen.pdv.R;
@@ -104,48 +101,37 @@ public class SaleActivity extends AppCompatActivity implements CancelSaleAsyncTa
 
         newSaleFAB = findViewById(R.id.activity_sale_new);
 
-        newSaleFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        newSaleFAB.setOnClickListener(view -> {
 
-                Intent saleIntent = new Intent(SaleActivity.this, CatalogActivity.class);
+            Intent saleIntent = new Intent(SaleActivity.this, CatalogActivity.class);
 
-                startActivity(saleIntent);
+            startActivity(saleIntent);
 
-            }
         });
 
         saleRepository = ViewModelProviders.of(this).get(SaleRepository.class);
 
-        saleRepository.getSalesPaged().observe(this, new Observer<PagedList<SaleModel>>() {
+        saleRepository.getSalesPaged().observe(this, saleModels -> {
 
-            public void onChanged(PagedList<SaleModel> saleModels) {
+            if (saleModels != null)
 
-                if (saleModels != null)
-
-                    adapter.submitList(saleModels);
-
-            }
+                adapter.submitList(saleModels);
 
         });
 
         CashRepository cashRepository = ViewModelProviders.of(this).get(CashRepository.class);
 
-        cashRepository.isOpen().observe(this, new Observer<Boolean>() {
+        cashRepository.isOpen().observe(this, isOpen -> {
 
-            public void onChanged(Boolean isOpen) {
+            newSaleFAB.setVisibility(isOpen ? View.VISIBLE : View.GONE);
 
-                newSaleFAB.setVisibility(isOpen ? View.VISIBLE : View.GONE);
+            if (!isOpen)
 
-                if (!isOpen)
+                getCashClosedSnackbar().show();
 
-                    getCashClosedSnackbar().show();
+            else
 
-                else
-
-                    getCashClosedSnackbar().dismiss();
-
-            }
+                getCashClosedSnackbar().dismiss();
 
         });
 
@@ -215,35 +201,23 @@ public class SaleActivity extends AppCompatActivity implements CancelSaleAsyncTa
 
         builder.setTitle(R.string.confirm);
 
-        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.yes, (dialog, which) -> {
 
-            public void onClick(DialogInterface dialog, int which) {
+            List<SaleModel> saleModelList = new ArrayList<>();
 
-                List<SaleModel> saleModelList = new ArrayList<>();
+            SparseBooleanArray selected = adapter.getSelectedItems();
 
-                SparseBooleanArray selected = adapter.getSelectedItems();
+            for (int i = (selected.size() - 1); i >= 0; i--)
 
-                for (int i = (selected.size() - 1); i >= 0; i--)
+                saleModelList.add(Objects.requireNonNull(adapter.getCurrentList()).get(selected.keyAt(i)));
 
-                    saleModelList.add(Objects.requireNonNull(adapter.getCurrentList()).get(selected.keyAt(i)));
+            new CancelSaleAsyncTask<>(SaleActivity.this).execute(saleModelList.toArray(new SaleModel[0]));
 
-                new CancelSaleAsyncTask<>(SaleActivity.this).execute(saleModelList.toArray(new SaleModel[0]));
-
-                actionMode.finish();
-
-            }
+            actionMode.finish();
 
         });
 
-        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-
-            }
-
-        });
+        builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
 
         AlertDialog alert = builder.create();
 
@@ -328,15 +302,7 @@ public class SaleActivity extends AppCompatActivity implements CancelSaleAsyncTa
 
         builder.setPositiveButton(android.R.string.ok,
 
-                new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        dialog.cancel();
-
-                    }
-
-                });
+                (dialog, id) -> dialog.cancel());
 
         AlertDialog alert = builder.create();
 

@@ -24,7 +24,7 @@
             android:layout_margin="5dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.2"/>
+            android:layout_weight="0.15"/>
 
         <TextView
             android:id="@+id/activity_sale_row_datetime_textview"
@@ -33,7 +33,7 @@
             android:layout_margin="5dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.4"/>
+            android:layout_weight="0.35"/>
 
         <TextView
             android:id="@+id/activity_sale_row_status_textview"
@@ -52,6 +52,16 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.2"/>
+
+        <ImageView
+            android:id="@+id/activity_sale_row_uploaded_imageview"
+            android:gravity="center_vertical|end"
+            android:layout_margin="5dp"
+            android:layout_weight="0.1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:src="@drawable/uploaded_24"/>
 
     </LinearLayout>
 

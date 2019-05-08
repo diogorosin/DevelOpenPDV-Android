@@ -118,7 +118,8 @@ public class Constants {
                     "Sbj.level AS 'user_level', " +
                     "Ind.name AS 'user_name', " +
                     "(SELECT SUM(total) FROM SaleItem WHERE sale = Sle.identifier) AS 'total', " +
-                    "Sle.note AS 'note' " +
+                    "Sle.note AS 'note', " +
+                    "Sle.uploaded AS 'uploaded' " +
                     "FROM " +
                     "Sale Sle " +
                     "INNER JOIN " +
@@ -368,7 +369,8 @@ public class Constants {
                     "Sbj.level AS 'user_level', " +
                     "Ind.name AS 'user_name', " +
                     "(SELECT SUM(total) FROM SaleItem WHERE sale = Sle.identifier) AS 'total', " +
-                    "Sle.note AS 'note' " +
+                    "Sle.note AS 'note', " +
+                    "Sle.uploaded AS 'uploaded' " +
                     "FROM " +
                     "Sale Sle " +
                     "INNER JOIN " +

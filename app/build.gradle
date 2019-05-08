@@ -16,12 +16,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-
     //Android
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha03'
     implementation 'org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.0.5'
     implementation 'com.google.android.material:material:1.1.0-alpha04'
@@ -31,16 +34,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-
     //Room Database
-    implementation "android.arch.paging:runtime:1.0.1"
+    implementation 'android.arch.paging:runtime:1.0.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.1.0-alpha03'
     implementation 'androidx.lifecycle:lifecycle-livedata:2.1.0-alpha03'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha03'
     implementation 'androidx.room:room-runtime:2.1.0-alpha05'
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.1.0-alpha03"
     annotationProcessor "androidx.room:room-compiler:2.1.0-alpha05"
-
     //Jersey --- NUNCA ATUALIZAR AS VERSOES DAS BIBLIOTECAS ABAIXO
     implementation 'org.glassfish.jersey.core:jersey-client:2.17'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.0'
@@ -49,30 +50,26 @@ dependencies {
     implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.9.0'
     implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.9.0'
     implementation 'com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.9.0'
-
     //ExpandableLayout
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
-
     //FloatingActionMenu
     implementation 'com.getbase:floatingactionbutton:1.10.1'
-
     //Picker
     implementation 'com.code-troopers.betterpickers:library:3.1.0'
-
     //Bibliotecas
     implementation files('libs/printer7003.jar')
-
     //Graficos
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
-
     //Lista Seccionada
     implementation 'com.truizlop.sectionedrecyclerview:library:1.2.0'
-
     //Seletor de Data/Hora
     implementation 'com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.2'
-
+    //ReactiveNetwork
+    implementation 'com.github.pwittchen:reactivenetwork-rx2:3.0.2'
 }
 
 configurations {
+
     compile.exclude group: 'javax.inject', module: 'javax.inject'
+
 }

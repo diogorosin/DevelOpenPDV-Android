@@ -109,6 +109,7 @@
     <string name="error_user_not_active">O usuário não está ativo.</string>
     <string name="error_invalid_alias">Nome do dispositivo informado é inválido.</string>
     <string name="error_field_required">O preenchimento desse campo é obrigatório.</string>
+    <string name="error_on_upload_sale">Não foi possível transmitir a venda para o servidor.</string>
     <string name="success_sale_finished">Venda finalizada.</string>
     <string name="success_cash_closed">Caixa fechado.</string>
     <string name="success_cash_opened">Caixa aberto.</string>

@@ -53,6 +53,9 @@ public class SaleVO implements Serializable {
     @ColumnInfo(name="note")
     private String note;
 
+    @NonNull
+    @ColumnInfo(name="uploaded")
+    private Boolean uploaded;
 
     public Integer getIdentifier() {
 
@@ -123,6 +126,18 @@ public class SaleVO implements Serializable {
     public void setNote(String note) {
 
         this.note = note;
+
+    }
+
+    public Boolean getUploaded() {
+
+        return uploaded;
+
+    }
+
+    public void setUploaded(Boolean uploaded) {
+
+        this.uploaded = uploaded;
 
     }
 

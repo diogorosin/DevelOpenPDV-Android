@@ -5,6 +5,7 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Objects;
@@ -53,16 +54,21 @@ public class SaleRecyclerViewPagerAdapter extends PagedListAdapter<SaleModel, Sa
 
         holder.status.setText(StringUtils.getDenominationOfSaleStatus(holder.saleModel.getStatus()));
 
-        int color = ContextCompat.getColor(App.getContext(),
+        int statusColor = ContextCompat.getColor(App.getContext(),
                 holder.saleModel.getStatus().equals(Constants.CANCELED_SALE_STATUS) ?  R.color.colorRedLight : R.color.colorWhite);
 
-        holder.status.setTextColor(color);
+        holder.status.setTextColor(statusColor);
 
         holder.total.setText(StringUtils.formatCurrency(holder.saleModel.getTotal()));
 
         holder.itemView.setBackgroundColor(selectedItems.get(position) ?
                 ContextCompat.getColor(App.getContext(), R.color.colorBlackMedium) :
                 Color.TRANSPARENT);
+
+        int uploadColor = ContextCompat.getColor(App.getContext(),
+                holder.saleModel.getUploaded() ? R.color.colorWhite : R.color.colorRedLight);
+
+        holder.uploaded.setColorFilter(uploadColor);
 
     }
 
@@ -79,6 +85,8 @@ public class SaleRecyclerViewPagerAdapter extends PagedListAdapter<SaleModel, Sa
 
         public TextView total;
 
+        public ImageView uploaded;
+
         public SaleViewHolder(View view) {
 
             super(view);
@@ -90,6 +98,8 @@ public class SaleRecyclerViewPagerAdapter extends PagedListAdapter<SaleModel, Sa
             status = view.findViewById(R.id.activity_sale_row_status_textview);
 
             total = view.findViewById(R.id.activity_sale_row_total_textview);
+
+            uploaded = view.findViewById(R.id.activity_sale_row_uploaded_imageview);
 
         }
 

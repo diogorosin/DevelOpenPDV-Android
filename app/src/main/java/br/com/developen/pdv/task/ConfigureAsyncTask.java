@@ -61,7 +61,7 @@ public final class ConfigureAsyncTask<
         try {
 
             Response response = RequestBuilder.
-                    build("device", "pos").
+                    build("device", "configure").
                     request(MediaType.APPLICATION_JSON).
                     header(HttpHeaders.AUTHORIZATION,
                             Constants.TOKEN_PREFIX +

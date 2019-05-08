@@ -53,8 +53,17 @@ public interface SaleDAO {
     @Query("SELECT COUNT(*) > 0 FROM Sale S WHERE S.identifier = :identifier")
     Boolean exists(int identifier);
 
+    @Query("SELECT MAX(number) FROM Sale")
+    Integer getCurrentSaleNumber();
+
+    @Query("SELECT identifier FROM Sale WHERE uploaded = 0")
+    List<Integer> getSalesToUpload();
+
     @Update
     void update(SaleVO saleVO);
+
+    @Query("UPDATE Sale SET uploaded = 1 WHERE identifier IN (:sales)")
+    void setUploaded(Integer... sales);
 
     @Delete
     void delete(SaleVO saleVO);

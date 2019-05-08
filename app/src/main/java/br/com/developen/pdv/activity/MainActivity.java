@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import br.com.developen.pdv.R;
@@ -47,6 +46,11 @@ public class MainActivity
     private Snackbar cashClosedSnackbar;
 
     private Boolean cashIsOpen = false;
+
+
+    //private Disposable networkDisposable;
+
+    //private Disposable internetDisposable;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,27 +99,73 @@ public class MainActivity
 
         CashRepository cashRepository = ViewModelProviders.of(this).get(CashRepository.class);
 
-        cashRepository.isOpen().observe(this, new Observer<Boolean>() {
+        cashRepository.isOpen().observe(this, isOpen -> {
 
-            public void onChanged(Boolean isOpen) {
+            cashIsOpen = isOpen;
 
-                cashIsOpen = isOpen;
+            if (!cashIsOpen)
 
-                if (!cashIsOpen)
+                getCashClosedSnackbar().show();
 
-                    getCashClosedSnackbar().show();
+            else
 
-                else
+                getCashClosedSnackbar().dismiss();
 
-                    getCashClosedSnackbar().dismiss();
-
-                supportInvalidateOptionsMenu();
-
-            }
+            supportInvalidateOptionsMenu();
 
         });
 
     }
+
+
+    protected void onResume() {
+
+        super.onResume();
+
+/*        InternetObservingSettings settings = InternetObservingSettings.builder()
+                .initialInterval(5*1000)
+                .interval(5*1000)
+                .host("192.168.0.108")
+                .port(8080)
+                .timeout(30*1000)
+                .httpResponse(HttpURLConnection.HTTP_OK)
+                .errorHandler((exception, message) -> {
+
+                    Log.d("DIOGO", message +":"+exception.getMessage());
+
+                }).build();
+
+        internetDisposable = ReactiveNetwork.
+                observeInternetConnectivity(settings)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(isConnectedToInternet -> Log.d("DIOGO", isConnectedToInternet ? "conectado" : "desconectado")); */
+
+    }
+
+
+    protected void onPause() {
+
+        super.onPause();
+
+        //safelyDispose(internetDisposable);
+
+    }
+
+
+    /*private void safelyDispose(Disposable... disposables) {
+
+        for (Disposable subscription : disposables) {
+
+            if (subscription != null && !subscription.isDisposed()) {
+
+                subscription.dispose();
+
+            }
+
+        }
+
+    }*/
 
 
     public boolean onPrepareOptionsMenu (Menu menu) {

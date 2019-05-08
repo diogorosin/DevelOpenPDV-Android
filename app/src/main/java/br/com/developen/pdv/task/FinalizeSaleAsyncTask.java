@@ -107,34 +107,11 @@ public final class FinalizeSaleAsyncTask<L extends FinalizeSaleAsyncTask.Listene
 
             saleVO.setStatus("F");
 
+            saleVO.setUploaded(saleModel.getUploaded());
+
             saleVO.setDateTime(saleModel.getDateTime());
 
             saleVO.setUser(saleModel.getUser().getIdentifier());
-
-            /*
-            String target = "12 Feb 2019 06:00:00";
-            DateFormat df = new SimpleDateFormat("dd MMM yyyy kk:mm:ss", Locale.ENGLISH);
-            Date result =  df.parse(target);
-            saleVO.setDateTime(result);
-
-            SubjectVO subjectVO = new SubjectVO();
-            subjectVO.setIdentifier(98);
-            subjectVO.setActive(true);
-            subjectVO.setLevel(6);
-            database.subjectDAO().create(subjectVO);
-
-            IndividualVO individualVO = new IndividualVO();
-            individualVO.setSubject(98);
-            individualVO.setName("Guilherme Ragazzon");
-            database.individualDAO().create(individualVO);
-
-            UserVO userVO = new UserVO();
-            userVO.setIndividual(98);
-            userVO.setLogin("guilherme@gmail.com");
-            userVO.setPassword("8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918");
-            database.userDAO().create(userVO);
-            saleVO.setUser(98);
-            */
 
             database.saleDAO().update(saleVO);
 

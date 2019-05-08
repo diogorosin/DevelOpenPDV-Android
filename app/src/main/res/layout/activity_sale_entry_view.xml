@@ -17,7 +17,7 @@
             android:layout_margin="5dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.2"
+            android:layout_weight="0.15"
             android:text="@string/number"
             android:textStyle="bold"/>
 
@@ -27,7 +27,7 @@
             android:layout_margin="5dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.4"
+            android:layout_weight="0.35"
             android:text="@string/date_time"
             android:textStyle="bold"/>
 
@@ -49,6 +49,15 @@
             android:layout_height="match_parent"
             android:layout_weight="0.2"
             android:text="@string/total"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:gravity="center_vertical"
+            android:textColor="@color/colorWhite"
+            android:layout_margin="5dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
             android:textStyle="bold"/>
 
     </LinearLayout>

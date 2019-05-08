@@ -958,7 +958,18 @@ public class ConfigurationActivity extends AppCompatActivity implements
 
         editor.apply();
 
-        new DBSync(DB.getInstance(getBaseContext())).syncDataset(companyDeviceDatasetBean);
+
+        DB database = DB.getInstance(getBaseContext());
+
+        new DBSync(database).syncDataset(companyDeviceDatasetBean);
+
+
+        editor = preferences.edit();
+
+        editor.putInt(Constants.CURRENT_SALE_NUMBER_PROPERTY, database.saleDAO().getCurrentSaleNumber());
+
+        editor.commit();
+
 
         viewPager.setCurrentItem(FINISH_STEP, true);
 
@@ -981,15 +992,7 @@ public class ConfigurationActivity extends AppCompatActivity implements
 
         builder.setPositiveButton(R.string.try_again,
 
-                new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        dialog.cancel();
-
-                    }
-
-                });
+                (dialog, id) -> dialog.cancel());
 
         AlertDialog alert = builder.create();
 
@@ -1052,17 +1055,13 @@ public class ConfigurationActivity extends AppCompatActivity implements
 
         builder.setPositiveButton(
                 R.string.try_again,
-                new DialogInterface.OnClickListener() {
+                (dialog, id) -> {
 
-                    public void onClick(DialogInterface dialog, int id) {
+                    Intent intent = new Intent(ConfigurationActivity.this, LoginActivity.class);
 
-                        Intent intent = new Intent(ConfigurationActivity.this, LoginActivity.class);
+                    startActivity(intent);
 
-                        startActivity(intent);
-
-                        finish();
-
-                    }
+                    finish();
 
                 });
 

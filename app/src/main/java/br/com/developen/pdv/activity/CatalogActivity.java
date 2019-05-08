@@ -38,6 +38,7 @@ import br.com.developen.pdv.room.MeasureUnitGroup;
 import br.com.developen.pdv.room.SaleModel;
 import br.com.developen.pdv.task.CreateSaleFromCatalogAsyncTask;
 import br.com.developen.pdv.task.UpdateSaleFromCatalogAsyncTask;
+import br.com.developen.pdv.task.UploadSaleAsyncTask;
 import br.com.developen.pdv.utils.Constants;
 import br.com.developen.pdv.utils.Messaging;
 import br.com.developen.pdv.widget.CatalogItemFragment;
@@ -49,7 +50,8 @@ public class CatalogActivity extends AppCompatActivity
         CatalogItemFragment.Listener,
         SaleFragment.Listener,
         CreateSaleFromCatalogAsyncTask.Listener,
-        UpdateSaleFromCatalogAsyncTask.Listener{
+        UpdateSaleFromCatalogAsyncTask.Listener,
+        UploadSaleAsyncTask.Listener {
 
 
     private ViewPager viewPager;
@@ -362,6 +364,8 @@ public class CatalogActivity extends AppCompatActivity
 
         progressDialog.setMessage("Imprimindo cupons...");
 
+        progressDialog.setIndeterminate(false);
+
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 
         progressDialog.show();
@@ -387,17 +391,11 @@ public class CatalogActivity extends AppCompatActivity
 
     public void onPrintSuccess(ReportName report) {
 
-        CatalogRepository.
-                getInstance().
-                reset();
-
-        progressDialog.hide();
-
         switch (report){
 
             case SALE_ITEM_COUPON:
 
-                Toast.makeText(getBaseContext(), getResources().getString(R.string.success_sale_finished), Toast.LENGTH_SHORT).show();
+                new UploadSaleAsyncTask<>(this).execute(CatalogRepository.getInstance().getSale());
 
                 break;
 
@@ -410,15 +408,7 @@ public class CatalogActivity extends AppCompatActivity
 
         progressDialog.hide();
 
-        showPrinterAlertDialog(message, new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-
-                printTicketsOfSale();
-
-            }
-
-        });
+        showPrinterAlertDialog(message, (dialog, which) -> printTicketsOfSale());
 
     }
 
@@ -436,6 +426,47 @@ public class CatalogActivity extends AppCompatActivity
 
             floatingActionButton.setVisibility(
                     catalogRepository.hasItemSelected() ? View.VISIBLE : View.GONE);
+
+    }
+
+
+    public void onUploadSalesPreExecute() {
+
+        progressDialog.setCancelable(true);
+
+        progressDialog.setTitle("Aguarde");
+
+        progressDialog.setMessage("Transmitindo venda para o servidor.");
+
+        progressDialog.setIndeterminate(true);
+
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+
+    }
+
+
+    public void onUploadSalesSuccess() {
+
+        CatalogRepository.
+                getInstance().
+                reset();
+
+        progressDialog.hide();
+
+        Toast.makeText(getBaseContext(), getResources().getString(R.string.success_sale_finished), Toast.LENGTH_SHORT).show();
+
+    }
+
+
+    public void onUploadSalesFailure(Messaging messaging) {
+
+        CatalogRepository.
+                getInstance().
+                reset();
+
+        progressDialog.hide();
+
+        Toast.makeText(getBaseContext(), getResources().getString(R.string.error_on_upload_sale), Toast.LENGTH_SHORT).show();
 
     }
 

@@ -1,5 +1,6 @@
 package br.com.developen.pdv.jersey;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CompanyDeviceDatasetBean {
@@ -90,6 +91,10 @@ public class CompanyDeviceDatasetBean {
 
     public List<UserBean> getUsers() {
 
+        if (this.users==null)
+
+            this.users = new ArrayList<>();
+
         return users;
 
     }
@@ -101,6 +106,10 @@ public class CompanyDeviceDatasetBean {
     }
 
     public List<OrganizationBean> getOrganizations() {
+
+        if (this.organizations==null)
+
+            this.organizations = new ArrayList<>();
 
         return organizations;
 
@@ -114,6 +123,10 @@ public class CompanyDeviceDatasetBean {
 
     public List<IndividualBean> getIndividuals() {
 
+        if (this.individuals==null)
+
+            this.individuals = new ArrayList<>();
+
         return individuals;
 
     }
@@ -125,6 +138,10 @@ public class CompanyDeviceDatasetBean {
     }
 
     public List<MeasureUnitBean> getMeasureUnits() {
+
+        if (this.measureUnits==null)
+
+            this.measureUnits = new ArrayList<>();
 
         return measureUnits;
 
@@ -138,6 +155,10 @@ public class CompanyDeviceDatasetBean {
 
     public List<MeasureUnitMeasureUnitBean> getMeasureUnitMeasureUnits() {
 
+        if (this.measureUnitMeasureUnits==null)
+
+            this.measureUnitMeasureUnits = new ArrayList<>();
+
         return measureUnitMeasureUnits;
 
     }
@@ -149,6 +170,10 @@ public class CompanyDeviceDatasetBean {
     }
 
     public List<ProductBean> getProducts() {
+
+        if (this.products==null)
+
+            this.products = new ArrayList<>();
 
         return products;
 
@@ -162,6 +187,10 @@ public class CompanyDeviceDatasetBean {
 
     public List<ProductProductBean> getProductProducts() {
 
+        if (this.productProducts==null)
+
+            this.productProducts = new ArrayList<>();
+
         return productProducts;
 
     }
@@ -173,6 +202,10 @@ public class CompanyDeviceDatasetBean {
     }
 
     public List<ServiceBean> getServices() {
+
+        if (this.services==null)
+
+            this.services = new ArrayList<>();
 
         return services;
 
@@ -186,6 +219,10 @@ public class CompanyDeviceDatasetBean {
 
     public List<MerchandiseBean> getMerchandises() {
 
+        if (this.merchandises==null)
+
+            this.merchandises = new ArrayList<>();
+
         return merchandises;
 
     }
@@ -197,6 +234,10 @@ public class CompanyDeviceDatasetBean {
     }
 
     public List<CatalogBean> getCatalogs() {
+
+        if (this.catalogs==null)
+
+            this.catalogs = new ArrayList<>();
 
         return catalogs;
 
@@ -210,6 +251,10 @@ public class CompanyDeviceDatasetBean {
 
     public List<ReceiptMethodBean> getReceiptMethods() {
 
+        if (this.receiptMethods==null)
+
+            this.receiptMethods = new ArrayList<>();
+
         return receiptMethods;
 
     }
@@ -222,6 +267,10 @@ public class CompanyDeviceDatasetBean {
 
     public List<PaymentMethodBean> getPaymentMethods() {
 
+        if (this.paymentMethods==null)
+
+            this.paymentMethods = new ArrayList<>();
+
         return paymentMethods;
 
     }
@@ -233,6 +282,10 @@ public class CompanyDeviceDatasetBean {
     }
 
     public List<SaleBean> getSales() {
+
+        if (this.sales==null)
+
+            this.sales = new ArrayList<>();
 
         return sales;
 

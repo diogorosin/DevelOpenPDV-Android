@@ -24,6 +24,8 @@ public class SaleModel {
 
     private String note;
 
+    private Boolean uploaded;
+
 
     public Integer getIdentifier() {
 
@@ -109,6 +111,18 @@ public class SaleModel {
 
     }
 
+    public Boolean getUploaded() {
+
+        return uploaded;
+
+    }
+
+    public void setUploaded(Boolean uploaded) {
+
+        this.uploaded = uploaded;
+
+    }
+
     public boolean equals(Object o) {
 
         if (this == o) return true;
@@ -138,7 +152,8 @@ public class SaleModel {
             return false;
         if (user != null ? !user.equals(saleModel.user) : saleModel.user != null) return false;
         if (total != null ? !total.equals(saleModel.total) : saleModel.total != null) return false;
-        return note != null ? note.equals(saleModel.note) : saleModel.note == null;
+        if (note != null ? !note.equals(saleModel.note) : saleModel.note != null) return false;
+        return uploaded != null ? uploaded.equals(saleModel.uploaded) : saleModel.uploaded == null;
     }
 
 }

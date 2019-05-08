@@ -471,6 +471,8 @@ public class DBSync {
 
                     saleVO.setNote(saleBean.getNote());
 
+                    saleVO.setUploaded(true);
+
 
                     if (database.saleDAO().exists(saleVO.getIdentifier()))
 
