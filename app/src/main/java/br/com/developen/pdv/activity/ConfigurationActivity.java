@@ -966,7 +966,7 @@ public class ConfigurationActivity extends AppCompatActivity implements
 
         editor = preferences.edit();
 
-        editor.putInt(Constants.CURRENT_SALE_NUMBER_PROPERTY, database.saleDAO().getCurrentSaleNumber());
+        editor.putInt(Constants.CURRENT_SALE_NUMBER_PROPERTY, database.saleDAO().getCurrentSaleNumber() == null ? 0 : database.saleDAO().getCurrentSaleNumber());
 
         editor.commit();
 
